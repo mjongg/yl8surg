@@ -189,10 +189,7 @@ function downloadICS(name) {
   let eamcEvts = getAbsoluteEvents(eamcSchedule[name], parseEamcLogic);
   let tmcEvts = getAbsoluteEvents(tmcGrid[tmcIndex], parseTmcLogic);
   
-  let ics = "BEGIN:VCALENDAR
-VERSION:2.0
-PRODID:-//Surgery Rotation//EN
-";
+  let ics = "BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:-//Surgery Rotation//EN\n";
   
   function addEvents(evts, baseDateStr, prefix) {
     let baseDate = new Date(baseDateStr);
@@ -212,20 +209,13 @@ PRODID:-//Surgery Rotation//EN
         return `${y}${m}${day}T${h}${min}${s}`;
       };
       
-      ics += "BEGIN:VEVENT
-";
-      ics += `UID:${Math.random().toString(36).substring(2)}@surgery
-`;
-      ics += `DTSTAMP:${format(new Date())}
-`;
-      ics += `DTSTART:${format(start)}
-`;
-      ics += `DTEND:${format(end)}
-`;
-      ics += `SUMMARY:${prefix} ${e.title}
-`;
-      ics += "END:VEVENT
-";
+      ics += "BEGIN:VEVENT\n";
+      ics += `UID:${Math.random().toString(36).substring(2)}@surgery\n`;
+      ics += `DTSTAMP:${format(new Date())}\n`;
+      ics += `DTSTART:${format(start)}\n`;
+      ics += `DTEND:${format(end)}\n`;
+      ics += `SUMMARY:${prefix} ${e.title}\n`;
+      ics += "END:VEVENT\n";
     }
   }
   
