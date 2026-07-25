@@ -8,31 +8,37 @@
 <style>
   :root {
     /* 
-      CALM PASTEL PALETTE
-      Solid pastel backgrounds, muted dark text.
+      LOGICAL COLOR SYSTEM
+      Duty Type = Base Color
+      Time = Shade (AM = Pastel Light, PM = Darker Shade)
     */
-    /* TMC Day */
-    --tmc-am-or: #d0ebff; --tmc-am-or-text: #1864ab;       /* Pastel Blue */
-    --tmc-am-floors: #c3fae8; --tmc-am-floors-text: #099268; /* Pastel Mint */
-    --tmc-am-wound: #e5dbff; --tmc-am-wound-text: #6741d9;   /* Pastel Lilac */
-    --tmc-anes: #e3fafc; --tmc-anes-text: #0b7285;           /* Pastel Cyan */
-    --tmc-am-er: #ffe8cc; --tmc-am-er-text: #d9480f;         /* Pastel Peach */
-    
-    /* EAMC Day */
-    --eamc-pre: #a5d8ff; --eamc-pre-text: #1c7ed6;           /* Solid Pastel Blue */
-    --eamc-green: #d3f9d8; --eamc-green-text: #2b8a3e;       /* Pastel Green */
-    --eamc-er: #ffe8cc; --eamc-er-text: #d9480f;             /* Pastel Peach */
 
-    /* TMC Night */
-    --tmc-pm-or: #f3d9fa; --tmc-pm-or-text: #a61e4d;         /* Pastel Pink-Purple */
-    --tmc-pm-floors: #ffdeeb; --tmc-pm-floors-text: #c2255c; /* Pastel Pink */
-    --tmc-pm-er: #ffc9c9; --tmc-pm-er-text: #c92a2a;         /* Pastel Red */
-    
-    /* EAMC Night */
-    --eamc-duty: #eebefa; --eamc-duty-text: #862e9c;         /* Solid Pastel Purple */
-    --eamc-er-duty: #ffc9c9; --eamc-er-duty-text: #c92a2a;   /* Pastel Red */
+    /* ER (Emergency) : Red Base */
+    --tmc-am-er: #ffe4e6; --tmc-am-er-text: #e11d48;         /* Light Pink/Red */
+    --tmc-pm-er: #fda4af; --tmc-pm-er-text: #881337;         /* Darker Pink/Red */
+    --eamc-er: #ffe4e6; --eamc-er-text: #e11d48;             /* Light Pink/Red */
+    --eamc-er-duty: #fda4af; --eamc-er-duty-text: #881337;   /* Darker Pink/Red */
 
-    /* Admin / Off */
+    /* Floors & Wards (EAMC Pre/Duty) : Green Base */
+    --tmc-am-floors: #dcfce7; --tmc-am-floors-text: #166534; /* Light Green */
+    --tmc-pm-floors: #86efac; --tmc-pm-floors-text: #14532d; /* Darker Green */
+    --eamc-pre: #dcfce7; --eamc-pre-text: #166534;           /* Light Green */
+    --eamc-duty: #86efac; --eamc-duty-text: #14532d;         /* Darker Green */
+
+    /* OR (Operating Room) : Blue Base */
+    --tmc-am-or: #dbeafe; --tmc-am-or-text: #1e40af;         /* Light Blue */
+    --tmc-pm-or: #93c5fd; --tmc-pm-or-text: #1e3a8a;         /* Darker Blue */
+
+    /* Specialty (Wound Care) : Purple Base */
+    --tmc-am-wound: #f3e8ff; --tmc-am-wound-text: #6b21a8;   /* Light Purple */
+
+    /* Clinics (OPD / Breast Care) : Orange Base */
+    --eamc-green: #ffedd5; --eamc-green-text: #c2410c;       /* Light Orange */
+
+    /* Anesthesia : Cyan Base */
+    --tmc-anes: #cffafe; --tmc-anes-text: #155e75;           /* Light Cyan */
+
+    /* Admin / Off : White / Grey Base */
     --tmc-off: #ffffff; --tmc-off-text: #64748b;
     --eamc-sgd: #f1f5f9; --eamc-sgd-text: #475569;
     --eamc-off: #ffffff; --eamc-off-text: #64748b;
