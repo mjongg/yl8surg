@@ -30,13 +30,14 @@
     --tmc-pm-or: #93c5fd; --tmc-pm-or-text: #1e3a8a;         /* Darker Blue */
 
     /* Specialty (Wound Care) : Purple Base */
-    --tmc-am-wound: #f3e8ff; --tmc-am-wound-text: #6b21a8;   /* Light Purple */
+    --tmc-am-wound: #e5dbff; --tmc-am-wound-text: #4338ca;   /* Lilac / Deep Purple */
 
-    /* Clinics (OPD / Breast Care) : Orange Base */
-    --eamc-green: #ffedd5; --eamc-green-text: #c2410c;       /* Light Orange */
+    /* Clinics : Unique Colors */
+    --eamc-opd: #fef08a; --eamc-opd-text: #a16207;           /* Yellow */
+    --eamc-breast: #fbcfe8; --eamc-breast-text: #be185d;     /* Pink */
 
     /* Anesthesia : Cyan Base */
-    --tmc-anes: #cffafe; --tmc-anes-text: #155e75;           /* Light Cyan */
+    --tmc-anes: #cffafe; --tmc-anes-text: #0b7285;           /* Cyan */
 
     /* Admin / Off : White / Grey Base */
     --tmc-off: #ffffff; --tmc-off-text: #64748b;
@@ -201,7 +202,8 @@ function getEamcStyle(shift) {
   if (shift.includes("Ward/OR Duty")) return "background:var(--eamc-duty); color:var(--eamc-duty-text); border-color:var(--eamc-duty-text);";
   if (shift.includes("ER Pre")) return "background:var(--eamc-er); color:var(--eamc-er-text); border-color:var(--eamc-er-text);";
   if (shift.includes("ER Duty")) return "background:var(--eamc-er-duty); color:var(--eamc-er-duty-text); border-color:var(--eamc-er-duty-text);";
-  if (shift.includes("Breast Care") || shift.includes("OPD")) return "background:var(--eamc-green); color:var(--eamc-green-text); border-color:var(--eamc-green-text);";
+  if (shift.includes("Breast Care")) return "background:var(--eamc-breast); color:var(--eamc-breast-text); border-color:var(--eamc-breast-text);";
+  if (shift.includes("OPD")) return "background:var(--eamc-opd); color:var(--eamc-opd-text); border-color:var(--eamc-opd-text);";
   if (shift === "SGD then Off") return "background:var(--eamc-sgd); color:var(--eamc-sgd-text); border-color:var(--eamc-sgd-text);";
   return "background:var(--eamc-off); color:var(--eamc-off-text); font-weight:800; border-color:var(--eamc-off-text);";
 }
