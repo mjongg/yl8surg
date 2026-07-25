@@ -338,8 +338,10 @@ function renderApp() {
 
 function setTab(tab) {
   currentTab = tab;
-  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-  event.currentTarget.classList.add('active');
+  document.querySelectorAll('.tab-btn').forEach(b => {
+    b.classList.remove('active');
+    if (b.innerText.toLowerCase().includes(tab)) b.classList.add('active');
+  });
   document.getElementById("eamcMaster").style.display = tab==='eamc'?'block':'none';
   document.getElementById("tmcMaster").style.display = tab==='tmc'?'block':'none';
 }
