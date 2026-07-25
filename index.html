@@ -251,14 +251,20 @@ function getAbsoluteEvents(schedArr, parseLogic) {
 function parseEamcLogic(shift, dow, dayIndex) {
   let evts = [];
   let baseHour = dayIndex * 24;
+  let s, e;
   
   if (shift.includes("Breast Care")) {
-    if (dow === "Sat" || dow === "Sun") evts.push({ title: "ER (from Breast Care)", s: baseHour + 7, e: baseHour + 19, c: getEamcStyle("ER Pre") });
-    else evts.push({ title: shift, s: baseHour + 8, e: baseHour + 17, c: getEamcStyle("Breast Care") });
+    if (dow === "Sat" || dow === "Sun") {
+      s = baseHour + 7; e = baseHour + 19;
+      if (dow === "Sat") e = baseHour + 13;
+      evts.push({ title: "ER (from Breast Care)", s, e, c: getEamcStyle("ER Pre") });
+    } else {
+      evts.push({ title: shift, s: baseHour + 8, e: baseHour + 17, c: getEamcStyle("Breast Care") });
+    }
   } else if (shift.includes("OPD")) {
     if (dow === "Sat") {
       evts.push({ title: "OPD", s: baseHour + 8, e: baseHour + 12, c: getEamcStyle("OPD") });
-      evts.push({ title: "WARD/OR", s: baseHour + 12, e: baseHour + 19, c: getEamcStyle("Ward/OR Pre") });
+      evts.push({ title: "WARD/OR", s: baseHour + 12, e: baseHour + 13, c: getEamcStyle("Ward/OR Pre") });
     } else if (dow === "Sun") {
       evts.push({ title: "WARD/OR", s: baseHour + 7, e: baseHour + 19, c: getEamcStyle("Ward/OR Pre") });
     } else {
@@ -267,26 +273,58 @@ function parseEamcLogic(shift, dow, dayIndex) {
   } else if (shift === "SGD then Off") {
     evts.push({ title: "SGD/Conference", s: baseHour + 7, e: baseHour + 12, c: getEamcStyle(shift) });
   } else if (shift === "Off") {
-    // Just a marker block to signify OFF day
-    evts.push({ title: "TRUE FROM (OFF)", s: baseHour + 7, e: baseHour + 17, c: "background:#fff; color:#555; border-color:#bdc3c7;" });
+    s = baseHour + 7; e = baseHour + 17;
+    if (dow === "Sat") e = baseHour + 13;
+    evts.push({ title: "TRUE FROM (OFF)", s, e, c: "background:#fff; color:#555; border-color:#bdc3c7;" });
   } else if (shift.includes("Duty") || shift.includes("- until 1 AM")) {
-    evts.push({ title: shift, s: baseHour + 19, e: baseHour + 31, c: getEamcStyle(shift) }); // 7 PM to 7 AM next day
+    s = baseHour + 19; e = baseHour + 31;
+    if (dow === "Wed") s = baseHour + 21;
+    evts.push({ title: shift, s, e, c: getEamcStyle(shift) });
   } else {
-    evts.push({ title: shift, s: baseHour + 7, e: baseHour + 19, c: getEamcStyle(shift) }); // Pre-duties
+    s = baseHour + 7; e = baseHour + 19;
+    if (dow === "Wed") e = baseHour + 17;
+    if (dow === "Sat") e = baseHour + 13;
+    evts.push({ title: shift, s, e, c: getEamcStyle(shift) });
   }
+  
+  if (dow === "Wed") {
+    evts.push({ title: "MBA Class", s: baseHour + 18, e: baseHour + 20, c: "background:#8e44ad; color:#fff; border-color:#732d91;" });
+  }
+  if (dow === "Sat") {
+    evts.push({ title: "MBA Class", s: baseHour + 14, e: baseHour + 18, c: "background:#8e44ad; color:#fff; border-color:#732d91;" });
+  }
+  
   return evts;
 }
 
 function parseTmcLogic(shift, dow, dayIndex) {
   let evts = [];
   let baseHour = dayIndex * 24;
+  let s, e;
+  let isNoClassWed = (dow === "Wed" && dayIndex === 9);
+  
   if (shift.startsWith("AM") || shift === "ANES") {
-    evts.push({ title: shift, s: baseHour + 7, e: baseHour + 19, c: getTmcStyle(shift) });
+    s = baseHour + 7; e = baseHour + 19;
+    if (dow === "Wed" && !isNoClassWed) e = baseHour + 17;
+    if (dow === "Sat") e = baseHour + 13;
+    evts.push({ title: shift, s, e, c: getTmcStyle(shift) });
   } else if (shift.startsWith("PM")) {
-    evts.push({ title: shift, s: baseHour + 19, e: baseHour + 31, c: getTmcStyle(shift) });
+    s = baseHour + 19; e = baseHour + 31;
+    if (dow === "Wed" && !isNoClassWed) s = baseHour + 21;
+    evts.push({ title: shift, s, e, c: getTmcStyle(shift) });
   } else {
-    evts.push({ title: "OFF", s: baseHour + 7, e: baseHour + 17, c: "background:#fff; color:#555; border-color:#bdc3c7;" });
+    s = baseHour + 7; e = baseHour + 17;
+    if (dow === "Sat") e = baseHour + 13;
+    evts.push({ title: "OFF", s, e, c: "background:#fff; color:#555; border-color:#bdc3c7;" });
   }
+  
+  if (dow === "Wed" && !isNoClassWed) {
+    evts.push({ title: "MBA Class", s: baseHour + 18, e: baseHour + 20, c: "background:#8e44ad; color:#fff; border-color:#732d91;" });
+  }
+  if (dow === "Sat") {
+    evts.push({ title: "MBA Class", s: baseHour + 14, e: baseHour + 18, c: "background:#8e44ad; color:#fff; border-color:#732d91;" });
+  }
+  
   return evts;
 }
 
