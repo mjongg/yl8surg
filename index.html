@@ -100,19 +100,25 @@
     <option value="Angala, Jose Francisco A.">Angala, Jose Francisco A.</option><option value="Chiew, Simon S.">Chiew, Simon S.</option><option value="De Asis, Vincent Flavianne">De Asis, Vincent Flavianne</option><option value="De Jesus, Aliyah Isobel T.">De Jesus, Aliyah Isobel T.</option><option value="Esguera, Gabrielle Angelica G.">Esguera, Gabrielle Angelica G.</option><option value="Estiva, Nina Ysabel M.">Estiva, Nina Ysabel M.</option><option value="Fajardo, Ma. Salome Patricia A.">Fajardo, Ma. Salome Patricia A.</option><option value="Gamboa, Mariane Nicole P.">Gamboa, Mariane Nicole P.</option><option value="Garganera, Wilbert">Garganera, Wilbert</option><option value="Ignacio, Julian Nicolas E.">Ignacio, Julian Nicolas E.</option><option value="Malonjao, Carl Angelo D.">Malonjao, Carl Angelo D.</option><option value="Ong, Mary Joy Beatrice B.">Ong, Mary Joy Beatrice B.</option><option value="Salvador, Alison Gail A.">Salvador, Alison Gail A.</option><option value="Seares, Clea Anne T.">Seares, Clea Anne T.</option><option value="Tinawin, Eimee Rochelle A.">Tinawin, Eimee Rochelle A.</option>
   </select>
   <div class="tabs" id="mainTabs" style="display:none;">
-    <button class="tab-btn active" onclick="setTab('tmc')">🏥 TMC Surg (Aug 10-23)</button>
-    <button class="tab-btn" onclick="setTab('eamc')">🏥 EAMC (Jul 27-Aug 9)</button>
+    <button class="tab-btn active" onclick="setTab('eamc')">🏥 EAMC (Jul 27-Aug 9)</button>
+    <button class="tab-btn" onclick="setTab('tmc')">🏥 TMC Surg (Aug 10-23)</button>
   </div>
 </div>
 
 <div id="masterViewWrap">
   <div class="master-view active" id="eamcMaster">
     <h2 style="padding:16px;text-align:center;">🏥 EAMC (Jul 27-Aug 9)</h2>
-    <table id="eamcTable"></table>
+    <h3 style="padding:8px;text-align:center;background:#ecf0f1;">Week 1</h3>
+    <table id="eamcTable1"></table>
+    <h3 style="padding:8px;text-align:center;background:#ecf0f1;margin-top:20px;">Week 2</h3>
+    <table id="eamcTable2"></table>
   </div>
   <div class="master-view active" id="tmcMaster">
     <h2 style="padding:16px;text-align:center;">🏥 TMC Surg (Aug 10-23)</h2>
-    <table id="tmcTable"></table>
+    <h3 style="padding:8px;text-align:center;background:#ecf0f1;">Week 1</h3>
+    <table id="tmcTable1"></table>
+    <h3 style="padding:8px;text-align:center;background:#ecf0f1;margin-top:20px;">Week 2</h3>
+    <table id="tmcTable2"></table>
   </div>
 </div>
 
@@ -346,28 +352,28 @@ function setTab(tab) {
   document.getElementById("tmcMaster").style.display = tab==='tmc'?'block':'none';
 }
 
-function buildMasters() {
-  let h = '<thead><tr><th class="name-cell">EAMC</th>';
-  for(let i=0;i<14;i++) h+=`<th>${eamcDates[i]}<br>${dows[i]}</th>`;
+function buildMasterTable(title, dates, dowArr, schedule, peopleList, getStyleFn, weekOffset) {
+  let h = `<thead><tr><th class="name-cell">${title}</th>`;
+  for(let i=0;i<7;i++) h+=`<th>${dates[weekOffset+i]}<br>${dowArr[weekOffset+i]}</th>`;
   h+='</tr></thead><tbody>';
   for(let p=0;p<15;p++) {
-    const name = eamcGroupedPeople[p];
+    const name = peopleList[p];
     h+=`<tr class="${p%5===4?'group-end':''}"><td class="name-cell">${p+1}. ${name}</td>`;
-    for(let d=0;d<14;d++) h+=`<td style="${getEamcStyle(eamcSchedule[name][d])}">${eamcSchedule[name][d]}</td>`;
+    for(let d=0;d<7;d++) {
+      let shift = schedule[name] ? schedule[name][weekOffset+d] : schedule[p][weekOffset+d];
+      h+=`<td style="${getStyleFn(shift)}">${shift}</td>`;
+    }
     h+='</tr>';
   }
-  h+='</tbody>'; document.getElementById("eamcTable").innerHTML = h;
+  h+='</tbody>';
+  return h;
+}
 
-  let th = '<thead><tr><th class="name-cell">TMC</th>';
-  for(let i=0;i<14;i++) th+=`<th>${tmcDates[i]}<br>${dows[i]}</th>`;
-  th+='</tr></thead><tbody>';
-  for(let p=0;p<15;p++) {
-    const name = masterPeople[p];
-    th+=`<tr><td class="name-cell">${p+1}. ${name}</td>`;
-    for(let d=0;d<14;d++) th+=`<td style="${getTmcStyle(tmcGrid[p][d])}">${tmcGrid[p][d]}</td>`;
-    th+='</tr>';
-  }
-  th+='</tbody>'; document.getElementById("tmcTable").innerHTML = th;
+function buildMasters() {
+  document.getElementById("eamcTable1").innerHTML = buildMasterTable("EAMC", eamcDates, dows, eamcSchedule, eamcGroupedPeople, getEamcStyle, 0);
+  document.getElementById("eamcTable2").innerHTML = buildMasterTable("EAMC", eamcDates, dows, eamcSchedule, eamcGroupedPeople, getEamcStyle, 7);
+  document.getElementById("tmcTable1").innerHTML = buildMasterTable("TMC", tmcDates, dows, tmcGrid, masterPeople, getTmcStyle, 0);
+  document.getElementById("tmcTable2").innerHTML = buildMasterTable("TMC", tmcDates, dows, tmcGrid, masterPeople, getTmcStyle, 7);
 }
 
 renderApp();
