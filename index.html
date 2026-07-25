@@ -50,12 +50,12 @@
   .tab-btn.active { background: #1a2a3a; color: #fff; box-shadow: 0 2px 6px rgba(26,42,58,0.3); }
 
   /* Master Tables */
-  .master-view { display: none; background: #fff; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); margin-bottom: 20px; width: 100%; }
+  .master-view { display: none; background: #fff; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); margin-bottom: 20px; width: 100%; overflow-x: auto; }
   .master-view.active { display: block; }
-  table { border-collapse: collapse; font-size: 10px; width: 100%; table-layout: fixed; }
+  table { border-collapse: collapse; font-size: 11px; width: 100%; min-width: 1200px; zoom: 0.8; }
   th, td { border: 1px solid #d5dce4; padding: 4px 2px; text-align: center; word-wrap: break-word; }
-  thead th { background: #1a2a3a; color: #fff; font-weight: 600; position: sticky; top: 0; z-index: 2; font-size: 9px; }
-  .name-cell { text-align: left !important; font-weight: 600; background: #f7f9fb !important; width: 130px; position: sticky; left: 0; z-index: 1; border-right: 2px solid #bcc8d4; padding-left: 6px; }
+  thead th { background: #1a2a3a; color: #fff; font-weight: 600; position: sticky; top: 0; z-index: 2; font-size: 10px; }
+  .name-cell { text-align: left !important; font-weight: 600; background: #f7f9fb !important; width: 200px; position: sticky; left: 0; z-index: 1; border-right: 2px solid #bcc8d4; padding-left: 6px; white-space: nowrap; }
   tr.group-end td { border-bottom: 3px solid #7f8c8d; }
 
   /* Calendar View */
@@ -71,7 +71,7 @@
   
   .cal-header { background: #f8f9fa; text-align: center; padding: 8px; font-weight: 600; font-size: 13px; color: #34495e; border-bottom: 1px solid #d5dce4; }
   .time-axis { background: #f8f9fa; display: flex; flex-direction: column; }
-  .time-slot { height: 40px; display: flex; align-items: flex-start; justify-content: flex-end; padding-right: 8px; font-size: 10px; color: #7f8c8d; border-bottom: 1px solid #e1e8ed; }
+  .time-slot { height: 30px; display: flex; align-items: flex-start; justify-content: flex-end; padding-right: 8px; font-size: 9.5px; color: #7f8c8d; border-bottom: 1px solid #e1e8ed; }
   
   .day-col { background: #fff; position: relative; }
   /* Hour lines */
@@ -286,7 +286,7 @@ function parseTmcLogic(shift, dow, dayIndex) {
 
 function renderWeek(title, dates, dowArr, allEvents, weekStartIndex) {
   let html = `<div class="week-grid"><div class="week-title">${title}</div><div class="time-axis"><div class="cal-header">Time</div>`;
-  for(let i=0;i<24;i+=2) {
+  for(let i=0;i<24;i++) {
     let ampm = i>=12 ? (i===12?12:i-12)+' PM' : (i===0?12:i)+' AM';
     html += `<div class="time-slot">${ampm}</div>`;
   }
@@ -298,8 +298,8 @@ function renderWeek(title, dates, dowArr, allEvents, weekStartIndex) {
     let dayEndHour = dayStartHour + 24;
 
     html += `<div class="day-col"><div class="cal-header">${dowArr[d]}<br><span style="font-size:10px;font-weight:400">${dates[d]}</span></div>`;
-    for(let i=0;i<24;i+=2) html += `<div class="hour-line" style="top:${(i/24)*100}%;"></div>`;
-    html += `<div style="height:480px; position:relative;">`;
+    for(let i=0;i<=24;i++) html += `<div class="hour-line" style="top:${(i/24)*100}%;"></div>`;
+    html += `<div style="height:720px; position:relative;">`;
     
     // Filter events overlapping this specific 12AM-12AM day window
     for(let e of allEvents) {
