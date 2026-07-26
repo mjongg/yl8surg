@@ -144,8 +144,9 @@
     <option value="Angala, Jose Francisco A.">Angala, Jose Francisco A.</option><option value="Chiew, Simon S.">Chiew, Simon S.</option><option value="De Asis, Vincent Flavianne">De Asis, Vincent Flavianne</option><option value="De Jesus, Aliyah Isobel T.">De Jesus, Aliyah Isobel T.</option><option value="Esguera, Gabrielle Angelica G.">Esguera, Gabrielle Angelica G.</option><option value="Estiva, Nina Ysabel M.">Estiva, Nina Ysabel M.</option><option value="Fajardo, Ma. Salome Patricia A.">Fajardo, Ma. Salome Patricia A.</option><option value="Gamboa, Mariane Nicole P.">Gamboa, Mariane Nicole P.</option><option value="Garganera, Wilbert">Garganera, Wilbert</option><option value="Ignacio, Julian Nicolas E.">Ignacio, Julian Nicolas E.</option><option value="Malonjao, Carl Angelo D.">Malonjao, Carl Angelo D.</option><option value="Ong, Mary Joy Beatrice B.">Ong, Mary Joy Beatrice B.</option><option value="Salvador, Alison Gail A.">Salvador, Alison Gail A.</option><option value="Seares, Clea Anne T.">Seares, Clea Anne T.</option><option value="Tinawin, Eimee Rochelle A.">Tinawin, Eimee Rochelle A.</option>
   </select>
   <div class="tabs" id="mainTabs" style="display:none;">
-    <button class="tab-btn active" onclick="setTab('eamc')">🏥 EAMC (Jul 27-Aug 9)</button>
-    <button class="tab-btn" onclick="setTab('tmc')">🏥 TMC Surg (Aug 10-23)</button>
+    <button class="tab-btn active" onclick="setTab('both')">🌟 Both Hospitals (Full 28 Days)</button>
+    <button class="tab-btn" onclick="setTab('eamc')">🏥 EAMC Only (Jul 27-Aug 9)</button>
+    <button class="tab-btn" onclick="setTab('tmc')">🏥 TMC Only (Aug 10-23)</button>
   </div>
 </div>
 
@@ -157,7 +158,7 @@
     <h3 style="padding:8px;text-align:center;background:#ecf0f1;margin-top:20px;">Week 2</h3>
     <table id="eamcTable2"></table>
   </div>
-  <div class="master-view glass-panel active" id="tmcMaster">
+  <div class="master-view glass-panel active" id="tmcMaster" style="margin-top: 30px;">
     <h2 style="padding:16px;text-align:center;">🏥 TMC Surg (Aug 10-23)</h2>
     <h3 style="padding:8px;text-align:center;background:#ecf0f1;">Week 1</h3>
     <table id="tmcTable1"></table>
@@ -178,7 +179,7 @@ const eamcDates = ["Jul 27","Jul 28","Jul 29","Jul 30","Jul 31","Aug 1","Aug 2",
 const tmcDates = ["Aug 10","Aug 11","Aug 12","Aug 13","Aug 14","Aug 15","Aug 16","Aug 17","Aug 18","Aug 19","Aug 20","Aug 21","Aug 22","Aug 23"];
 const dows = ["Mon","Tue","Wed","Thu","Fri","Sat","Sun","Mon","Tue","Wed","Thu","Fri","Sat","Sun"];
 
-let currentTab = 'eamc';
+let currentTab = 'both';
 
 function getTmcStyle(shift) {
   if (shift === "AM - OR") return "background:var(--tmc-am-or); color:var(--tmc-am-or-text); border-color:var(--tmc-am-or-text);";
@@ -429,10 +430,10 @@ function setTab(tab) {
   currentTab = tab;
   document.querySelectorAll('.tab-btn').forEach(b => {
     b.classList.remove('active');
-    if (b.innerText.toLowerCase().includes(tab)) b.classList.add('active');
+    if (b.getAttribute('onclick').includes(tab)) b.classList.add('active');
   });
-  document.getElementById("eamcMaster").style.display = tab==='eamc'?'block':'none';
-  document.getElementById("tmcMaster").style.display = tab==='tmc'?'block':'none';
+  document.getElementById("eamcMaster").style.display = (tab==='eamc' || tab==='both') ? 'block' : 'none';
+  document.getElementById("tmcMaster").style.display = (tab==='tmc' || tab==='both') ? 'block' : 'none';
 }
 
 function buildMasterTable(title, dates, dowArr, schedule, peopleList, getStyleFn, weekOffset) {
