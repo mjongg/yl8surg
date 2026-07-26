@@ -8,41 +8,36 @@
 <style>
   :root {
     /* 
-      RICH & ELEGANT PALETTE (Zero Neon)
-      Duty Type = Base Color (Earth/Jewel tones)
-      Time = Shade (AM = Rich Midtone w/ Dark Text, PM = Deep Jewel Tone w/ White Text)
+      OFFICIAL GOOGLE SHEETS SCHEDULE PALETTE
+      Replicates the exact colors used in the ASMPH / EAMC master spreadsheet.
     */
 
-    /* ER (Emergency) : Brick/Maroon Base */
-    --tmc-am-er: #e5a8a8; --tmc-am-er-text: #5e2121;         /* Soft Brick */
-    --tmc-pm-er: #8c2d2d; --tmc-pm-er-text: #ffffff;         /* Rich Maroon */
-    --eamc-er: #e5a8a8; --eamc-er-text: #5e2121;             
-    --eamc-er-duty: #8c2d2d; --eamc-er-duty-text: #ffffff;   
+    /* ER (Emergency) : Google Sheets Red / Peach */
+    --tmc-am-er: #fce4d6; --tmc-am-er-text: #c00000;         /* ER Pre: Soft Peach-Red */
+    --tmc-pm-er: #c00000; --tmc-pm-er-text: #ffffff;         /* ER Duty: Solid Dark Red */
+    --eamc-er: #fce4d6; --eamc-er-text: #c00000;             
+    --eamc-er-duty: #c00000; --eamc-er-duty-text: #ffffff;   
 
-    /* Floors & Wards (EAMC Pre/Duty) : Sage/Forest Base */
-    --tmc-am-floors: #b3c2ae; --tmc-am-floors-text: #2a3826; /* Soft Sage */
-    --tmc-pm-floors: #415939; --tmc-pm-floors-text: #ffffff; /* Rich Forest */
-    --eamc-pre: #b3c2ae; --eamc-pre-text: #2a3826;           
-    --eamc-duty: #415939; --eamc-duty-text: #ffffff;         
+    /* OR & Wards Duty : Google Sheets Blue */
+    --tmc-am-or: #d9e1f2; --tmc-am-or-text: #1f4e78;         /* Ward/OR Pre: Soft Blue */
+    --tmc-pm-or: #2f5597; --tmc-pm-or-text: #ffffff;         /* Ward/OR Duty: Solid Dark Blue */
+    --eamc-pre: #d9e1f2; --eamc-pre-text: #1f4e78;           
+    --eamc-duty: #2f5597; --eamc-duty-text: #ffffff;         
 
-    /* OR (Operating Room) : Steel/Navy Base */
-    --tmc-am-or: #a3b8cc; --tmc-am-or-text: #243647;         /* Steel Blue */
-    --tmc-pm-or: #2d4866; --tmc-pm-or-text: #ffffff;         /* Rich Navy */
+    /* Floors & Clinics : Google Sheets Green & Yellow */
+    --tmc-am-floors: #e2efda; --tmc-am-floors-text: #375623; /* Floors Pre: Soft Mint Green */
+    --tmc-pm-floors: #375623; --tmc-pm-floors-text: #ffffff; /* Floors Duty: Solid Dark Green */
+    
+    /* Specialty & Clinics (EAMC & TMC) */
+    --eamc-breast: #e2efda; --eamc-breast-text: #375623;     /* Breast Care: Soft Mint Green */
+    --eamc-opd: #fff2cc; --eamc-opd-text: #7f6000;           /* OPD: Soft Yellow */
+    --tmc-am-wound: #e4dfec; --tmc-am-wound-text: #3f3151;   /* Wound Care: Soft Lilac */
+    --tmc-anes: #ddebf7; --tmc-anes-text: #203764;           /* Anesthesia: Ice Cyan/Blue */
 
-    /* Specialty (Wound Care) : Plum Base */
-    --tmc-am-wound: #bca8ba; --tmc-am-wound-text: #4a3147;   /* Soft Plum */
-
-    /* Clinics : Unique Rich Colors */
-    --eamc-opd: #d9bc8c; --eamc-opd-text: #5e4418;           /* Soft Ochre / Mustard */
-    --eamc-breast: #d1adb4; --eamc-breast-text: #5c2a34;     /* Soft Mauve */
-
-    /* Anesthesia : Teal Base */
-    --tmc-anes: #94b8b8; --tmc-anes-text: #1f3d3d;           /* Soft Teal */
-
-    /* Admin / Off : White / Grey Base */
-    --tmc-off: #ffffff; --tmc-off-text: #475569;
-    --eamc-sgd: #e2e8f0; --eamc-sgd-text: #334155;
-    --eamc-off: #ffffff; --eamc-off-text: #475569;
+    /* Admin / Off : Google Sheets Grey / White */
+    --tmc-off: #ffffff; --tmc-off-text: #595959;
+    --eamc-sgd: #ededed; --eamc-sgd-text: #595959;           /* SGD then Off: Soft Grey */
+    --eamc-off: #ffffff; --eamc-off-text: #595959;
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
