@@ -199,25 +199,25 @@ const dows = ["Mon","Tue","Wed","Thu","Fri","Sat","Sun","Mon","Tue","Wed","Thu",
 let currentTab = 'eamc';
 
 function getTmcStyle(shift) {
-  if (shift === "AM - OR") return "background:#e0f2fe; color:#0369a1; border-color:#0284c7;";
-  if (shift === "PM - OR") return "background:#0284c7; color:#ffffff; border-color:#0369a1;";
-  if (shift === "AM - FLOORS") return "background:#dcfce7; color:#15803d; border-color:#16a34a;";
-  if (shift === "PM - FLOORS") return "background:#16a34a; color:#ffffff; border-color:#15803d;";
-  if (shift === "AM - ER") return "background:#fee2e2; color:#b91c1c; border-color:#dc2626;";
-  if (shift === "PM - ER") return "background:#dc2626; color:#ffffff; border-color:#b91c1c;";
-  if (shift === "AM - WOUND") return "background:#f3e8ff; color:#7e22ce; border-color:#9333ea;";
-  if (shift === "ANES") return "background:#ccfbf1; color:#0f766e; border-color:#14b8a6;";
+  if (shift === "AM - OR") return "background:#d9e1f2; color:#1f4e78; border-color:#1f4e78;";
+  if (shift === "PM - OR") return "background:#2f5597; color:#ffffff; border-color:#1f4e78;";
+  if (shift === "AM - FLOORS") return "background:#e2efda; color:#375623; border-color:#375623;";
+  if (shift === "PM - FLOORS") return "background:#375623; color:#ffffff; border-color:#375623;";
+  if (shift === "AM - ER") return "background:#fce4d6; color:#c00000; border-color:#c00000;";
+  if (shift === "PM - ER") return "background:#c00000; color:#ffffff; border-color:#c00000;";
+  if (shift === "AM - WOUND") return "background:#e4dfec; color:#3f3151; border-color:#3f3151;";
+  if (shift === "ANES") return "background:#ddebf7; color:#203764; border-color:#203764;";
   return "background:#f8fafc; color:#475569; font-weight:800; border-color:#cbd5e1;";
 }
 
 function getEamcStyle(shift) {
-  if (shift.includes("Ward/OR Pre")) return "background:#e0f2fe; color:#0369a1; border-color:#0284c7;";
-  if (shift.includes("Ward/OR Duty")) return "background:#0284c7; color:#ffffff; border-color:#0369a1;";
-  if (shift.includes("ER Pre")) return "background:#fee2e2; color:#b91c1c; border-color:#dc2626;";
-  if (shift.includes("ER Duty")) return "background:#dc2626; color:#ffffff; border-color:#b91c1c;";
-  if (shift.includes("Breast Care")) return "background:#fce7f3; color:#be185d; border-color:#db2777;";
-  if (shift.includes("OPD")) return "background:#fef08a; color:#a16207; border-color:#eab308;";
-  if (shift === "SGD then Off") return "background:#f3e8ff; color:#7e22ce; border-color:#9333ea;";
+  if (shift.includes("Ward/OR Pre")) return "background:#d9e1f2; color:#1f4e78; border-color:#1f4e78;";
+  if (shift.includes("Ward/OR Duty")) return "background:#2f5597; color:#ffffff; border-color:#1f4e78;";
+  if (shift.includes("ER Pre")) return "background:#fce4d6; color:#c00000; border-color:#c00000;";
+  if (shift.includes("ER Duty")) return "background:#c00000; color:#ffffff; border-color:#c00000;";
+  if (shift.includes("Breast Care")) return "background:#e2efda; color:#375623; border-color:#375623;";
+  if (shift.includes("OPD")) return "background:#fff2cc; color:#7f6000; border-color:#7f6000;";
+  if (shift === "SGD then Off") return "background:#e4dfec; color:#3f3151; border-color:#3f3151;";
   return "background:#f8fafc; color:#475569; font-weight:800; border-color:#cbd5e1;";
 }
 
