@@ -43,63 +43,71 @@
   * { margin: 0; padding: 0; box-sizing: border-box; }
   
   body {
-    font-family: 'Outfit', -apple-system, sans-serif;
-    background: #f4f7fa;
-    color: #2c3e50;
-    padding: 20px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol";
+    background-color: #f7f9fa;
+    color: #37352f;
+    padding: 30px 20px;
     min-height: 100vh;
   }
   
   .glass-panel {
     background: #ffffff;
     border: 1px solid #e2e8f0;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-    border-radius: 12px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+    border-radius: 8px;
   }
 
   .header-card {
-    padding: 24px; max-width: 900px; margin: 0 auto 24px; text-align: center;
+    padding: 30px; max-width: 900px; margin: 0 auto 30px; text-align: center;
   }
-  .header-card h1 { font-size: 28px; color: #1e293b; margin-bottom: 20px; font-weight: 700; }
   
   select {
-    padding: 12px 20px; font-size: 16px; border-radius: 8px; border: 2px solid #cbd5e1;
-    outline: none; background: #f8fafc; color: #334155; font-weight: 600; cursor: pointer; min-width: 320px;
-    transition: all 0.2s; font-family: 'Outfit', sans-serif;
+    padding: 8px 14px; font-size: 15px; border-radius: 4px; border: 1px solid #e2e8f0;
+    outline: none; background: #ffffff; color: #37352f; font-weight: 500; cursor: pointer; min-width: 300px;
+    font-family: inherit;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
   }
-  select:focus { border-color: #3b82f6; background: #ffffff; }
+  select:focus, select:hover { border-color: #cbd5e1; background: #f8fafc; transform: none; box-shadow: none; }
 
-  .tabs { display: flex; justify-content: center; gap: 12px; margin-top: 20px; }
+  .tabs { display: flex; justify-content: center; gap: 8px; margin-top: 24px; }
   .tab-btn {
-    padding: 10px 24px; border: none; border-radius: 8px; font-size: 14px; font-weight: 600;
-    cursor: pointer; transition: all 0.2s; background: #e2e8f0; color: #64748b;
-    font-family: 'Outfit', sans-serif;
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: 6px;
+    color: #64748b;
+    font-weight: 500;
+    padding: 8px 16px; font-size: 15px;
+    transition: background 0.1s, color 0.1s;
+    cursor: pointer; font-family: inherit;
   }
-  .tab-btn:hover { background: #cbd5e1; }
+  .tab-btn:hover { background: #f1f5f9; color: #0f172a; transform: none; box-shadow: none !important; }
   .tab-btn.active { 
-    background: #334155; 
-    color: #ffffff;
+    background: #f1f5f9; 
+    color: #0f172a;
+    border: 1px solid #cbd5e1;
+    font-weight: 600;
+    box-shadow: none !important;
   }
 
   /* Master Tables */
-  .master-view { display: none; margin-bottom: 24px; width: 100%; overflow-x: auto; }
+  .master-view { display: none; margin-bottom: 30px; width: 100%; overflow-x: auto; }
   .master-view.active { display: block; }
   
-  table { border-collapse: collapse; font-size: 12px; width: 100%; min-width: 1200px; zoom: 0.8; }
-  th, td { border: 1px solid #e2e8f0; padding: 6px 4px; text-align: center; word-wrap: break-word; }
+  table { border-collapse: collapse; font-size: 13px; width: 100%; min-width: 1200px; zoom: 0.8; background: #ffffff; border-radius: 0; overflow: hidden; }
+  th, td { border: 1px solid #e2e8f0; padding: 10px 8px; text-align: center; word-wrap: break-word; color: #334155; }
   thead th { 
-    background: #f8fafc; 
-    color: #1e293b; font-weight: 700; position: sticky; top: 0; z-index: 2; 
-    font-size: 11px; text-transform: uppercase;
-    border-bottom: 2px solid #cbd5e1;
+    background: #f8fafc;
+    color: #334155; font-weight: 600; position: sticky; top: 0; z-index: 2; 
+    font-size: 12px;
+    border-bottom: 2px solid #e2e8f0;
   }
   
   .name-cell { 
     text-align: left !important; font-weight: 600; 
-    background: #f8fafc !important; 
+    background: #f8fafc !important;
     width: 220px; position: sticky; left: 0; z-index: 1; 
-    padding-left: 12px; white-space: nowrap; 
-    border-right: 2px solid #cbd5e1; color: #334155;
+    padding-left: 16px; white-space: nowrap; 
+    border-right: 2px solid #e2e8f0; color: #334155;
   }
   
   tbody tr { transition: background 0.1s; }
@@ -110,42 +118,56 @@
   .personal-view.active { display: block; }
   
   .week-grid {
-    display: grid; grid-template-columns: 50px repeat(7, 1fr); gap: 1px;
-    background: #e2e8f0; border: 1px solid #cbd5e1; border-radius: 8px; overflow: hidden; margin-bottom: 24px;
+    display: grid; grid-template-columns: 55px repeat(7, 1fr); gap: 0;
+    background: #ffffff; border: 1px solid #e2e8f0; border-radius: 4px; overflow: hidden; margin-bottom: 35px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
   }
-  .week-title { grid-column: 1 / -1; background: #334155; color: #fff; padding: 10px; font-weight: 700; text-align: center; font-size: 16px; }
+  .week-title { grid-column: 1 / -1; background: #f8fafc; color: #0f172a; padding: 12px; font-weight: 600; text-align: left; font-size: 16px; border-bottom: 1px solid #e2e8f0; }
   
-  .cal-header { background: #f8fafc; text-align: center; padding: 8px; font-weight: 600; font-size: 13px; color: #334155; }
-  .time-axis { background: #f8fafc; display: flex; flex-direction: column; }
-  .time-slot { height: 30px; display: flex; align-items: flex-start; justify-content: flex-end; padding-right: 8px; font-size: 9.5px; color: #64748b; border-bottom: 1px solid #e2e8f0; }
+  .cal-header { background: #ffffff; text-align: center; padding: 10px; font-weight: 600; font-size: 14px; color: #334155; border-bottom: 1px solid #e2e8f0; border-left: 1px solid #e2e8f0; }
+  .time-axis { background: #ffffff; display: flex; flex-direction: column; }
+  .time-slot { height: 30px; display: flex; align-items: flex-start; justify-content: flex-end; padding-right: 8px; font-size: 11px; font-weight: 500; color: #64748b; border-bottom: 1px solid #e2e8f0; }
   
-  .day-col { background: #ffffff; position: relative; }
+  .day-col { background: #ffffff; position: relative; border-left: 1px solid #e2e8f0; }
   /* Hour lines */
-  .hour-line { position: absolute; left: 0; right: 0; height: 1px; background: #f1f5f9; }
+  .hour-line { position: absolute; left: 0; right: 0; height: 1px; background: #e2e8f0; }
 
   /* Event Blocks */
   .event-block {
-    position: absolute; left: 4px; right: 4px; border-radius: 6px; padding: 6px 8px;
-    font-size: 11px; font-weight: 700; line-height: 1.3; overflow: hidden;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1); border-left: 4px solid rgba(0,0,0,0.2);
-    display: flex; flex-direction: column; justify-content: center; text-align: left;
+    position: absolute; left: 2px; right: 2px; border-radius: 3px; padding: 4px 6px;
+    font-size: 12px; font-weight: 600; line-height: 1.2; overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05); border-left: 3px solid rgba(0,0,0,0.15);
+    display: flex; flex-direction: column; justify-content: flex-start; text-align: left;
+    transition: background 0.1s;
   }
-  .event-time { font-size: 9.5px; opacity: 0.8; font-weight: 600; margin-top: 2px; }
+  .event-block:hover { z-index: 5; filter: brightness(0.95); transform: none; box-shadow: none; }
+  .event-time { font-size: 10px; opacity: 0.8; font-weight: 500; margin-top: 2px; }
 
-  @media (max-width: 800px) { .week-grid { grid-template-columns: 40px repeat(7, 1fr); } .event-block { font-size: 9px; padding: 4px; } }
+  @media (max-width: 800px) { 
+    body { padding: 15px 10px; }
+    .header-card { padding: 20px 15px; }
+    h1 { font-size: 26px !important; }
+    select { min-width: 100%; width: 100%; }
+    .tabs { flex-direction: column; gap: 8px; }
+    .tab-btn { width: 100%; justify-content: center; }
+    .personal-view { overflow-x: auto; -webkit-overflow-scrolling: touch; padding-bottom: 20px; }
+    .week-grid { min-width: 800px; grid-template-columns: 55px repeat(7, 1fr); }
+  }
 </style>
 </head>
 <body>
 
 <div class="header-card glass-panel">
-  <h1>Surgery Rotation Schedule</h1>
+  <div style="margin-bottom: 25px;">
+    <h1 style="margin: 0; text-align: center; line-height: 1.2; font-weight: 700; font-size: 32px; color: #0f172a;">LEC 17-18<br><span style="font-size: 0.6em; opacity: 0.7; font-weight: 500; color: #64748b;">Surgery Rotation Schedule</span></h1>
+  </div>
   <select id="namePicker" onchange="renderApp()">
     <option value="ALL">-- Show Full Master Schedules --</option>
     <option value="Angala, Jose Francisco A.">Angala, Jose Francisco A.</option><option value="Chiew, Simon S.">Chiew, Simon S.</option><option value="De Asis, Vincent Flavianne">De Asis, Vincent Flavianne</option><option value="De Jesus, Aliyah Isobel T.">De Jesus, Aliyah Isobel T.</option><option value="Esguera, Gabrielle Angelica G.">Esguera, Gabrielle Angelica G.</option><option value="Estiva, Nina Ysabel M.">Estiva, Nina Ysabel M.</option><option value="Fajardo, Ma. Salome Patricia A.">Fajardo, Ma. Salome Patricia A.</option><option value="Gamboa, Mariane Nicole P.">Gamboa, Mariane Nicole P.</option><option value="Garganera, Wilbert">Garganera, Wilbert</option><option value="Ignacio, Julian Nicolas E.">Ignacio, Julian Nicolas E.</option><option value="Malonjao, Carl Angelo D.">Malonjao, Carl Angelo D.</option><option value="Ong, Mary Joy Beatrice B.">Ong, Mary Joy Beatrice B.</option><option value="Salvador, Alison Gail A.">Salvador, Alison Gail A.</option><option value="Seares, Clea Anne T.">Seares, Clea Anne T.</option><option value="Tinawin, Eimee Rochelle A.">Tinawin, Eimee Rochelle A.</option>
   </select>
   <div class="tabs" id="mainTabs" style="display:none;">
-    <button class="tab-btn active" onclick="setTab('eamc')">🏥 EAMC (Jul 27-Aug 9)</button>
-    <button class="tab-btn" onclick="setTab('tmc')">🏥 TMC Surg (Aug 10-23)</button>
+    <button class="tab-btn active" style="display: flex; align-items: center;" onclick="setTab('eamc')"><img src="eamc_logo.png" style="height:20px; width:20px; object-fit:contain; margin-right:8px; mix-blend-mode: multiply;"> EAMC (Jul 27-Aug 9)</button>
+    <button class="tab-btn" style="display: flex; align-items: center;" onclick="setTab('tmc')"><img src="tmc_logo.png" style="height:20px; width:20px; object-fit:contain; border-radius:50%; margin-right:8px; mix-blend-mode: multiply;"> TMC Surg (Aug 10-23)</button>
   </div>
 </div>
 
@@ -181,26 +203,26 @@ const dows = ["Mon","Tue","Wed","Thu","Fri","Sat","Sun","Mon","Tue","Wed","Thu",
 let currentTab = 'eamc';
 
 function getTmcStyle(shift) {
-  if (shift === "AM - OR") return "background:var(--tmc-am-or); color:var(--tmc-am-or-text); border-color:var(--tmc-am-or-text);";
-  if (shift === "AM - FLOORS") return "background:var(--tmc-am-floors); color:var(--tmc-am-floors-text); border-color:var(--tmc-am-floors-text);";
-  if (shift === "AM - ER") return "background:var(--tmc-am-er); color:var(--tmc-am-er-text); border-color:var(--tmc-am-er-text);";
-  if (shift === "AM - WOUND") return "background:var(--tmc-am-wound); color:var(--tmc-am-wound-text); border-color:var(--tmc-am-wound-text);";
-  if (shift === "ANES") return "background:var(--tmc-anes); color:var(--tmc-anes-text); border-color:var(--tmc-anes-text);";
-  if (shift === "PM - OR") return "background:var(--tmc-pm-or); color:var(--tmc-pm-or-text); border-color:var(--tmc-pm-or-text);";
-  if (shift === "PM - FLOORS") return "background:var(--tmc-pm-floors); color:var(--tmc-pm-floors-text); border-color:var(--tmc-pm-floors-text);";
-  if (shift === "PM - ER") return "background:var(--tmc-pm-er); color:var(--tmc-pm-er-text); border-color:var(--tmc-pm-er-text);";
-  return "background:var(--tmc-off); color:var(--tmc-off-text); font-weight:800; border-color:var(--tmc-off-text);";
+  if (shift === "AM - OR") return "background:#d9e1f2; color:#1f4e78; border-color:#1f4e78;";
+  if (shift === "PM - OR") return "background:#2f5597; color:#ffffff; border-color:#1f4e78;";
+  if (shift === "AM - FLOORS") return "background:#e2efda; color:#375623; border-color:#375623;";
+  if (shift === "PM - FLOORS") return "background:#375623; color:#ffffff; border-color:#375623;";
+  if (shift === "AM - ER") return "background:#fce4d6; color:#c00000; border-color:#c00000;";
+  if (shift === "PM - ER") return "background:#c00000; color:#ffffff; border-color:#c00000;";
+  if (shift === "AM - WOUND") return "background:#fce7f3; color:#be185d; border-color:#be185d;";
+  if (shift === "ANES") return "background:#f3e8ff; color:#7e22ce; border-color:#7e22ce;";
+  return "background:#f8fafc; color:#475569; font-weight:800; border-color:#cbd5e1;";
 }
 
 function getEamcStyle(shift) {
-  if (shift.includes("Ward/OR Pre")) return "background:var(--eamc-pre); color:var(--eamc-pre-text); border-color:var(--eamc-pre-text);";
-  if (shift.includes("Ward/OR Duty")) return "background:var(--eamc-duty); color:var(--eamc-duty-text); border-color:var(--eamc-duty-text);";
-  if (shift.includes("ER Pre")) return "background:var(--eamc-er); color:var(--eamc-er-text); border-color:var(--eamc-er-text);";
-  if (shift.includes("ER Duty")) return "background:var(--eamc-er-duty); color:var(--eamc-er-duty-text); border-color:var(--eamc-er-duty-text);";
-  if (shift.includes("Breast Care")) return "background:var(--eamc-breast); color:var(--eamc-breast-text); border-color:var(--eamc-breast-text);";
-  if (shift.includes("OPD")) return "background:var(--eamc-opd); color:var(--eamc-opd-text); border-color:var(--eamc-opd-text);";
-  if (shift === "SGD then Off") return "background:var(--eamc-sgd); color:var(--eamc-sgd-text); border-color:var(--eamc-sgd-text);";
-  return "background:var(--eamc-off); color:var(--eamc-off-text); font-weight:800; border-color:var(--eamc-off-text);";
+  if (shift.includes("Ward/OR Pre")) return "background:#d9e1f2; color:#1f4e78; border-color:#1f4e78;";
+  if (shift.includes("Ward/OR Duty")) return "background:#2f5597; color:#ffffff; border-color:#1f4e78;";
+  if (shift.includes("ER Pre")) return "background:#fce4d6; color:#c00000; border-color:#c00000;";
+  if (shift.includes("ER Duty")) return "background:#c00000; color:#ffffff; border-color:#c00000;";
+  if (shift.includes("Breast Care")) return "background:#e2efda; color:#375623; border-color:#375623;";
+  if (shift.includes("OPD")) return "background:#fff2cc; color:#7f6000; border-color:#7f6000;";
+  if (shift === "SGD then Off") return "background:#e4dfec; color:#3f3151; border-color:#3f3151;";
+  return "background:#f8fafc; color:#475569; font-weight:800; border-color:#cbd5e1;";
 }
 
 function formatTime(s, e) {
@@ -227,10 +249,35 @@ function buildPersonal(name) {
   let eamcEvents = getAbsoluteEvents(eamcSchedule[name], parseEamcLogic);
   let tmcEvents = getAbsoluteEvents(tmcGrid[tmcIndex], parseTmcLogic);
 
-  html += renderWeek("🏥 EAMC (Week 1)", eamcDates.slice(0,7), dows.slice(0,7), eamcEvents, 0);
-  html += renderWeek("🏥 EAMC (Week 2)", eamcDates.slice(7,14), dows.slice(7,14), eamcEvents, 7);
-  html += renderWeek("🏥 TMC (Week 1)", tmcDates.slice(0,7), dows.slice(0,7), tmcEvents, 0);
-  html += renderWeek("🏥 TMC (Week 2)", tmcDates.slice(7,14), dows.slice(7,14), tmcEvents, 7);
+  const sgdStyle = "background: #1e293b; color: #ffffff; border-left: 3px solid #0f172a; box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 12px; z-index: 10;";
+  eamcEvents.push({ title: "[SGD] Dr. Doble", s: 0 * 24 + 13, e: 0 * 24 + 15, c: sgdStyle });
+  eamcEvents.push({ title: "[SGD] Dr. Cabrera", s: 3 * 24 + 11, e: 3 * 24 + 13, c: sgdStyle });
+  eamcEvents.push({ title: "[SGD] Dr. Chuasuan", s: 4 * 24 + 9, e: 4 * 24 + 11, c: sgdStyle });
+  eamcEvents.push({ title: "[SGD] Dr. Ordoñez (Intraop) TBA", s: 4 * 24 + 11, e: 4 * 24 + 13, c: sgdStyle });
+  eamcEvents.push({ title: "[SGD] Dr. Chuasuan", s: 8 * 24 + 9, e: 8 * 24 + 11, c: sgdStyle });
+  eamcEvents.push({ title: "[SGD] Dr. Amponin", s: 11 * 24 + 9, e: 11 * 24 + 11, c: sgdStyle });
+
+  html += `
+  <div style="margin: 40px 0 20px; display: flex; align-items: center; gap: 12px; background: #ffffff; padding: 12px 20px; border-radius: 4px; border: 1px solid #e2e8f0; box-shadow: rgba(0, 0, 0, 0.05) 0px 4px 6px; text-align: left;">
+    <img src="eamc_logo.png" style="height: 40px; width: 40px; object-fit: contain; mix-blend-mode: multiply;">
+    <div>
+      <h2 style="margin: 0; color: #0f172a; font-size: 20px; font-weight: 600;">East Avenue Medical Center (EAMC)</h2>
+      <span style="font-size: 14px; font-weight: 500; color: #64748b;">July 27 - Aug 9</span>
+    </div>
+  </div>`;
+  html += renderWeek("Week 1", eamcDates.slice(0,7), dows.slice(0,7), eamcEvents, 0);
+  html += renderWeek("Week 2", eamcDates.slice(7,14), dows.slice(7,14), eamcEvents, 7);
+
+  html += `
+  <div style="margin: 50px 0 20px; display: flex; align-items: center; gap: 12px; background: #ffffff; padding: 12px 20px; border-radius: 4px; border: 1px solid #e2e8f0; box-shadow: rgba(0, 0, 0, 0.05) 0px 4px 6px; text-align: left;">
+    <img src="tmc_logo.png" style="height: 40px; width: 40px; object-fit: contain; border-radius: 50%; mix-blend-mode: multiply;">
+    <div>
+      <h2 style="margin: 0; color: #0f172a; font-size: 20px; font-weight: 600;">The Medical City (TMC)</h2>
+      <span style="font-size: 14px; font-weight: 500; color: #64748b;">Aug 10 - Aug 23</span>
+    </div>
+  </div>`;
+  html += renderWeek("Week 1", tmcDates.slice(0,7), dows.slice(0,7), tmcEvents, 0);
+  html += renderWeek("Week 2", tmcDates.slice(7,14), dows.slice(7,14), tmcEvents, 7);
   
   document.getElementById("personalView").innerHTML = html;
 }
@@ -304,16 +351,16 @@ function parseEamcLogic(shift, dow, dayIndex) {
       if (dow === "Sat") e = baseHour + 13;
       evts.push({ title: "ER (from Breast Care)", s, e, c: getEamcStyle("ER Pre") });
     } else {
-      evts.push({ title: shift, s: baseHour + 8, e: baseHour + 17, c: getEamcStyle("Breast Care") });
+      evts.push({ title: shift, s: baseHour + 7, e: baseHour + 17, c: getEamcStyle("Breast Care") });
     }
   } else if (shift.includes("OPD")) {
     if (dow === "Sat") {
-      evts.push({ title: "OPD", s: baseHour + 8, e: baseHour + 12, c: getEamcStyle("OPD") });
+      evts.push({ title: "OPD", s: baseHour + 7, e: baseHour + 12, c: getEamcStyle("OPD") });
       evts.push({ title: "WARD/OR", s: baseHour + 12, e: baseHour + 13, c: getEamcStyle("Ward/OR Pre") });
     } else if (dow === "Sun") {
       evts.push({ title: "WARD/OR", s: baseHour + 7, e: baseHour + 19, c: getEamcStyle("Ward/OR Pre") });
     } else {
-      evts.push({ title: shift, s: baseHour + 8, e: baseHour + 17, c: getEamcStyle("OPD") });
+      evts.push({ title: shift, s: baseHour + 7, e: baseHour + 17, c: getEamcStyle("OPD") });
     }
   } else if (shift === "SGD then Off") {
     evts.push({ title: "SGD/Conference", s: baseHour + 7, e: baseHour + 12, c: getEamcStyle(shift) });
@@ -358,9 +405,9 @@ function parseTmcLogic(shift, dow, dayIndex) {
     if (dow === "Wed" && !isNoClassWed) s = baseHour + 21;
     evts.push({ title: shift, s, e, c: getTmcStyle(shift) });
   } else {
-    s = baseHour + 7; e = baseHour + 17;
+    s = baseHour + 7; e = baseHour + 19;
     if (dow === "Sat") e = baseHour + 13;
-    evts.push({ title: "OFF", s, e, c: "background:#fff; color:#555; border-color:#bdc3c7;" });
+    evts.push({ title: "OFF", s, e, c: "background:#f8fafc; color:#475569; border-color:#cbd5e1;" });
   }
   
   if (dow === "Wed" && !isNoClassWed) {
@@ -386,9 +433,9 @@ function renderWeek(title, dates, dowArr, allEvents, weekStartIndex) {
     let dayStartHour = globalDayIndex * 24;
     let dayEndHour = dayStartHour + 24;
 
-    html += `<div class="day-col"><div class="cal-header">${dowArr[d]}<br><span style="font-size:10px;font-weight:400">${dates[d]}</span></div>`;
+    html += `<div class="day-col" data-date="${dates[d]}"><div class="cal-header" style="position: sticky; top: 0; z-index: 10;">${dowArr[d]}<br><span style="font-size:10px;font-weight:400">${dates[d]}</span></div>`;
+    html += `<div class="timeline-container" style="height:720px; position:relative;">`;
     for(let i=0;i<=24;i++) html += `<div class="hour-line" style="top:${(i/24)*100}%;"></div>`;
-    html += `<div style="height:720px; position:relative;">`;
     
     // Filter events overlapping this specific 12AM-12AM day window
     for(let e of allEvents) {
@@ -412,7 +459,7 @@ function renderWeek(title, dates, dowArr, allEvents, weekStartIndex) {
 function renderApp() {
   const sel = document.getElementById("namePicker").value;
   if (sel === "ALL") {
-    document.getElementById("personalView").classList.remove("active");
+  document.getElementById("personalView").classList.remove("active");
     document.getElementById("masterViewWrap").style.display = "block";
     document.getElementById("mainTabs").style.display = "flex";
     buildMasters();
@@ -423,13 +470,38 @@ function renderApp() {
     document.getElementById("personalView").classList.add("active");
     buildPersonal(sel);
   }
+  updateCurrentTimeLine();
 }
+
+function updateCurrentTimeLine() {
+  const now = new Date();
+  const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+  const dateStr = monthNames[now.getMonth()] + " " + now.getDate();
+  const hour = now.getHours() + now.getMinutes() / 60;
+  
+  document.querySelectorAll('.current-time-line').forEach(el => el.remove());
+  
+  const cols = document.querySelectorAll(`.day-col[data-date="${dateStr}"] > .timeline-container`);
+  cols.forEach(col => {
+    const topPct = (hour / 24) * 100;
+    const line = document.createElement('div');
+    line.className = 'current-time-line';
+    line.style.cssText = `position: absolute; left: 0; right: 0; top: ${topPct}%; height: 2px; background: #ff3b30; z-index: 10; pointer-events: none;`;
+    
+    const dot = document.createElement('div');
+    dot.style.cssText = `position: absolute; left: -4px; top: -4px; width: 10px; height: 10px; background: #ff3b30; border-radius: 50%;`;
+    line.appendChild(dot);
+    
+    col.appendChild(line);
+  });
+}
+setInterval(updateCurrentTimeLine, 60000);
 
 function setTab(tab) {
   currentTab = tab;
   document.querySelectorAll('.tab-btn').forEach(b => {
     b.classList.remove('active');
-    if (b.innerText.toLowerCase().includes(tab)) b.classList.add('active');
+    if (b.getAttribute('onclick').includes(tab)) b.classList.add('active');
   });
   document.getElementById("eamcMaster").style.display = tab==='eamc'?'block':'none';
   document.getElementById("tmcMaster").style.display = tab==='tmc'?'block':'none';
