@@ -132,13 +132,21 @@
   }
   .event-time { font-size: 9.5px; opacity: 0.8; font-weight: 600; margin-top: 2px; }
 
-  @media (max-width: 800px) { .week-grid { grid-template-columns: 40px repeat(7, 1fr); } .event-block { font-size: 9px; padding: 4px; } }
+  @media (max-width: 800px) { 
+    .week-grid { grid-template-columns: 40px repeat(7, minmax(80px, 1fr)); } 
+    .event-block { font-size: 9px; padding: 4px; } 
+    h1 { font-size: 24px !important; }
+  }
 </style>
 </head>
 <body>
 
 <div class="header-card glass-panel">
-  <h1>Surgery Rotation Schedule</h1>
+  <div style="display: flex; justify-content: center; align-items: center; gap: 15px; flex-wrap: wrap;">
+    <img src="eamc_logo.png" alt="EAMC Logo" style="height: 50px; width: 50px; object-fit: contain;">
+    <h1 style="margin: 0; text-align: center; line-height: 1.2;">EAMC & TMC<br><span style="font-size: 0.55em; opacity: 0.8; font-weight: 500;">Surgery Rotation Schedule</span></h1>
+    <img src="tmc_logo.png" alt="TMC Logo" style="height: 50px; width: 50px; object-fit: contain; border-radius: 50%;">
+  </div>
   <select id="namePicker" onchange="renderApp()">
     <option value="ALL">-- Show Full Master Schedules --</option>
     <option value="Angala, Jose Francisco A.">Angala, Jose Francisco A.</option><option value="Chiew, Simon S.">Chiew, Simon S.</option><option value="De Asis, Vincent Flavianne">De Asis, Vincent Flavianne</option><option value="De Jesus, Aliyah Isobel T.">De Jesus, Aliyah Isobel T.</option><option value="Esguera, Gabrielle Angelica G.">Esguera, Gabrielle Angelica G.</option><option value="Estiva, Nina Ysabel M.">Estiva, Nina Ysabel M.</option><option value="Fajardo, Ma. Salome Patricia A.">Fajardo, Ma. Salome Patricia A.</option><option value="Gamboa, Mariane Nicole P.">Gamboa, Mariane Nicole P.</option><option value="Garganera, Wilbert">Garganera, Wilbert</option><option value="Ignacio, Julian Nicolas E.">Ignacio, Julian Nicolas E.</option><option value="Malonjao, Carl Angelo D.">Malonjao, Carl Angelo D.</option><option value="Ong, Mary Joy Beatrice B.">Ong, Mary Joy Beatrice B.</option><option value="Salvador, Alison Gail A.">Salvador, Alison Gail A.</option><option value="Seares, Clea Anne T.">Seares, Clea Anne T.</option><option value="Tinawin, Eimee Rochelle A.">Tinawin, Eimee Rochelle A.</option>
@@ -305,16 +313,16 @@ function parseEamcLogic(shift, dow, dayIndex) {
       if (dow === "Sat") e = baseHour + 13;
       evts.push({ title: "ER (from Breast Care)", s, e, c: getEamcStyle("ER Pre") });
     } else {
-      evts.push({ title: shift, s: baseHour + 8, e: baseHour + 17, c: getEamcStyle("Breast Care") });
+      evts.push({ title: shift, s: baseHour + 7, e: baseHour + 17, c: getEamcStyle("Breast Care") });
     }
   } else if (shift.includes("OPD")) {
     if (dow === "Sat") {
-      evts.push({ title: "OPD", s: baseHour + 8, e: baseHour + 12, c: getEamcStyle("OPD") });
+      evts.push({ title: "OPD", s: baseHour + 7, e: baseHour + 12, c: getEamcStyle("OPD") });
       evts.push({ title: "WARD/OR", s: baseHour + 12, e: baseHour + 13, c: getEamcStyle("Ward/OR Pre") });
     } else if (dow === "Sun") {
       evts.push({ title: "WARD/OR", s: baseHour + 7, e: baseHour + 19, c: getEamcStyle("Ward/OR Pre") });
     } else {
-      evts.push({ title: shift, s: baseHour + 8, e: baseHour + 17, c: getEamcStyle("OPD") });
+      evts.push({ title: shift, s: baseHour + 7, e: baseHour + 17, c: getEamcStyle("OPD") });
     }
   } else if (shift === "SGD then Off") {
     evts.push({ title: "SGD/Conference", s: baseHour + 7, e: baseHour + 12, c: getEamcStyle(shift) });
