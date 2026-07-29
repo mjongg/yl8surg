@@ -244,6 +244,14 @@ function buildPersonal(name) {
   let eamcEvents = getAbsoluteEvents(eamcSchedule[name], parseEamcLogic);
   let tmcEvents = getAbsoluteEvents(tmcGrid[tmcIndex], parseTmcLogic);
 
+  const sgdStyle = "background: #f59f00; color: #ffffff; border-left: 3px solid #d9480f; box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 12px; z-index: 10;";
+  eamcEvents.push({ title: "[SGD] Dr. Doble", s: 0 * 24 + 13, e: 0 * 24 + 15, c: sgdStyle });
+  eamcEvents.push({ title: "[SGD] Dr. Cabrera", s: 3 * 24 + 11, e: 3 * 24 + 13, c: sgdStyle });
+  eamcEvents.push({ title: "[SGD] Dr. Chuasuan", s: 4 * 24 + 9, e: 4 * 24 + 11, c: sgdStyle });
+  eamcEvents.push({ title: "[SGD] Dr. Ordoñez (Intraop) TBA", s: 4 * 24 + 11, e: 4 * 24 + 13, c: sgdStyle });
+  eamcEvents.push({ title: "[SGD] Dr. Chuasuan", s: 8 * 24 + 9, e: 8 * 24 + 11, c: sgdStyle });
+  eamcEvents.push({ title: "[SGD] Dr. Amponin", s: 11 * 24 + 9, e: 11 * 24 + 11, c: sgdStyle });
+
   html += `
   <div style="margin: 40px 0 20px; display: flex; align-items: center; gap: 12px; background: #ffffff; padding: 12px 20px; border-radius: 4px; border: 1px solid #e9e9e7; box-shadow: rgba(15, 15, 15, 0.05) 0px 0px 0px 1px; text-align: left;">
     <img src="eamc_logo.png" style="height: 40px; width: 40px; object-fit: contain; mix-blend-mode: multiply;">
