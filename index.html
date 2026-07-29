@@ -44,16 +44,16 @@
   
   body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol";
-    background-color: #1e293b;
-    color: #f8fafc;
+    background-color: #f7f9fa;
+    color: #37352f;
     padding: 30px 20px;
     min-height: 100vh;
   }
   
   .glass-panel {
-    background: #0f172a;
-    border: 1px solid #334155;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
     border-radius: 8px;
   }
 
@@ -62,29 +62,29 @@
   }
   
   select {
-    padding: 8px 14px; font-size: 15px; border-radius: 4px; border: 1px solid #334155;
-    outline: none; background: #0f172a; color: #f8fafc; font-weight: 500; cursor: pointer; min-width: 300px;
+    padding: 8px 14px; font-size: 15px; border-radius: 4px; border: 1px solid #e2e8f0;
+    outline: none; background: #ffffff; color: #37352f; font-weight: 500; cursor: pointer; min-width: 300px;
     font-family: inherit;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
   }
-  select:focus, select:hover { border-color: #475569; background: #1e293b; transform: none; box-shadow: none; }
+  select:focus, select:hover { border-color: #cbd5e1; background: #f8fafc; transform: none; box-shadow: none; }
 
   .tabs { display: flex; justify-content: center; gap: 8px; margin-top: 24px; }
   .tab-btn {
     background: transparent;
     border: 1px solid transparent;
     border-radius: 6px;
-    color: #cbd5e1;
+    color: #64748b;
     font-weight: 500;
     padding: 8px 16px; font-size: 15px;
     transition: background 0.1s, color 0.1s;
     cursor: pointer; font-family: inherit;
   }
-  .tab-btn:hover { background: #1e293b; color: #ffffff; transform: none; box-shadow: none !important; }
+  .tab-btn:hover { background: #f1f5f9; color: #0f172a; transform: none; box-shadow: none !important; }
   .tab-btn.active { 
-    background: #1e293b; 
-    color: #ffffff;
-    border: 1px solid #334155;
+    background: #f1f5f9; 
+    color: #0f172a;
+    border: 1px solid #cbd5e1;
     font-weight: 600;
     box-shadow: none !important;
   }
@@ -93,25 +93,25 @@
   .master-view { display: none; margin-bottom: 30px; width: 100%; overflow-x: auto; }
   .master-view.active { display: block; }
   
-  table { border-collapse: collapse; font-size: 13px; width: 100%; min-width: 1200px; zoom: 0.8; background: #0f172a; border-radius: 0; overflow: hidden; }
-  th, td { border: 1px solid #334155; padding: 10px 8px; text-align: center; word-wrap: break-word; color: #e2e8f0; }
+  table { border-collapse: collapse; font-size: 13px; width: 100%; min-width: 1200px; zoom: 0.8; background: #ffffff; border-radius: 0; overflow: hidden; }
+  th, td { border: 1px solid #e2e8f0; padding: 10px 8px; text-align: center; word-wrap: break-word; color: #334155; }
   thead th { 
-    background: #1e293b;
-    color: #cbd5e1; font-weight: 600; position: sticky; top: 0; z-index: 2; 
+    background: #f8fafc;
+    color: #334155; font-weight: 600; position: sticky; top: 0; z-index: 2; 
     font-size: 12px;
-    border-bottom: 2px solid #334155;
+    border-bottom: 2px solid #e2e8f0;
   }
   
   .name-cell { 
     text-align: left !important; font-weight: 600; 
-    background: #1e293b !important;
+    background: #f8fafc !important;
     width: 220px; position: sticky; left: 0; z-index: 1; 
     padding-left: 16px; white-space: nowrap; 
-    border-right: 2px solid #334155; color: #f8fafc;
+    border-right: 2px solid #e2e8f0; color: #334155;
   }
   
   tbody tr { transition: background 0.1s; }
-  tbody tr:hover td { background: #1e293b; }
+  tbody tr:hover td { background: #f1f5f9; }
 
   /* Calendar View */
   .personal-view { display: none; max-width: 1100px; margin: 0 auto; }
@@ -119,24 +119,24 @@
   
   .week-grid {
     display: grid; grid-template-columns: 55px repeat(7, 1fr); gap: 0;
-    background: #0f172a; border: 1px solid #334155; border-radius: 4px; overflow: hidden; margin-bottom: 35px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+    background: #ffffff; border: 1px solid #e2e8f0; border-radius: 4px; overflow: hidden; margin-bottom: 35px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
   }
-  .week-title { grid-column: 1 / -1; background: #1e293b; color: #f8fafc; padding: 12px; font-weight: 600; text-align: left; font-size: 16px; border-bottom: 1px solid #334155; }
+  .week-title { grid-column: 1 / -1; background: #f8fafc; color: #0f172a; padding: 12px; font-weight: 600; text-align: left; font-size: 16px; border-bottom: 1px solid #e2e8f0; }
   
-  .cal-header { background: #0f172a; text-align: center; padding: 10px; font-weight: 600; font-size: 14px; color: #e2e8f0; border-bottom: 1px solid #334155; border-left: 1px solid #334155; }
-  .time-axis { background: #0f172a; display: flex; flex-direction: column; }
-  .time-slot { height: 30px; display: flex; align-items: flex-start; justify-content: flex-end; padding-right: 8px; font-size: 11px; font-weight: 500; color: #94a3b8; border-bottom: 1px solid #334155; }
+  .cal-header { background: #ffffff; text-align: center; padding: 10px; font-weight: 600; font-size: 14px; color: #334155; border-bottom: 1px solid #e2e8f0; border-left: 1px solid #e2e8f0; }
+  .time-axis { background: #ffffff; display: flex; flex-direction: column; }
+  .time-slot { height: 30px; display: flex; align-items: flex-start; justify-content: flex-end; padding-right: 8px; font-size: 11px; font-weight: 500; color: #64748b; border-bottom: 1px solid #e2e8f0; }
   
-  .day-col { background: #0f172a; position: relative; border-left: 1px solid #334155; }
+  .day-col { background: #ffffff; position: relative; border-left: 1px solid #e2e8f0; }
   /* Hour lines */
-  .hour-line { position: absolute; left: 0; right: 0; height: 1px; background: #334155; }
+  .hour-line { position: absolute; left: 0; right: 0; height: 1px; background: #e2e8f0; }
 
   /* Event Blocks */
   .event-block {
     position: absolute; left: 2px; right: 2px; border-radius: 3px; padding: 4px 6px;
     font-size: 12px; font-weight: 600; line-height: 1.2; overflow: hidden;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.3); border-left: 3px solid rgba(0,0,0,0.2);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05); border-left: 3px solid rgba(0,0,0,0.15);
     display: flex; flex-direction: column; justify-content: flex-start; text-align: left;
     transition: background 0.1s;
   }
@@ -154,15 +154,15 @@
 
 <div class="header-card glass-panel">
   <div style="margin-bottom: 25px;">
-    <h1 style="margin: 0; text-align: center; line-height: 1.2; font-weight: 700; font-size: 32px; color: #f8fafc;">LEC 17-18<br><span style="font-size: 0.6em; opacity: 0.7; font-weight: 500; color: #cbd5e1;">Surgery Rotation Schedule</span></h1>
+    <h1 style="margin: 0; text-align: center; line-height: 1.2; font-weight: 700; font-size: 32px; color: #0f172a;">LEC 17-18<br><span style="font-size: 0.6em; opacity: 0.7; font-weight: 500; color: #64748b;">Surgery Rotation Schedule</span></h1>
   </div>
   <select id="namePicker" onchange="renderApp()">
     <option value="ALL">-- Show Full Master Schedules --</option>
     <option value="Angala, Jose Francisco A.">Angala, Jose Francisco A.</option><option value="Chiew, Simon S.">Chiew, Simon S.</option><option value="De Asis, Vincent Flavianne">De Asis, Vincent Flavianne</option><option value="De Jesus, Aliyah Isobel T.">De Jesus, Aliyah Isobel T.</option><option value="Esguera, Gabrielle Angelica G.">Esguera, Gabrielle Angelica G.</option><option value="Estiva, Nina Ysabel M.">Estiva, Nina Ysabel M.</option><option value="Fajardo, Ma. Salome Patricia A.">Fajardo, Ma. Salome Patricia A.</option><option value="Gamboa, Mariane Nicole P.">Gamboa, Mariane Nicole P.</option><option value="Garganera, Wilbert">Garganera, Wilbert</option><option value="Ignacio, Julian Nicolas E.">Ignacio, Julian Nicolas E.</option><option value="Malonjao, Carl Angelo D.">Malonjao, Carl Angelo D.</option><option value="Ong, Mary Joy Beatrice B.">Ong, Mary Joy Beatrice B.</option><option value="Salvador, Alison Gail A.">Salvador, Alison Gail A.</option><option value="Seares, Clea Anne T.">Seares, Clea Anne T.</option><option value="Tinawin, Eimee Rochelle A.">Tinawin, Eimee Rochelle A.</option>
   </select>
   <div class="tabs" id="mainTabs" style="display:none;">
-    <button class="tab-btn active" style="display: flex; align-items: center;" onclick="setTab('eamc')"><img src="eamc_logo.png" style="height:20px; width:20px; object-fit:contain; margin-right:8px; border-radius:4px; background:#fff;"> EAMC (Jul 27-Aug 9)</button>
-    <button class="tab-btn" style="display: flex; align-items: center;" onclick="setTab('tmc')"><img src="tmc_logo.png" style="height:20px; width:20px; object-fit:contain; border-radius:50%; margin-right:8px; background:#fff;"> TMC Surg (Aug 10-23)</button>
+    <button class="tab-btn active" style="display: flex; align-items: center;" onclick="setTab('eamc')"><img src="eamc_logo.png" style="height:20px; width:20px; object-fit:contain; margin-right:8px; mix-blend-mode: multiply;"> EAMC (Jul 27-Aug 9)</button>
+    <button class="tab-btn" style="display: flex; align-items: center;" onclick="setTab('tmc')"><img src="tmc_logo.png" style="height:20px; width:20px; object-fit:contain; border-radius:50%; margin-right:8px; mix-blend-mode: multiply;"> TMC Surg (Aug 10-23)</button>
   </div>
 </div>
 
@@ -244,7 +244,7 @@ function buildPersonal(name) {
   let eamcEvents = getAbsoluteEvents(eamcSchedule[name], parseEamcLogic);
   let tmcEvents = getAbsoluteEvents(tmcGrid[tmcIndex], parseTmcLogic);
 
-  const sgdStyle = "background: #5b21b6; color: #ffffff; border-left: 3px solid #3b0764; box-shadow: rgba(0, 0, 0, 0.4) 0px 4px 12px; z-index: 10;";
+  const sgdStyle = "background: #1e293b; color: #ffffff; border-left: 3px solid #0f172a; box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 12px; z-index: 10;";
   eamcEvents.push({ title: "[SGD] Dr. Doble", s: 0 * 24 + 13, e: 0 * 24 + 15, c: sgdStyle });
   eamcEvents.push({ title: "[SGD] Dr. Cabrera", s: 3 * 24 + 11, e: 3 * 24 + 13, c: sgdStyle });
   eamcEvents.push({ title: "[SGD] Dr. Chuasuan", s: 4 * 24 + 9, e: 4 * 24 + 11, c: sgdStyle });
@@ -253,22 +253,22 @@ function buildPersonal(name) {
   eamcEvents.push({ title: "[SGD] Dr. Amponin", s: 11 * 24 + 9, e: 11 * 24 + 11, c: sgdStyle });
 
   html += `
-  <div style="margin: 40px 0 20px; display: flex; align-items: center; gap: 12px; background: #0f172a; padding: 12px 20px; border-radius: 4px; border: 1px solid #334155; box-shadow: rgba(0, 0, 0, 0.4) 0px 4px 6px; text-align: left;">
-    <img src="eamc_logo.png" style="height: 40px; width: 40px; object-fit: contain; border-radius: 8px; background: #fff;">
+  <div style="margin: 40px 0 20px; display: flex; align-items: center; gap: 12px; background: #ffffff; padding: 12px 20px; border-radius: 4px; border: 1px solid #e2e8f0; box-shadow: rgba(0, 0, 0, 0.05) 0px 4px 6px; text-align: left;">
+    <img src="eamc_logo.png" style="height: 40px; width: 40px; object-fit: contain; mix-blend-mode: multiply;">
     <div>
-      <h2 style="margin: 0; color: #f8fafc; font-size: 20px; font-weight: 600;">East Avenue Medical Center (EAMC)</h2>
-      <span style="font-size: 14px; font-weight: 500; color: #cbd5e1;">July 27 - Aug 9</span>
+      <h2 style="margin: 0; color: #0f172a; font-size: 20px; font-weight: 600;">East Avenue Medical Center (EAMC)</h2>
+      <span style="font-size: 14px; font-weight: 500; color: #64748b;">July 27 - Aug 9</span>
     </div>
   </div>`;
   html += renderWeek("Week 1", eamcDates.slice(0,7), dows.slice(0,7), eamcEvents, 0);
   html += renderWeek("Week 2", eamcDates.slice(7,14), dows.slice(7,14), eamcEvents, 7);
 
   html += `
-  <div style="margin: 50px 0 20px; display: flex; align-items: center; gap: 12px; background: #0f172a; padding: 12px 20px; border-radius: 4px; border: 1px solid #334155; box-shadow: rgba(0, 0, 0, 0.4) 0px 4px 6px; text-align: left;">
-    <img src="tmc_logo.png" style="height: 40px; width: 40px; object-fit: contain; border-radius: 50%; background: #fff;">
+  <div style="margin: 50px 0 20px; display: flex; align-items: center; gap: 12px; background: #ffffff; padding: 12px 20px; border-radius: 4px; border: 1px solid #e2e8f0; box-shadow: rgba(0, 0, 0, 0.05) 0px 4px 6px; text-align: left;">
+    <img src="tmc_logo.png" style="height: 40px; width: 40px; object-fit: contain; border-radius: 50%; mix-blend-mode: multiply;">
     <div>
-      <h2 style="margin: 0; color: #f8fafc; font-size: 20px; font-weight: 600;">The Medical City (TMC)</h2>
-      <span style="font-size: 14px; font-weight: 500; color: #cbd5e1;">Aug 10 - Aug 23</span>
+      <h2 style="margin: 0; color: #0f172a; font-size: 20px; font-weight: 600;">The Medical City (TMC)</h2>
+      <span style="font-size: 14px; font-weight: 500; color: #64748b;">Aug 10 - Aug 23</span>
     </div>
   </div>`;
   html += renderWeek("Week 1", tmcDates.slice(0,7), dows.slice(0,7), tmcEvents, 0);
