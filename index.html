@@ -152,8 +152,8 @@
     <option value="Angala, Jose Francisco A.">Angala, Jose Francisco A.</option><option value="Chiew, Simon S.">Chiew, Simon S.</option><option value="De Asis, Vincent Flavianne">De Asis, Vincent Flavianne</option><option value="De Jesus, Aliyah Isobel T.">De Jesus, Aliyah Isobel T.</option><option value="Esguera, Gabrielle Angelica G.">Esguera, Gabrielle Angelica G.</option><option value="Estiva, Nina Ysabel M.">Estiva, Nina Ysabel M.</option><option value="Fajardo, Ma. Salome Patricia A.">Fajardo, Ma. Salome Patricia A.</option><option value="Gamboa, Mariane Nicole P.">Gamboa, Mariane Nicole P.</option><option value="Garganera, Wilbert">Garganera, Wilbert</option><option value="Ignacio, Julian Nicolas E.">Ignacio, Julian Nicolas E.</option><option value="Malonjao, Carl Angelo D.">Malonjao, Carl Angelo D.</option><option value="Ong, Mary Joy Beatrice B.">Ong, Mary Joy Beatrice B.</option><option value="Salvador, Alison Gail A.">Salvador, Alison Gail A.</option><option value="Seares, Clea Anne T.">Seares, Clea Anne T.</option><option value="Tinawin, Eimee Rochelle A.">Tinawin, Eimee Rochelle A.</option>
   </select>
   <div class="tabs" id="mainTabs" style="display:none; justify-content: center; gap: 15px; margin-bottom: 20px;">
-    <button class="tab-btn active" style="font-size: 15px; padding: 12px 24px; border-radius: 8px; font-weight: 600; box-shadow: 0 4px 6px rgba(0,0,0,0.1);" onclick="setTab('eamc')">🏥 EAMC (Jul 27-Aug 9)</button>
-    <button class="tab-btn" style="font-size: 15px; padding: 12px 24px; border-radius: 8px; font-weight: 600; box-shadow: 0 4px 6px rgba(0,0,0,0.1);" onclick="setTab('tmc')">🏥 TMC Surg (Aug 10-23)</button>
+    <button class="tab-btn active" style="display: flex; align-items: center; font-size: 15px; padding: 12px 24px; border-radius: 8px; font-weight: 600; box-shadow: 0 4px 6px rgba(0,0,0,0.1);" onclick="setTab('eamc')"><img src="eamc_logo.png" style="height:24px; width:24px; object-fit:contain; margin-right:10px;"> EAMC (Jul 27-Aug 9)</button>
+    <button class="tab-btn" style="display: flex; align-items: center; font-size: 15px; padding: 12px 24px; border-radius: 8px; font-weight: 600; box-shadow: 0 4px 6px rgba(0,0,0,0.1);" onclick="setTab('tmc')"><img src="tmc_logo.png" style="height:24px; width:24px; object-fit:contain; border-radius:50%; margin-right:10px;"> TMC Surg (Aug 10-23)</button>
   </div>
 </div>
 
@@ -235,10 +235,27 @@ function buildPersonal(name) {
   let eamcEvents = getAbsoluteEvents(eamcSchedule[name], parseEamcLogic);
   let tmcEvents = getAbsoluteEvents(tmcGrid[tmcIndex], parseTmcLogic);
 
-  html += renderWeek("🏥 EAMC (Week 1)", eamcDates.slice(0,7), dows.slice(0,7), eamcEvents, 0);
-  html += renderWeek("🏥 EAMC (Week 2)", eamcDates.slice(7,14), dows.slice(7,14), eamcEvents, 7);
-  html += renderWeek("🏥 TMC (Week 1)", tmcDates.slice(0,7), dows.slice(0,7), tmcEvents, 0);
-  html += renderWeek("🏥 TMC (Week 2)", tmcDates.slice(7,14), dows.slice(7,14), tmcEvents, 7);
+  html += `
+  <div style="margin: 40px 0 20px; display: flex; align-items: center; gap: 20px; background: #f8fafc; padding: 16px 24px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); border-left: 6px solid #2f5597; text-align: left;">
+    <img src="eamc_logo.png" style="height: 50px; width: 50px; object-fit: contain;">
+    <div>
+      <h2 style="margin: 0; color: #1e293b; font-size: 24px;">East Avenue Medical Center (EAMC)</h2>
+      <span style="font-size: 15px; font-weight: 500; color: #64748b;">July 27 - Aug 9</span>
+    </div>
+  </div>`;
+  html += renderWeek("Week 1", eamcDates.slice(0,7), dows.slice(0,7), eamcEvents, 0);
+  html += renderWeek("Week 2", eamcDates.slice(7,14), dows.slice(7,14), eamcEvents, 7);
+
+  html += `
+  <div style="margin: 60px 0 20px; display: flex; align-items: center; gap: 20px; background: #f8fafc; padding: 16px 24px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); border-left: 6px solid #c00000; text-align: left;">
+    <img src="tmc_logo.png" style="height: 50px; width: 50px; object-fit: contain; border-radius: 50%;">
+    <div>
+      <h2 style="margin: 0; color: #1e293b; font-size: 24px;">The Medical City (TMC)</h2>
+      <span style="font-size: 15px; font-weight: 500; color: #64748b;">Aug 10 - Aug 23</span>
+    </div>
+  </div>`;
+  html += renderWeek("Week 1", tmcDates.slice(0,7), dows.slice(0,7), tmcEvents, 0);
+  html += renderWeek("Week 2", tmcDates.slice(7,14), dows.slice(7,14), tmcEvents, 7);
   
   document.getElementById("personalView").innerHTML = html;
 }
