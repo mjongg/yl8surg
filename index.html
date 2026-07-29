@@ -150,7 +150,6 @@
     select { min-width: 100%; width: 100%; }
     .tabs { flex-direction: column; gap: 8px; }
     .tab-btn { width: 100%; justify-content: center; }
-    .personal-view { overflow-x: auto; -webkit-overflow-scrolling: touch; padding-bottom: 20px; }
     .week-grid { min-width: 800px; grid-template-columns: 55px repeat(7, 1fr); }
   }
 </style>
@@ -421,7 +420,9 @@ function parseTmcLogic(shift, dow, dayIndex) {
 }
 
 function renderWeek(title, dates, dowArr, allEvents, weekStartIndex) {
-  let html = `<div class="week-grid glass-panel"><div class="week-title">${title}</div><div class="time-axis"><div class="cal-header">Time</div>`;
+  let html = `<div style="overflow-x: auto; -webkit-overflow-scrolling: touch; margin-bottom: 35px; border-radius: 4px; border: 1px solid #e2e8f0; box-shadow: 0 4px 6px rgba(0,0,0,0.05); background: #ffffff;">`;
+  html += `<div class="week-grid" style="margin-bottom: 0; box-shadow: none; border: none; border-radius: 0;">`;
+  html += `<div class="week-title">${title}</div><div class="time-axis"><div class="cal-header">Time</div>`;
   for(let i=0;i<24;i++) {
     let ampm = i>=12 ? (i===12?12:i-12)+' PM' : (i===0?12:i)+' AM';
     html += `<div class="time-slot">${ampm}</div>`;
@@ -452,7 +453,7 @@ function renderWeek(title, dates, dowArr, allEvents, weekStartIndex) {
     }
     html += `</div></div>`;
   }
-  html += `</div>`;
+  html += `</div></div>`;
   return html;
 }
 
