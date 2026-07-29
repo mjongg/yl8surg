@@ -44,108 +44,124 @@
   
   body {
     font-family: 'Outfit', -apple-system, sans-serif;
-    background: #f4f7fa;
-    color: #2c3e50;
-    padding: 20px;
+    background-color: #f0f4f8;
+    background-image: 
+      radial-gradient(at 0% 0%, hsla(253,16%,7%,0.05) 0, transparent 50%), 
+      radial-gradient(at 50% 0%, hsla(225,39%,30%,0.05) 0, transparent 50%), 
+      radial-gradient(at 100% 0%, hsla(339,49%,30%,0.05) 0, transparent 50%);
+    background: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%);
+    background-attachment: fixed;
+    color: #1e293b;
+    padding: 30px 20px;
     min-height: 100vh;
   }
   
   .glass-panel {
-    background: #ffffff;
-    border: 1px solid #e2e8f0;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.65);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
+    border-radius: 16px;
   }
 
   .header-card {
-    padding: 24px; max-width: 900px; margin: 0 auto 24px; text-align: center;
+    padding: 30px; max-width: 900px; margin: 0 auto 30px; text-align: center;
   }
-  .header-card h1 { font-size: 28px; color: #1e293b; margin-bottom: 20px; font-weight: 700; }
   
   select {
-    padding: 12px 20px; font-size: 16px; border-radius: 8px; border: 2px solid #cbd5e1;
-    outline: none; background: #f8fafc; color: #334155; font-weight: 600; cursor: pointer; min-width: 320px;
-    transition: all 0.2s; font-family: 'Outfit', sans-serif;
+    padding: 14px 24px; font-size: 16px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.6);
+    outline: none; background: rgba(255,255,255,0.7); color: #1e293b; font-weight: 700; cursor: pointer; min-width: 340px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); font-family: 'Outfit', sans-serif;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    backdrop-filter: blur(10px);
   }
-  select:focus { border-color: #3b82f6; background: #ffffff; }
+  select:focus, select:hover { border-color: rgba(255,255,255,0.9); background: rgba(255,255,255,0.95); transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0,0,0,0.1); }
 
-  .tabs { display: flex; justify-content: center; gap: 12px; margin-top: 20px; }
+  .tabs { display: flex; justify-content: center; gap: 16px; margin-top: 24px; }
   .tab-btn {
-    padding: 10px 24px; border: none; border-radius: 8px; font-size: 14px; font-weight: 600;
-    cursor: pointer; transition: all 0.2s; background: #e2e8f0; color: #64748b;
-    font-family: 'Outfit', sans-serif;
+    background: rgba(255,255,255,0.6);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.5);
+    color: #475569;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
-  .tab-btn:hover { background: #cbd5e1; }
+  .tab-btn:hover { background: rgba(255,255,255,0.9); transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important; }
   .tab-btn.active { 
-    background: #334155; 
+    background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); 
     color: #ffffff;
+    border: 1px solid #0f172a;
+    box-shadow: 0 12px 25px rgba(15,23,42,0.25) !important;
   }
 
   /* Master Tables */
-  .master-view { display: none; margin-bottom: 24px; width: 100%; overflow-x: auto; }
+  .master-view { display: none; margin-bottom: 30px; width: 100%; overflow-x: auto; }
   .master-view.active { display: block; }
   
-  table { border-collapse: collapse; font-size: 12px; width: 100%; min-width: 1200px; zoom: 0.8; }
-  th, td { border: 1px solid #e2e8f0; padding: 6px 4px; text-align: center; word-wrap: break-word; }
+  table { border-collapse: collapse; font-size: 13px; width: 100%; min-width: 1200px; zoom: 0.8; background: rgba(255,255,255,0.4); border-radius: 12px; overflow: hidden; }
+  th, td { border: 1px solid rgba(255,255,255,0.6); padding: 10px 6px; text-align: center; word-wrap: break-word; }
   thead th { 
-    background: #f8fafc; 
-    color: #1e293b; font-weight: 700; position: sticky; top: 0; z-index: 2; 
-    font-size: 11px; text-transform: uppercase;
-    border-bottom: 2px solid #cbd5e1;
+    background: rgba(248,250,252,0.8); backdrop-filter: blur(10px);
+    color: #0f172a; font-weight: 800; position: sticky; top: 0; z-index: 2; 
+    font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px;
+    border-bottom: 2px solid rgba(255,255,255,0.8);
   }
   
   .name-cell { 
-    text-align: left !important; font-weight: 600; 
-    background: #f8fafc !important; 
+    text-align: left !important; font-weight: 700; 
+    background: rgba(248,250,252,0.85) !important; backdrop-filter: blur(10px);
     width: 220px; position: sticky; left: 0; z-index: 1; 
-    padding-left: 12px; white-space: nowrap; 
-    border-right: 2px solid #cbd5e1; color: #334155;
+    padding-left: 16px; white-space: nowrap; 
+    border-right: 2px solid rgba(255,255,255,0.8); color: #1e293b;
   }
   
-  tbody tr { transition: background 0.1s; }
-  tbody tr:hover td { background: #f1f5f9; }
+  tbody tr { transition: background 0.2s; }
+  tbody tr:hover td { background: rgba(255,255,255,0.8); }
 
   /* Calendar View */
   .personal-view { display: none; max-width: 1100px; margin: 0 auto; }
   .personal-view.active { display: block; }
   
   .week-grid {
-    display: grid; grid-template-columns: 50px repeat(7, 1fr); gap: 1px;
-    background: #e2e8f0; border: 1px solid #cbd5e1; border-radius: 8px; overflow: hidden; margin-bottom: 24px;
+    display: grid; grid-template-columns: 55px repeat(7, 1fr); gap: 1px;
+    background: rgba(255,255,255,0.3); border: 1px solid rgba(255,255,255,0.5); border-radius: 16px; overflow: hidden; margin-bottom: 35px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08); backdrop-filter: blur(12px);
   }
-  .week-title { grid-column: 1 / -1; background: #334155; color: #fff; padding: 10px; font-weight: 700; text-align: center; font-size: 16px; }
+  .week-title { grid-column: 1 / -1; background: linear-gradient(90deg, #1e293b, #334155); color: #fff; padding: 14px; font-weight: 800; text-align: center; font-size: 18px; letter-spacing: 1px; text-transform: uppercase; }
   
-  .cal-header { background: #f8fafc; text-align: center; padding: 8px; font-weight: 600; font-size: 13px; color: #334155; }
-  .time-axis { background: #f8fafc; display: flex; flex-direction: column; }
-  .time-slot { height: 30px; display: flex; align-items: flex-start; justify-content: flex-end; padding-right: 8px; font-size: 9.5px; color: #64748b; border-bottom: 1px solid #e2e8f0; }
+  .cal-header { background: rgba(248,250,252,0.7); text-align: center; padding: 10px; font-weight: 700; font-size: 14px; color: #1e293b; border-bottom: 1px solid rgba(255,255,255,0.5); }
+  .time-axis { background: rgba(248,250,252,0.6); display: flex; flex-direction: column; }
+  .time-slot { height: 30px; display: flex; align-items: flex-start; justify-content: flex-end; padding-right: 8px; font-size: 10px; font-weight: 600; color: #475569; border-bottom: 1px solid rgba(255,255,255,0.4); }
   
-  .day-col { background: #ffffff; position: relative; }
+  .day-col { background: rgba(255,255,255,0.45); position: relative; }
   /* Hour lines */
-  .hour-line { position: absolute; left: 0; right: 0; height: 1px; background: #f1f5f9; }
+  .hour-line { position: absolute; left: 0; right: 0; height: 1px; background: rgba(255,255,255,0.6); }
 
   /* Event Blocks */
   .event-block {
-    position: absolute; left: 4px; right: 4px; border-radius: 6px; padding: 6px 8px;
-    font-size: 11px; font-weight: 700; line-height: 1.3; overflow: hidden;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1); border-left: 4px solid rgba(0,0,0,0.2);
+    position: absolute; left: 5px; right: 5px; border-radius: 8px; padding: 8px 10px;
+    font-size: 12px; font-weight: 800; line-height: 1.3; overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15); border-left: 5px solid rgba(0,0,0,0.25);
     display: flex; flex-direction: column; justify-content: center; text-align: left;
+    transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.2s;
   }
-  .event-time { font-size: 9.5px; opacity: 0.8; font-weight: 600; margin-top: 2px; }
+  .event-block:hover { transform: scale(1.02) translateY(-2px); box-shadow: 0 8px 15px rgba(0,0,0,0.2); z-index: 5; }
+  .event-time { font-size: 10px; opacity: 0.85; font-weight: 600; margin-top: 3px; }
 
   @media (max-width: 800px) { 
-    .week-grid { grid-template-columns: 40px repeat(7, minmax(80px, 1fr)); } 
-    .event-block { font-size: 9px; padding: 4px; } 
-    h1 { font-size: 24px !important; }
+    .week-grid { grid-template-columns: 45px repeat(7, minmax(85px, 1fr)); } 
+    .event-block { font-size: 10px; padding: 5px; } 
+    h1 { font-size: 26px !important; }
   }
 </style>
 </head>
 <body>
 
 <div class="header-card glass-panel">
-  <div style="display: flex; justify-content: center; align-items: center; gap: 15px; flex-wrap: wrap;">
-    <img src="eamc_logo.png" alt="EAMC Logo" style="height: 50px; width: 50px; object-fit: contain;">
-    <h1 style="margin: 0; text-align: center; line-height: 1.2;">EAMC & TMC<br><span style="font-size: 0.55em; opacity: 0.8; font-weight: 500;">Surgery Rotation Schedule</span></h1>
-    <img src="tmc_logo.png" alt="TMC Logo" style="height: 50px; width: 50px; object-fit: contain; border-radius: 50%;">
+  <div style="display: flex; justify-content: center; align-items: center; gap: 15px; flex-wrap: wrap; margin-bottom: 25px;">
+    <img src="eamc_logo.png" alt="EAMC Logo" style="height: 60px; width: 60px; object-fit: contain;">
+    <h1 style="margin: 0; text-align: center; line-height: 1.1; font-weight: 900; font-size: 34px; background: linear-gradient(90deg, #1e293b, #3b82f6); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">LEC 17-18<br><span style="font-size: 0.55em; opacity: 0.9; font-weight: 700; -webkit-text-fill-color: #64748b;">Surgery Rotation Schedule</span></h1>
+    <img src="tmc_logo.png" alt="TMC Logo" style="height: 60px; width: 60px; object-fit: contain; border-radius: 50%;">
   </div>
   <select id="namePicker" onchange="renderApp()">
     <option value="ALL">-- Show Full Master Schedules --</option>
