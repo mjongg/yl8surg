@@ -144,9 +144,14 @@
   .event-time { font-size: 10px; opacity: 0.8; font-weight: 500; margin-top: 2px; }
 
   @media (max-width: 800px) { 
-    .week-grid { grid-template-columns: 45px repeat(7, minmax(85px, 1fr)); } 
-    .event-block { font-size: 10px; padding: 5px; } 
+    body { padding: 15px 10px; }
+    .header-card { padding: 20px 15px; }
     h1 { font-size: 26px !important; }
+    select { min-width: 100%; width: 100%; }
+    .tabs { flex-direction: column; gap: 8px; }
+    .tab-btn { width: 100%; justify-content: center; }
+    .personal-view { overflow-x: auto; -webkit-overflow-scrolling: touch; padding-bottom: 20px; }
+    .week-grid { min-width: 800px; grid-template-columns: 55px repeat(7, 1fr); }
   }
 </style>
 </head>
