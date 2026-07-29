@@ -151,10 +151,9 @@
     <option value="ALL">-- Show Full Master Schedules --</option>
     <option value="Angala, Jose Francisco A.">Angala, Jose Francisco A.</option><option value="Chiew, Simon S.">Chiew, Simon S.</option><option value="De Asis, Vincent Flavianne">De Asis, Vincent Flavianne</option><option value="De Jesus, Aliyah Isobel T.">De Jesus, Aliyah Isobel T.</option><option value="Esguera, Gabrielle Angelica G.">Esguera, Gabrielle Angelica G.</option><option value="Estiva, Nina Ysabel M.">Estiva, Nina Ysabel M.</option><option value="Fajardo, Ma. Salome Patricia A.">Fajardo, Ma. Salome Patricia A.</option><option value="Gamboa, Mariane Nicole P.">Gamboa, Mariane Nicole P.</option><option value="Garganera, Wilbert">Garganera, Wilbert</option><option value="Ignacio, Julian Nicolas E.">Ignacio, Julian Nicolas E.</option><option value="Malonjao, Carl Angelo D.">Malonjao, Carl Angelo D.</option><option value="Ong, Mary Joy Beatrice B.">Ong, Mary Joy Beatrice B.</option><option value="Salvador, Alison Gail A.">Salvador, Alison Gail A.</option><option value="Seares, Clea Anne T.">Seares, Clea Anne T.</option><option value="Tinawin, Eimee Rochelle A.">Tinawin, Eimee Rochelle A.</option>
   </select>
-  <div class="tabs" id="mainTabs" style="display:none;">
-    <button class="tab-btn active" onclick="setTab('both')">🌟 Both Hospitals (Full 28 Days)</button>
-    <button class="tab-btn" onclick="setTab('eamc')">🏥 EAMC Only (Jul 27-Aug 9)</button>
-    <button class="tab-btn" onclick="setTab('tmc')">🏥 TMC Only (Aug 10-23)</button>
+  <div class="tabs" id="mainTabs" style="display:none; justify-content: center; gap: 15px; margin-bottom: 20px;">
+    <button class="tab-btn active" style="font-size: 15px; padding: 12px 24px; border-radius: 8px; font-weight: 600; box-shadow: 0 4px 6px rgba(0,0,0,0.1);" onclick="setTab('eamc')">🏥 EAMC (Jul 27-Aug 9)</button>
+    <button class="tab-btn" style="font-size: 15px; padding: 12px 24px; border-radius: 8px; font-weight: 600; box-shadow: 0 4px 6px rgba(0,0,0,0.1);" onclick="setTab('tmc')">🏥 TMC Surg (Aug 10-23)</button>
   </div>
 </div>
 
@@ -166,7 +165,7 @@
     <h3 style="padding:8px;text-align:center;background:#ecf0f1;margin-top:20px;">Week 2</h3>
     <table id="eamcTable2"></table>
   </div>
-  <div class="master-view glass-panel active" id="tmcMaster" style="margin-top: 30px;">
+  <div class="master-view glass-panel active" id="tmcMaster">
     <h2 style="padding:16px;text-align:center;">🏥 TMC Surg (Aug 10-23)</h2>
     <h3 style="padding:8px;text-align:center;background:#ecf0f1;">Week 1</h3>
     <table id="tmcTable1"></table>
@@ -187,7 +186,7 @@ const eamcDates = ["Jul 27","Jul 28","Jul 29","Jul 30","Jul 31","Aug 1","Aug 2",
 const tmcDates = ["Aug 10","Aug 11","Aug 12","Aug 13","Aug 14","Aug 15","Aug 16","Aug 17","Aug 18","Aug 19","Aug 20","Aug 21","Aug 22","Aug 23"];
 const dows = ["Mon","Tue","Wed","Thu","Fri","Sat","Sun","Mon","Tue","Wed","Thu","Fri","Sat","Sun"];
 
-let currentTab = 'both';
+let currentTab = 'eamc';
 
 function getTmcStyle(shift) {
   if (shift === "AM - OR") return "background:var(--tmc-am-or); color:var(--tmc-am-or-text); border-color:var(--tmc-am-or-text);";
@@ -395,9 +394,9 @@ function renderWeek(title, dates, dowArr, allEvents, weekStartIndex) {
     let dayStartHour = globalDayIndex * 24;
     let dayEndHour = dayStartHour + 24;
 
-    html += `<div class="day-col"><div class="cal-header">${dowArr[d]}<br><span style="font-size:10px;font-weight:400">${dates[d]}</span></div>`;
+    html += `<div class="day-col" data-date="${dates[d]}"><div class="cal-header">${dowArr[d]}<br><span style="font-size:10px;font-weight:400">${dates[d]}</span></div>`;
     for(let i=0;i<=24;i++) html += `<div class="hour-line" style="top:${(i/24)*100}%;"></div>`;
-    html += `<div style="height:720px; position:relative;">`;
+    html += `<div class="timeline-container" style="height:720px; position:relative;">`;
     
     // Filter events overlapping this specific 12AM-12AM day window
     for(let e of allEvents) {
@@ -421,7 +420,7 @@ function renderWeek(title, dates, dowArr, allEvents, weekStartIndex) {
 function renderApp() {
   const sel = document.getElementById("namePicker").value;
   if (sel === "ALL") {
-    document.getElementById("personalView").classList.remove("active");
+  document.getElementById("personalView").classList.remove("active");
     document.getElementById("masterViewWrap").style.display = "block";
     document.getElementById("mainTabs").style.display = "flex";
     buildMasters();
@@ -432,7 +431,32 @@ function renderApp() {
     document.getElementById("personalView").classList.add("active");
     buildPersonal(sel);
   }
+  updateCurrentTimeLine();
 }
+
+function updateCurrentTimeLine() {
+  const now = new Date();
+  const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+  const dateStr = monthNames[now.getMonth()] + " " + now.getDate();
+  const hour = now.getHours() + now.getMinutes() / 60;
+  
+  document.querySelectorAll('.current-time-line').forEach(el => el.remove());
+  
+  const cols = document.querySelectorAll(`.day-col[data-date="${dateStr}"] > .timeline-container`);
+  cols.forEach(col => {
+    const topPct = (hour / 24) * 100;
+    const line = document.createElement('div');
+    line.className = 'current-time-line';
+    line.style.cssText = `position: absolute; left: 0; right: 0; top: ${topPct}%; height: 2px; background: #ff3b30; z-index: 10; pointer-events: none;`;
+    
+    const dot = document.createElement('div');
+    dot.style.cssText = `position: absolute; left: -4px; top: -4px; width: 10px; height: 10px; background: #ff3b30; border-radius: 50%;`;
+    line.appendChild(dot);
+    
+    col.appendChild(line);
+  });
+}
+setInterval(updateCurrentTimeLine, 60000);
 
 function setTab(tab) {
   currentTab = tab;
@@ -440,8 +464,8 @@ function setTab(tab) {
     b.classList.remove('active');
     if (b.getAttribute('onclick').includes(tab)) b.classList.add('active');
   });
-  document.getElementById("eamcMaster").style.display = (tab==='eamc' || tab==='both') ? 'block' : 'none';
-  document.getElementById("tmcMaster").style.display = (tab==='tmc' || tab==='both') ? 'block' : 'none';
+  document.getElementById("eamcMaster").style.display = tab==='eamc'?'block':'none';
+  document.getElementById("tmcMaster").style.display = tab==='tmc'?'block':'none';
 }
 
 function buildMasterTable(title, dates, dowArr, schedule, peopleList, getStyleFn, weekOffset) {
