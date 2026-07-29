@@ -43,26 +43,18 @@
   * { margin: 0; padding: 0; box-sizing: border-box; }
   
   body {
-    font-family: 'Outfit', -apple-system, sans-serif;
-    background-color: #f0f4f8;
-    background-image: 
-      radial-gradient(at 0% 0%, hsla(253,16%,7%,0.05) 0, transparent 50%), 
-      radial-gradient(at 50% 0%, hsla(225,39%,30%,0.05) 0, transparent 50%), 
-      radial-gradient(at 100% 0%, hsla(339,49%,30%,0.05) 0, transparent 50%);
-    background: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%);
-    background-attachment: fixed;
-    color: #1e293b;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol";
+    background-color: #ffffff;
+    color: #37352f;
     padding: 30px 20px;
     min-height: 100vh;
   }
   
   .glass-panel {
-    background: rgba(255, 255, 255, 0.65);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.5);
-    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
-    border-radius: 16px;
+    background: #ffffff;
+    border: 1px solid #e9e9e7;
+    box-shadow: rgba(15, 15, 15, 0.05) 0px 0px 0px 1px, rgba(15, 15, 15, 0.1) 0px 3px 6px;
+    border-radius: 4px;
   }
 
   .header-card {
@@ -70,83 +62,86 @@
   }
   
   select {
-    padding: 14px 24px; font-size: 16px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.6);
-    outline: none; background: rgba(255,255,255,0.7); color: #1e293b; font-weight: 700; cursor: pointer; min-width: 340px;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); font-family: 'Outfit', sans-serif;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-    backdrop-filter: blur(10px);
+    padding: 8px 14px; font-size: 15px; border-radius: 4px; border: 1px solid #e9e9e7;
+    outline: none; background: #ffffff; color: #37352f; font-weight: 500; cursor: pointer; min-width: 300px;
+    font-family: inherit;
+    box-shadow: rgba(15, 15, 15, 0.05) 0px 1px 2px;
   }
-  select:focus, select:hover { border-color: rgba(255,255,255,0.9); background: rgba(255,255,255,0.95); transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0,0,0,0.1); }
+  select:focus, select:hover { border-color: #d3d3d1; background: #f9f9f8; transform: none; box-shadow: none; }
 
-  .tabs { display: flex; justify-content: center; gap: 16px; margin-top: 24px; }
+  .tabs { display: flex; justify-content: center; gap: 8px; margin-top: 24px; }
   .tab-btn {
-    background: rgba(255,255,255,0.6);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255,255,255,0.5);
-    color: #475569;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: 6px;
+    color: #787774;
+    font-weight: 500;
+    padding: 8px 16px; font-size: 15px;
+    transition: background 0.1s, color 0.1s;
+    cursor: pointer; font-family: inherit;
   }
-  .tab-btn:hover { background: rgba(255,255,255,0.9); transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important; }
+  .tab-btn:hover { background: #f1f1ef; color: #37352f; transform: none; box-shadow: none !important; }
   .tab-btn.active { 
-    background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); 
-    color: #ffffff;
-    border: 1px solid #0f172a;
-    box-shadow: 0 12px 25px rgba(15,23,42,0.25) !important;
+    background: #f1f1ef; 
+    color: #37352f;
+    border: 1px solid #e9e9e7;
+    font-weight: 600;
+    box-shadow: none !important;
   }
 
   /* Master Tables */
   .master-view { display: none; margin-bottom: 30px; width: 100%; overflow-x: auto; }
   .master-view.active { display: block; }
   
-  table { border-collapse: collapse; font-size: 13px; width: 100%; min-width: 1200px; zoom: 0.8; background: rgba(255,255,255,0.4); border-radius: 12px; overflow: hidden; }
-  th, td { border: 1px solid rgba(255,255,255,0.6); padding: 10px 6px; text-align: center; word-wrap: break-word; }
+  table { border-collapse: collapse; font-size: 13px; width: 100%; min-width: 1200px; zoom: 0.8; background: #ffffff; border-radius: 0; overflow: hidden; }
+  th, td { border: 1px solid #e9e9e7; padding: 10px 8px; text-align: center; word-wrap: break-word; color: #37352f; }
   thead th { 
-    background: rgba(248,250,252,0.8); backdrop-filter: blur(10px);
-    color: #0f172a; font-weight: 800; position: sticky; top: 0; z-index: 2; 
-    font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px;
-    border-bottom: 2px solid rgba(255,255,255,0.8);
+    background: #f7f7f5;
+    color: #787774; font-weight: 600; position: sticky; top: 0; z-index: 2; 
+    font-size: 12px;
+    border-bottom: 2px solid #e9e9e7;
   }
   
   .name-cell { 
-    text-align: left !important; font-weight: 700; 
-    background: rgba(248,250,252,0.85) !important; backdrop-filter: blur(10px);
+    text-align: left !important; font-weight: 600; 
+    background: #f7f7f5 !important;
     width: 220px; position: sticky; left: 0; z-index: 1; 
     padding-left: 16px; white-space: nowrap; 
-    border-right: 2px solid rgba(255,255,255,0.8); color: #1e293b;
+    border-right: 2px solid #e9e9e7; color: #37352f;
   }
   
-  tbody tr { transition: background 0.2s; }
-  tbody tr:hover td { background: rgba(255,255,255,0.8); }
+  tbody tr { transition: background 0.1s; }
+  tbody tr:hover td { background: #f1f1ef; }
 
   /* Calendar View */
   .personal-view { display: none; max-width: 1100px; margin: 0 auto; }
   .personal-view.active { display: block; }
   
   .week-grid {
-    display: grid; grid-template-columns: 55px repeat(7, 1fr); gap: 1px;
-    background: rgba(255,255,255,0.3); border: 1px solid rgba(255,255,255,0.5); border-radius: 16px; overflow: hidden; margin-bottom: 35px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.08); backdrop-filter: blur(12px);
+    display: grid; grid-template-columns: 55px repeat(7, 1fr); gap: 0;
+    background: #ffffff; border: 1px solid #e9e9e7; border-radius: 4px; overflow: hidden; margin-bottom: 35px;
+    box-shadow: rgba(15, 15, 15, 0.05) 0px 0px 0px 1px;
   }
-  .week-title { grid-column: 1 / -1; background: linear-gradient(90deg, #1e293b, #334155); color: #fff; padding: 14px; font-weight: 800; text-align: center; font-size: 18px; letter-spacing: 1px; text-transform: uppercase; }
+  .week-title { grid-column: 1 / -1; background: #f7f7f5; color: #37352f; padding: 12px; font-weight: 600; text-align: left; font-size: 16px; border-bottom: 1px solid #e9e9e7; }
   
-  .cal-header { background: rgba(248,250,252,0.7); text-align: center; padding: 10px; font-weight: 700; font-size: 14px; color: #1e293b; border-bottom: 1px solid rgba(255,255,255,0.5); }
-  .time-axis { background: rgba(248,250,252,0.6); display: flex; flex-direction: column; }
-  .time-slot { height: 30px; display: flex; align-items: flex-start; justify-content: flex-end; padding-right: 8px; font-size: 10px; font-weight: 600; color: #475569; border-bottom: 1px solid rgba(255,255,255,0.4); }
+  .cal-header { background: #ffffff; text-align: center; padding: 10px; font-weight: 600; font-size: 14px; color: #37352f; border-bottom: 1px solid #e9e9e7; border-left: 1px solid #e9e9e7; }
+  .time-axis { background: #ffffff; display: flex; flex-direction: column; }
+  .time-slot { height: 30px; display: flex; align-items: flex-start; justify-content: flex-end; padding-right: 8px; font-size: 11px; font-weight: 500; color: #787774; border-bottom: 1px solid #e9e9e7; }
   
-  .day-col { background: rgba(255,255,255,0.45); position: relative; }
+  .day-col { background: #ffffff; position: relative; border-left: 1px solid #e9e9e7; }
   /* Hour lines */
-  .hour-line { position: absolute; left: 0; right: 0; height: 1px; background: rgba(255,255,255,0.6); }
+  .hour-line { position: absolute; left: 0; right: 0; height: 1px; background: #e9e9e7; }
 
   /* Event Blocks */
   .event-block {
-    position: absolute; left: 5px; right: 5px; border-radius: 8px; padding: 8px 10px;
-    font-size: 12px; font-weight: 800; line-height: 1.3; overflow: hidden;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.15); border-left: 5px solid rgba(0,0,0,0.25);
-    display: flex; flex-direction: column; justify-content: center; text-align: left;
-    transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.2s;
+    position: absolute; left: 2px; right: 2px; border-radius: 3px; padding: 4px 6px;
+    font-size: 12px; font-weight: 600; line-height: 1.2; overflow: hidden;
+    box-shadow: none; border-left: 3px solid rgba(0,0,0,0.2);
+    display: flex; flex-direction: column; justify-content: flex-start; text-align: left;
+    transition: background 0.1s;
   }
-  .event-block:hover { transform: scale(1.02) translateY(-2px); box-shadow: 0 8px 15px rgba(0,0,0,0.2); z-index: 5; }
-  .event-time { font-size: 10px; opacity: 0.85; font-weight: 600; margin-top: 3px; }
+  .event-block:hover { z-index: 5; filter: brightness(0.95); transform: none; box-shadow: none; }
+  .event-time { font-size: 10px; opacity: 0.8; font-weight: 500; margin-top: 2px; }
 
   @media (max-width: 800px) { 
     .week-grid { grid-template-columns: 45px repeat(7, minmax(85px, 1fr)); } 
@@ -158,18 +153,16 @@
 <body>
 
 <div class="header-card glass-panel">
-  <div style="display: flex; justify-content: center; align-items: center; gap: 15px; flex-wrap: wrap; margin-bottom: 25px;">
-    <img src="eamc_logo.png" alt="EAMC Logo" style="height: 60px; width: 60px; object-fit: contain;">
-    <h1 style="margin: 0; text-align: center; line-height: 1.1; font-weight: 900; font-size: 34px; background: linear-gradient(90deg, #1e293b, #3b82f6); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">LEC 17-18<br><span style="font-size: 0.55em; opacity: 0.9; font-weight: 700; -webkit-text-fill-color: #64748b;">Surgery Rotation Schedule</span></h1>
-    <img src="tmc_logo.png" alt="TMC Logo" style="height: 60px; width: 60px; object-fit: contain; border-radius: 50%;">
+  <div style="margin-bottom: 25px;">
+    <h1 style="margin: 0; text-align: center; line-height: 1.2; font-weight: 700; font-size: 32px; color: #37352f;">LEC 17-18<br><span style="font-size: 0.6em; opacity: 0.7; font-weight: 500; color: #787774;">Surgery Rotation Schedule</span></h1>
   </div>
   <select id="namePicker" onchange="renderApp()">
     <option value="ALL">-- Show Full Master Schedules --</option>
     <option value="Angala, Jose Francisco A.">Angala, Jose Francisco A.</option><option value="Chiew, Simon S.">Chiew, Simon S.</option><option value="De Asis, Vincent Flavianne">De Asis, Vincent Flavianne</option><option value="De Jesus, Aliyah Isobel T.">De Jesus, Aliyah Isobel T.</option><option value="Esguera, Gabrielle Angelica G.">Esguera, Gabrielle Angelica G.</option><option value="Estiva, Nina Ysabel M.">Estiva, Nina Ysabel M.</option><option value="Fajardo, Ma. Salome Patricia A.">Fajardo, Ma. Salome Patricia A.</option><option value="Gamboa, Mariane Nicole P.">Gamboa, Mariane Nicole P.</option><option value="Garganera, Wilbert">Garganera, Wilbert</option><option value="Ignacio, Julian Nicolas E.">Ignacio, Julian Nicolas E.</option><option value="Malonjao, Carl Angelo D.">Malonjao, Carl Angelo D.</option><option value="Ong, Mary Joy Beatrice B.">Ong, Mary Joy Beatrice B.</option><option value="Salvador, Alison Gail A.">Salvador, Alison Gail A.</option><option value="Seares, Clea Anne T.">Seares, Clea Anne T.</option><option value="Tinawin, Eimee Rochelle A.">Tinawin, Eimee Rochelle A.</option>
   </select>
-  <div class="tabs" id="mainTabs" style="display:none; justify-content: center; gap: 15px; margin-bottom: 20px;">
-    <button class="tab-btn active" style="display: flex; align-items: center; font-size: 15px; padding: 12px 24px; border-radius: 8px; font-weight: 600; box-shadow: 0 4px 6px rgba(0,0,0,0.1);" onclick="setTab('eamc')"><img src="eamc_logo.png" style="height:24px; width:24px; object-fit:contain; margin-right:10px;"> EAMC (Jul 27-Aug 9)</button>
-    <button class="tab-btn" style="display: flex; align-items: center; font-size: 15px; padding: 12px 24px; border-radius: 8px; font-weight: 600; box-shadow: 0 4px 6px rgba(0,0,0,0.1);" onclick="setTab('tmc')"><img src="tmc_logo.png" style="height:24px; width:24px; object-fit:contain; border-radius:50%; margin-right:10px;"> TMC Surg (Aug 10-23)</button>
+  <div class="tabs" id="mainTabs" style="display:none;">
+    <button class="tab-btn active" style="display: flex; align-items: center;" onclick="setTab('eamc')"><img src="eamc_logo.png" style="height:20px; width:20px; object-fit:contain; margin-right:8px; mix-blend-mode: multiply;"> EAMC (Jul 27-Aug 9)</button>
+    <button class="tab-btn" style="display: flex; align-items: center;" onclick="setTab('tmc')"><img src="tmc_logo.png" style="height:20px; width:20px; object-fit:contain; border-radius:50%; margin-right:8px; mix-blend-mode: multiply;"> TMC Surg (Aug 10-23)</button>
   </div>
 </div>
 
@@ -252,22 +245,22 @@ function buildPersonal(name) {
   let tmcEvents = getAbsoluteEvents(tmcGrid[tmcIndex], parseTmcLogic);
 
   html += `
-  <div style="margin: 40px 0 20px; display: flex; align-items: center; gap: 20px; background: #f8fafc; padding: 16px 24px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); border-left: 6px solid #2f5597; text-align: left;">
-    <img src="eamc_logo.png" style="height: 50px; width: 50px; object-fit: contain;">
+  <div style="margin: 40px 0 20px; display: flex; align-items: center; gap: 12px; background: #ffffff; padding: 12px 20px; border-radius: 4px; border: 1px solid #e9e9e7; box-shadow: rgba(15, 15, 15, 0.05) 0px 0px 0px 1px; text-align: left;">
+    <img src="eamc_logo.png" style="height: 40px; width: 40px; object-fit: contain; mix-blend-mode: multiply;">
     <div>
-      <h2 style="margin: 0; color: #1e293b; font-size: 24px;">East Avenue Medical Center (EAMC)</h2>
-      <span style="font-size: 15px; font-weight: 500; color: #64748b;">July 27 - Aug 9</span>
+      <h2 style="margin: 0; color: #37352f; font-size: 20px; font-weight: 600;">East Avenue Medical Center (EAMC)</h2>
+      <span style="font-size: 14px; font-weight: 500; color: #787774;">July 27 - Aug 9</span>
     </div>
   </div>`;
   html += renderWeek("Week 1", eamcDates.slice(0,7), dows.slice(0,7), eamcEvents, 0);
   html += renderWeek("Week 2", eamcDates.slice(7,14), dows.slice(7,14), eamcEvents, 7);
 
   html += `
-  <div style="margin: 60px 0 20px; display: flex; align-items: center; gap: 20px; background: #f8fafc; padding: 16px 24px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); border-left: 6px solid #c00000; text-align: left;">
-    <img src="tmc_logo.png" style="height: 50px; width: 50px; object-fit: contain; border-radius: 50%;">
+  <div style="margin: 50px 0 20px; display: flex; align-items: center; gap: 12px; background: #ffffff; padding: 12px 20px; border-radius: 4px; border: 1px solid #e9e9e7; box-shadow: rgba(15, 15, 15, 0.05) 0px 0px 0px 1px; text-align: left;">
+    <img src="tmc_logo.png" style="height: 40px; width: 40px; object-fit: contain; border-radius: 50%; mix-blend-mode: multiply;">
     <div>
-      <h2 style="margin: 0; color: #1e293b; font-size: 24px;">The Medical City (TMC)</h2>
-      <span style="font-size: 15px; font-weight: 500; color: #64748b;">Aug 10 - Aug 23</span>
+      <h2 style="margin: 0; color: #37352f; font-size: 20px; font-weight: 600;">The Medical City (TMC)</h2>
+      <span style="font-size: 14px; font-weight: 500; color: #787774;">Aug 10 - Aug 23</span>
     </div>
   </div>`;
   html += renderWeek("Week 1", tmcDates.slice(0,7), dows.slice(0,7), tmcEvents, 0);
