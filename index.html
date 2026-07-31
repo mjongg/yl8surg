@@ -554,11 +554,51 @@ function buildMasterTable(title, dates, dowArr, schedule, peopleList, getStyleFn
   return h;
 }
 
+function buildTmcCounterTable() {
+  const posts = ["AM - OR", "AM - FLOORS", "AM - ER", "AM - WOUND", "ANES", "PM - OR", "PM - FLOORS", "PM - ER", "OFF"];
+  let h = `<h3 style="padding:16px;text-align:center;background:#ecf0f1;margin-top:30px;">TMC Shift Distribution (Count per Person)</h3>`;
+  h += `<table><thead><tr><th class="name-cell">Name</th>`;
+  for(let post of posts) {
+    h += `<th style="${getTmcStyle(post)}">${post}</th>`;
+  }
+  h += `<th>Total Shifts</th></tr></thead><tbody>`;
+  
+  for(let p=0; p<15; p++) {
+    const name = masterPeople[p];
+    h += `<tr><td class="name-cell">${p+1}. ${name}</td>`;
+    
+    let counts = {};
+    for(let post of posts) counts[post] = 0;
+    
+    let total = 0;
+    for(let d=0; d<14; d++) {
+      let shift = tmcGrid[p][d];
+      if(counts[shift] !== undefined) counts[shift]++;
+      total++;
+    }
+    
+    for(let post of posts) {
+      h += `<td><strong>${counts[post]}</strong></td>`;
+    }
+    h += `<td>${total}</td></tr>`;
+  }
+  h += `</tbody></table>`;
+  return h;
+}
+
 function buildMasters() {
   document.getElementById("eamcTable1").innerHTML = buildMasterTable("EAMC", eamcDates, dows, eamcSchedule, eamcGroupedPeople, getEamcStyle, 0);
   document.getElementById("eamcTable2").innerHTML = buildMasterTable("EAMC", eamcDates, dows, eamcSchedule, eamcGroupedPeople, getEamcStyle, 7);
   document.getElementById("tmcTable1").innerHTML = buildMasterTable("TMC", tmcDates, dows, tmcGrid, masterPeople, getTmcStyle, 0);
   document.getElementById("tmcTable2").innerHTML = buildMasterTable("TMC", tmcDates, dows, tmcGrid, masterPeople, getTmcStyle, 7);
+  
+  let tmcMasterDiv = document.getElementById("tmcMaster");
+  if (!document.getElementById("tmcCounterTableWrapper")) {
+      let div = document.createElement('div');
+      div.id = "tmcCounterTableWrapper";
+      tmcMasterDiv.appendChild(div);
+  }
+  document.getElementById("tmcCounterTableWrapper").innerHTML = buildTmcCounterTable();
 }
 
 renderApp();
