@@ -140,6 +140,10 @@ html_content = """<!DOCTYPE html>
   <div id="tmcMasterWrap" style="display:block;">
     <div class="legend" id="tmcLegend"></div>
     <div class="schedule-wrap"><table id="tmcTable"></table></div>
+    <h3 style="margin:20px 0 10px 0; text-align:center;">Daily Staffing Counts</h3>
+    <div class="schedule-wrap"><table id="dailyCountsTable"></table></div>
+    <h3 style="margin:20px 0 10px 0; text-align:center;">Individual Shift Totals</h3>
+    <div class="schedule-wrap"><table id="tmcCounterTable"></table></div>
   </div>
 
   <!-- EAMC MASTER -->
@@ -297,6 +301,7 @@ function buildLegends() {
 
 // --- MASTER VIEWS ---
 
+
 function buildTmcMaster() {
   let html = `<thead>
     <tr><th class="name-cell">CYCLE 1</th>`;
@@ -315,7 +320,69 @@ function buildTmcMaster() {
   }
   html += `</tbody>`;
   document.getElementById("tmcTable").innerHTML = html;
+  
+  buildTmcCounter();
+  buildDailyCounts();
 }
+
+function buildTmcCounter() {
+  const posts = ["AM - OR", "AM - FLOORS", "AM - ER", "AM - WOUND", "ANES", "PM - OR", "PM - FLOORS", "PM - ER", "OFF"];
+  let h = `<thead><tr><th class="name-cell">Name</th>`;
+  for(let post of posts) h += `<th style="${getTmcStyle(post)}">${post}</th>`;
+  h += `<th>Total</th></tr></thead><tbody>`;
+  
+  for(let p=0; p<15; p++) {
+    h += `<tr><td class="name-cell">${p+1}. ${masterPeople[p]}</td>`;
+    let counts = {};
+    for(let post of posts) counts[post] = 0;
+    
+    let total = 0;
+    for(let d=0; d<14; d++) {
+      let shift = getTmcAssignment(p, d);
+      if(counts[shift] !== undefined) counts[shift]++;
+      total++;
+    }
+    for(let post of posts) {
+      h += `<td><strong>${counts[post]}</strong></td>`;
+    }
+    h += `<td>${total}</td></tr>`;
+  }
+  h += `</tbody>`;
+  document.getElementById("tmcCounterTable").innerHTML = h;
+}
+
+function buildDailyCounts() {
+    const shiftTypes = ['AM - OR', 'AM - FLOORS', 'AM - ER', 'AM - WOUND', 'ANES', 'PM - OR', 'PM - FLOORS', 'PM - ER', 'OFF'];
+    let h = `<thead><tr><th class="name-cell">Date</th>`;
+    for(let post of shiftTypes) h += `<th style="${getTmcStyle(post)}">${post}</th>`;
+    h += `</tr></thead><tbody>`;
+    
+    for (let d = 0; d < 14; d++) {
+        let counts = {};
+        shiftTypes.forEach(s => counts[s] = 0);
+        for(let p = 0; p < 15; p++) {
+            let shift = getTmcAssignment(p, d);
+            if(counts[shift] !== undefined) counts[shift]++;
+        }
+        
+        h += `<tr><td class="name-cell">${tmcDates[d]}<br><span style="font-size:10px;color:#7f8c8d">${tmcDows[d]}</span></td>`;
+        shiftTypes.forEach(s => {
+            let bg = "";
+            let color = "";
+            let fw = "";
+            if (counts[s] === 0 && s !== 'AM - WOUND' && s !== 'OFF') {
+                bg = "background-color: #ffebee;";
+                color = "color: #c62828;";
+                fw = "font-weight: bold;";
+            }
+            h += `<td style="${bg}${color}${fw}">${counts[s]}</td>`;
+        });
+        h += `</tr>`;
+    }
+    h += `</tbody>`;
+    document.getElementById("dailyCountsTable").innerHTML = h;
+}
+
 
 function buildEamcMaster() {
   let html = `<thead>
@@ -388,63 +455,7 @@ function copyTable() {
 init();
 </script>
 
-    <h2>Daily Shift Counts</h2>
-    <div style="overflow-x: auto;">
-    <table>
-        <thead>
-            <tr>
-                <th>Date</th>
-                <th>AM OR</th>
-                <th>AM Floors</th>
-                <th>AM ER</th>
-                <th>AM Wound</th>
-                <th>Anes</th>
-                <th>PM OR</th>
-                <th>PM Floors</th>
-                <th>PM ER</th>
-                <th>OFF</th>
-            </tr>
-        </thead>
-        <tbody id="daily-counts-body">
-        </tbody>
-    </table>
-    </div>
-    
-    <script>
-    const shiftTypes = ['AM - OR', 'AM - FLOORS', 'AM - ER', 'AM - WOUND', 'ANES', 'PM - OR', 'PM - FLOORS', 'PM - ER', 'OFF'];
-    const dailyCountsBody = document.getElementById('daily-counts-body');
-    
-    for (let d = 0; d < 14; d++) {
-        const counts = {};
-        shiftTypes.forEach(s => counts[s] = 0);
-        
-        masterPeople.forEach((p, idx) => {
-            const shift = eamcGroupedPeople[idx][d];
-            if (counts[shift] !== undefined) {
-                counts[shift]++;
-            }
-        });
-        
-        const tr = document.createElement('tr');
-        const tdDate = document.createElement('td');
-        tdDate.innerHTML = `<span class="date-label">${tmcDates[d]}</span><br><span class="dow-label">${dows[d]}</span>`;
-        tr.appendChild(tdDate);
-        
-        shiftTypes.forEach(s => {
-            const td = document.createElement('td');
-            td.innerText = counts[s];
-            if (counts[s] === 0 && s !== 'AM - WOUND' && s !== 'OFF') {
-                td.style.backgroundColor = '#ffebee'; // highlight missing core shifts
-                td.style.color = '#c62828';
-                td.style.fontWeight = 'bold';
-            }
-            tr.appendChild(td);
-        });
-        
-        dailyCountsBody.appendChild(tr);
-    }
-    </script>
-</body>
+    </body>
 </html>
 """
 
