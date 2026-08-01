@@ -8,15 +8,15 @@ html_content = """<!DOCTYPE html>
 <title>Surgery Rotation Schedules</title>
 <style>
   :root {
-    --tmc-am-or: #c6efce; --tmc-am-or-text: #006100;
-    --tmc-am-fl: #a9d18e; --tmc-am-fl-text: #375623;
-    --tmc-am-er: #ffc7ce; --tmc-am-er-text: #9c0006;
-    --tmc-am-wc: #fff2cc; --tmc-am-wc-text: #7f6000;
-    --tmc-anes:  #d9d2e9; --tmc-anes-text:  #351c75;
-    --tmc-pm-or: #d6e4f0; --tmc-pm-or-text: #1f4e79;
-    --tmc-pm-fl: #b4c7e7; --tmc-pm-fl-text: #1f3864;
-    --tmc-pm-er: #f4b183; --tmc-pm-er-text: #843c0c;
-    --tmc-off:   #d5d5d5; --tmc-off-text:   #555;
+    --tmc-am-or: #ffcccc; --tmc-am-or-text: #000000;
+    --tmc-am-fl: #ccffcc; --tmc-am-fl-text: #000000;
+    --tmc-am-er: #ffffcc; --tmc-am-er-text: #000000;
+    --tmc-am-wc: #ffe6cc; --tmc-am-wc-text: #000000;
+    --tmc-anes:  #e6ccff; --tmc-anes-text:  #000000;
+    --tmc-pm-or: #ff9999; --tmc-pm-or-text: #000000;
+    --tmc-pm-fl: #99ff99; --tmc-pm-fl-text: #000000;
+    --tmc-pm-er: #ffff99; --tmc-pm-er-text: #000000;
+    --tmc-off:   #cccccc; --tmc-off-text:   #000000;
 
     --eamc-pre: #d0e6f5; --eamc-pre-text: #0a4c7a;
     --eamc-duty: #2980b9; --eamc-duty-text: #ffffff;
@@ -387,6 +387,63 @@ function copyTable() {
 
 init();
 </script>
+
+    <h2>Daily Shift Counts</h2>
+    <div style="overflow-x: auto;">
+    <table>
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>AM OR</th>
+                <th>AM Floors</th>
+                <th>AM ER</th>
+                <th>AM Wound</th>
+                <th>Anes</th>
+                <th>PM OR</th>
+                <th>PM Floors</th>
+                <th>PM ER</th>
+                <th>OFF</th>
+            </tr>
+        </thead>
+        <tbody id="daily-counts-body">
+        </tbody>
+    </table>
+    </div>
+    
+    <script>
+    const shiftTypes = ['AM - OR', 'AM - FLOORS', 'AM - ER', 'AM - WOUND', 'ANES', 'PM - OR', 'PM - FLOORS', 'PM - ER', 'OFF'];
+    const dailyCountsBody = document.getElementById('daily-counts-body');
+    
+    for (let d = 0; d < 14; d++) {
+        const counts = {};
+        shiftTypes.forEach(s => counts[s] = 0);
+        
+        masterPeople.forEach((p, idx) => {
+            const shift = eamcGroupedPeople[idx][d];
+            if (counts[shift] !== undefined) {
+                counts[shift]++;
+            }
+        });
+        
+        const tr = document.createElement('tr');
+        const tdDate = document.createElement('td');
+        tdDate.innerHTML = `<span class="date-label">${tmcDates[d]}</span><br><span class="dow-label">${dows[d]}</span>`;
+        tr.appendChild(tdDate);
+        
+        shiftTypes.forEach(s => {
+            const td = document.createElement('td');
+            td.innerText = counts[s];
+            if (counts[s] === 0 && s !== 'AM - WOUND' && s !== 'OFF') {
+                td.style.backgroundColor = '#ffebee'; // highlight missing core shifts
+                td.style.color = '#c62828';
+                td.style.fontWeight = 'bold';
+            }
+            tr.appendChild(td);
+        });
+        
+        dailyCountsBody.appendChild(tr);
+    }
+    </script>
 </body>
 </html>
 """
