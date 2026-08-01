@@ -6,458 +6,561 @@ html_content = """<!DOCTYPE html>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Surgery Rotation Schedules</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
 <style>
   :root {
-    --tmc-am-or: #c9daf8; --tmc-am-or-text: #1155cc;
-    --tmc-am-fl: #d9ead3; --tmc-am-fl-text: #274e13;
-    --tmc-am-er: #fce5cd; --tmc-am-er-text: #cc4125;
-    --tmc-am-wc: #f4cccc; --tmc-am-wc-text: #cc0000;
-    --tmc-anes:  #e4d7f5; --tmc-anes-text:  #674ea7;
-    --tmc-pm-or: #3c78d8; --tmc-pm-or-text: #ffffff;
-    --tmc-pm-fl: #38761d; --tmc-pm-fl-text: #ffffff;
-    --tmc-pm-er: #cc0000; --tmc-pm-er-text: #ffffff;
-    --tmc-off:   #ffffff; --tmc-off-text:   #000000;
+    /* 
+      OFFICIAL GOOGLE SHEETS SCHEDULE PALETTE
+      Replicates the exact colors used in the ASMPH / EAMC master spreadsheet.
+    */
 
-    --eamc-pre: #d0e6f5; --eamc-pre-text: #0a4c7a;
-    --eamc-duty: #2980b9; --eamc-duty-text: #ffffff;
-    --eamc-er-pre: #fadbd8; --eamc-er-pre-text: #78281f;
-    --eamc-er-duty: #c0392b; --eamc-er-duty-text: #ffffff;
-    --eamc-green: #d4efdf; --eamc-green-text: #145a32;
-    --eamc-sgd: #f2f3f4; --eamc-sgd-text: #424949;
-    --eamc-off: #ffffff; --eamc-off-text: #273746;
+    /* ER (Emergency) : Google Sheets Red / Peach */
+    --tmc-am-er: #fce4d6; --tmc-am-er-text: #c00000;         /* ER Pre: Soft Peach-Red */
+    --tmc-pm-er: #c00000; --tmc-pm-er-text: #ffffff;         /* ER Duty: Solid Dark Red */
+    --eamc-er: #fce4d6; --eamc-er-text: #c00000;             
+    --eamc-er-duty: #c00000; --eamc-er-duty-text: #ffffff;   
+
+    /* OR & Wards Duty : Google Sheets Blue */
+    --tmc-am-or: #d9e1f2; --tmc-am-or-text: #1f4e78;         /* Ward/OR Pre: Soft Blue */
+    --tmc-pm-or: #2f5597; --tmc-pm-or-text: #ffffff;         /* Ward/OR Duty: Solid Dark Blue */
+    --eamc-pre: #d9e1f2; --eamc-pre-text: #1f4e78;           
+    --eamc-duty: #2f5597; --eamc-duty-text: #ffffff;         
+
+    /* Floors & Clinics : Google Sheets Green & Yellow */
+    --tmc-am-floors: #e2efda; --tmc-am-floors-text: #375623; /* Floors Pre: Soft Mint Green */
+    --tmc-pm-floors: #375623; --tmc-pm-floors-text: #ffffff; /* Floors Duty: Solid Dark Green */
+    
+    /* Specialty & Clinics (EAMC & TMC) */
+    --eamc-breast: #e2efda; --eamc-breast-text: #375623;     /* Breast Care: Soft Mint Green */
+    --eamc-opd: #fff2cc; --eamc-opd-text: #7f6000;           /* OPD: Soft Yellow */
+    --tmc-am-wound: #e4dfec; --tmc-am-wound-text: #3f3151;   /* Wound Care: Soft Lilac */
+    --tmc-anes: #ddebf7; --tmc-anes-text: #203764;           /* Anesthesia: Ice Cyan/Blue */
+
+    /* Admin / Off : Google Sheets Grey / White */
+    --tmc-off: #ffffff; --tmc-off-text: #595959;
+    --eamc-sgd: #ededed; --eamc-sgd-text: #595959;           /* SGD then Off: Soft Grey */
+    --eamc-off: #ffffff; --eamc-off-text: #595959;
   }
+
   * { margin: 0; padding: 0; box-sizing: border-box; }
+  
   body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
-    background: #f0f2f5;
-    color: #333;
-    padding: 24px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol";
+    background-color: #f7f9fa;
+    color: #37352f;
+    padding: 30px 20px;
+    min-height: 100vh;
   }
   
-  /* Top Controls */
-  .controls-card {
-    background: #fff; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-    padding: 20px; margin-bottom: 24px; max-width: 800px; margin-left: auto; margin-right: auto;
-    text-align: center;
+  .glass-panel {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+    border-radius: 8px;
   }
-  .controls-card h1 { font-size: 22px; color: #1a2a3a; margin-bottom: 16px; }
+
+  .header-card {
+    padding: 30px; max-width: 900px; margin: 0 auto 30px; text-align: center;
+  }
   
-  .name-picker-wrap { margin-bottom: 16px; }
   select {
-    padding: 10px 16px; font-size: 16px; border-radius: 8px; border: 2px solid #3498db;
-    outline: none; background: #f8fbfe; color: #2c3e50; font-weight: 600; cursor: pointer;
-    min-width: 300px;
+    padding: 8px 14px; font-size: 15px; border-radius: 4px; border: 1px solid #e2e8f0;
+    outline: none; background: #ffffff; color: #37352f; font-weight: 500; cursor: pointer; min-width: 300px;
+    font-family: inherit;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
   }
+  select:focus, select:hover { border-color: #cbd5e1; background: #f8fafc; transform: none; box-shadow: none; }
 
-  .tabs { display: flex; justify-content: center; gap: 8px; margin-top: 16px; }
+  .tabs { display: flex; justify-content: center; gap: 8px; margin-top: 24px; }
   .tab-btn {
-    padding: 10px 24px; border: none; border-radius: 8px; font-size: 14px; font-weight: 600;
-    cursor: pointer; transition: all 0.2s; background: #ecf0f1; color: #7f8c8d;
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: 6px;
+    color: #64748b;
+    font-weight: 500;
+    padding: 8px 16px; font-size: 15px;
+    transition: background 0.1s, color 0.1s;
+    cursor: pointer; font-family: inherit;
   }
-  .tab-btn.active { background: #1a2a3a; color: #fff; box-shadow: 0 2px 6px rgba(26,42,58,0.3); }
+  .tab-btn:hover { background: #f1f5f9; color: #0f172a; transform: none; box-shadow: none !important; }
+  .tab-btn.active { 
+    background: #f1f5f9; 
+    color: #0f172a;
+    border: 1px solid #cbd5e1;
+    font-weight: 600;
+    box-shadow: none !important;
+  }
 
-  /* Generic Table Styles */
-  .schedule-wrap {
-    overflow-x: auto; background: #fff; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); margin-bottom: 20px;
-  }
-  table { border-collapse: collapse; font-size: 11.5px; width: 100%; min-width: 1200px; }
-  th, td { border: 1px solid #d5dce4; padding: 8px 10px; text-align: center; white-space: nowrap; }
-  thead th { background: #1a2a3a; color: #fff; font-weight: 600; position: sticky; top: 0; z-index: 2; }
-  thead th.sub-header { background: #2c3e50; font-weight: 500; font-size: 10.5px; }
-  thead th.weekend { background: #34495e; }
-  .name-cell {
-    text-align: left !important; font-weight: 600; background: #f7f9fb !important;
-    min-width: 220px; position: sticky; left: 0; z-index: 1; border-right: 2px solid #bcc8d4;
-  }
-  thead .name-cell { z-index: 3; }
-  
-  /* EAMC Grouping */
-  tr.group-end td { border-bottom: 3px solid #7f8c8d; }
-
-  /* Personal Calendar View */
-  .personal-view { display: none; max-width: 1000px; margin: 0 auto; }
-  .personal-view.active { display: block; }
-  .calendar-container { display: flex; flex-direction: column; gap: 20px; }
-  .calendar-grid {
-    display: grid; grid-template-columns: repeat(7, 1fr); gap: 10px;
-    background: #fff; padding: 16px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-  }
-  .cal-header { font-size: 18px; font-weight: 700; color: #1a2a3a; margin-bottom: 8px; text-align: center; }
-  .cal-day-name { text-align: center; font-weight: 700; font-size: 12px; color: #7f8c8d; padding-bottom: 8px; border-bottom: 2px solid #eee; margin-bottom: 8px; }
-  .cal-cell {
-    background: #f8f9fa; border: 1px solid #e9ecef; border-radius: 8px; padding: 10px;
-    min-height: 80px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
-  }
-  .cal-date { font-size: 11px; color: #95a5a6; margin-bottom: 6px; font-weight: 600; }
-  .cal-duty { font-size: 14px; font-weight: 700; padding: 6px 10px; border-radius: 6px; width: 100%; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
-  
-  /* Master Table View */
-  .master-view { display: none; }
+  /* Master Tables */
+  .master-view { display: none; margin-bottom: 30px; width: 100%; overflow-x: auto; }
   .master-view.active { display: block; }
-
-  .btn-group { text-align: center; margin: 16px 0; }
-  .btn { padding: 8px 16px; border: none; border-radius: 6px; cursor: pointer; font-size: 13px; font-weight: 600; margin: 0 6px; }
-  .btn-primary { background: #27ae60; color: #fff; }
-
-  .legend {
-    display: flex; flex-wrap: wrap; gap: 14px; justify-content: center;
-    margin: 14px 0; padding: 10px 16px; background: #fff; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.08); max-width: 900px; margin-left: auto; margin-right: auto;
+  
+  table { border-collapse: collapse; font-size: 13px; width: 100%; min-width: 1200px; zoom: 0.7; background: #ffffff; border-radius: 0; overflow: hidden; }
+  th, td { border: 1px solid #e2e8f0; padding: 10px 8px; text-align: center; word-wrap: break-word; color: #334155; }
+  thead th { 
+    background: #f8fafc;
+    color: #334155; font-weight: 600; position: sticky; top: 0; z-index: 2; 
+    font-size: 12px;
+    border-bottom: 2px solid #e2e8f0;
   }
-  .legend-item { display: flex; align-items: center; gap: 6px; font-size: 11.5px; font-weight: 600; }
-  .legend-swatch { width: 16px; height: 16px; border-radius: 4px; border: 1px solid rgba(0,0,0,0.15); }
+  
+  .name-cell { 
+    text-align: left !important; font-weight: 600; 
+    background: #f8fafc !important;
+    width: 220px; position: sticky; left: 0; z-index: 1; 
+    padding-left: 16px; white-space: nowrap; 
+    border-right: 2px solid #e2e8f0; color: #334155;
+  }
+  
+  tbody tr { transition: background 0.1s; }
+  tbody tr:hover td { background: #f1f5f9; }
+
+  /* Calendar View */
+  .scroll-wrapper {
+    width: 100%; max-width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch;
+    margin-bottom: 35px; border-radius: 4px; border: 1px solid #e2e8f0;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05); background: #ffffff;
+  }
+  .personal-view { display: none; max-width: 1100px; margin: 0 auto; width: 100%; overflow: hidden; }
+  .personal-view.active { display: block; }
+  
+  .week-grid {
+    display: grid; grid-template-columns: 55px repeat(7, 1fr); gap: 0;
+    background: #ffffff; border: 1px solid #e2e8f0; border-radius: 4px; overflow: hidden; margin-bottom: 35px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+  }
+  .week-title { grid-column: 1 / -1; background: #f8fafc; color: #0f172a; padding: 12px; font-weight: 600; text-align: left; font-size: 16px; border-bottom: 1px solid #e2e8f0; }
+  
+  .cal-header { background: #ffffff; text-align: center; padding: 10px; font-weight: 600; font-size: 14px; color: #334155; border-bottom: 1px solid #e2e8f0; border-left: 1px solid #e2e8f0; }
+  .time-axis { background: #ffffff; display: flex; flex-direction: column; }
+  .time-slot { height: 30px; display: flex; align-items: flex-start; justify-content: flex-end; padding-right: 8px; font-size: 11px; font-weight: 500; color: #64748b; border-bottom: 1px solid #e2e8f0; }
+  
+  .day-col { background: #ffffff; position: relative; border-left: 1px solid #e2e8f0; }
+  /* Hour lines */
+  .hour-line { position: absolute; left: 0; right: 0; height: 1px; background: #e2e8f0; }
+
+  /* Event Blocks */
+  .event-block {
+    position: absolute; left: 2px; right: 2px; border-radius: 3px; padding: 4px 6px;
+    font-size: 12px; font-weight: 600; line-height: 1.2; overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05); border-left: 3px solid rgba(0,0,0,0.15);
+    display: flex; flex-direction: column; justify-content: flex-start; text-align: left;
+    transition: background 0.1s;
+  }
+  .event-block:hover { z-index: 5; filter: brightness(0.95); transform: none; box-shadow: none; }
+  .event-time { font-size: 10px; opacity: 0.8; font-weight: 500; margin-top: 2px; }
+
+  @media (max-width: 800px) { 
+    body { padding: 5px 2px; }
+    .header-card { padding: 15px 10px; margin-bottom: 15px; }
+    h1 { font-size: 20px !important; }
+    h2 { font-size: 15px !important; }
+    span { font-size: 12px !important; }
+    
+    select { min-width: 100%; width: 100%; font-size: 12px; padding: 6px; }
+    .tabs { flex-direction: column; gap: 4px; margin-top: 15px; }
+    .tab-btn { width: 100%; justify-content: center; font-size: 12px; padding: 6px; }
+    
+    table { zoom: 0.55; }
+    
+    .scroll-wrapper { border: none; box-shadow: none; margin-bottom: 20px; }
+    .week-grid { min-width: 0; width: 100%; grid-template-columns: 30px repeat(7, 1fr); margin-bottom: 15px; }
+    .cal-header { font-size: 9px; padding: 4px 1px; }
+    .cal-header span { font-size: 8px !important; }
+    .time-slot { font-size: 8px; padding-right: 2px; }
+    .week-title { font-size: 12px; padding: 6px; }
+    
+    .event-block { font-size: 8px; padding: 2px; line-height: 1.1; border-left: 2px solid rgba(0,0,0,0.15); border-radius: 2px; }
+    .event-time { font-size: 7px; margin-top: 1px; }
+  }
 </style>
 </head>
 <body>
 
-<div class="controls-card">
-  <h1>Surgery Rotation Schedules</h1>
-  
-  <div class="name-picker-wrap">
-    <select id="namePicker" onchange="renderApp()">
-      <option value="ALL">-- Show Full Master Schedules --</option>
-      <!-- Options injected by JS -->
-    </select>
+<div class="header-card glass-panel">
+  <div style="margin-bottom: 25px;">
+    <h1 style="margin: 0; text-align: center; line-height: 1.2; font-weight: 700; font-size: 32px; color: #0f172a;">LEC 17-18<br><span style="font-size: 0.6em; opacity: 0.7; font-weight: 500; color: #64748b;">Surgery Rotation Schedule</span></h1>
   </div>
-
-  <div class="tabs" id="mainTabs">
-    <button class="tab-btn active" onclick="setTab('tmc')">🏥 TMC Surg (Aug 10-23)</button>
-    <button class="tab-btn" onclick="setTab('eamc')">🏥 EAMC (Jul 27-Aug 9)</button>
+  <select id="namePicker" onchange="renderApp()">
+    <option value="ALL">-- Show Full Master Schedules --</option>
+    <option value="Angala, Jose Francisco A.">Angala, Jose Francisco A.</option><option value="Chiew, Simon S.">Chiew, Simon S.</option><option value="De Asis, Vincent Flavianne">De Asis, Vincent Flavianne</option><option value="De Jesus, Aliyah Isobel T.">De Jesus, Aliyah Isobel T.</option><option value="Esguera, Gabrielle Angelica G.">Esguera, Gabrielle Angelica G.</option><option value="Estiva, Nina Ysabel M.">Estiva, Nina Ysabel M.</option><option value="Fajardo, Ma. Salome Patricia A.">Fajardo, Ma. Salome Patricia A.</option><option value="Gamboa, Mariane Nicole P.">Gamboa, Mariane Nicole P.</option><option value="Garganera, Wilbert">Garganera, Wilbert</option><option value="Ignacio, Julian Nicolas E.">Ignacio, Julian Nicolas E.</option><option value="Malonjao, Carl Angelo D.">Malonjao, Carl Angelo D.</option><option value="Ong, Mary Joy Beatrice B.">Ong, Mary Joy Beatrice B.</option><option value="Salvador, Alison Gail A.">Salvador, Alison Gail A.</option><option value="Seares, Clea Anne T.">Seares, Clea Anne T.</option><option value="Tinawin, Eimee Rochelle A.">Tinawin, Eimee Rochelle A.</option>
+  </select>
+  <div class="tabs" id="mainTabs" style="display:none;">
+    <button class="tab-btn active" style="display: flex; align-items: center;" onclick="setTab('eamc')"><img src="eamc_logo.png" style="height:20px; width:20px; object-fit:contain; margin-right:8px; mix-blend-mode: multiply;"> EAMC (Jul 27-Aug 9)</button>
+    <button class="tab-btn" style="display: flex; align-items: center;" onclick="setTab('tmc')"><img src="tmc_logo.png" style="height:20px; width:20px; object-fit:contain; border-radius:50%; margin-right:8px; mix-blend-mode: multiply;"> TMC Surg (Aug 10-23)</button>
   </div>
 </div>
 
-<!-- PERSONALIZED VIEW -->
-<div id="personalView" class="personal-view">
-  <div id="personalContent"></div>
-</div>
-
-<!-- MASTER VIEW -->
-<div id="masterView" class="master-view active">
-  <div class="btn-group">
-    <button class="btn btn-primary" onclick="copyTable()">📋 Copy Master Table to Clipboard</button>
+<div id="masterViewWrap">
+  <div class="master-view glass-panel active" id="eamcMaster">
+    <h2 style="padding:16px;text-align:center;">🏥 EAMC (Jul 27-Aug 9)</h2>
+    <h3 style="padding:8px;text-align:center;background:#ecf0f1;">Week 1</h3>
+    <table id="eamcTable1"></table>
+    <h3 style="padding:8px;text-align:center;background:#ecf0f1;margin-top:20px;">Week 2</h3>
+    <table id="eamcTable2"></table>
   </div>
-
-  <!-- TMC MASTER -->
-  <div id="tmcMasterWrap" style="display:block;">
-    <div class="legend" id="tmcLegend"></div>
-    <div class="schedule-wrap"><table id="tmcTable"></table></div>
-    <h3 style="margin:20px 0 10px 0; text-align:center;">Daily Staffing Counts</h3>
-    <div class="schedule-wrap"><table id="dailyCountsTable"></table></div>
-    <h3 style="margin:20px 0 10px 0; text-align:center;">Individual Shift Totals</h3>
-    <div class="schedule-wrap"><table id="tmcCounterTable"></table></div>
-  </div>
-
-  <!-- EAMC MASTER -->
-  <div id="eamcMasterWrap" style="display:none;">
-    <div class="legend" id="eamcLegend"></div>
-    <div class="schedule-wrap"><table id="eamcTable"></table></div>
+  <div class="master-view glass-panel active" id="tmcMaster">
+    <h2 style="padding:16px;text-align:center;">🏥 TMC Surg (Aug 10-23)</h2>
+    <h3 style="padding:8px;text-align:center;background:#ecf0f1;">Week 1</h3>
+    <table id="tmcTable1"></table>
+    <h3 style="padding:8px;text-align:center;background:#ecf0f1;margin-top:20px;">Week 2</h3>
+    <table id="tmcTable2"></table>
   </div>
 </div>
+
+<div id="personalView" class="personal-view"></div>
 
 <script>
-// --- DATA DEFINITIONS ---
+const masterPeople = ["Chiew, Simon S.", "De Asis, Vincent Flavianne", "De Jesus, Aliyah Isobel T.", "Gamboa, Mariane Nicole P.", "Seares, Clea Anne T.", "Fajardo, Ma. Salome Patricia A.", "Garganera, Wilbert", "Malonjao, Carl Angelo D.", "Ignacio, Julian Nicolas E.", "Salvador, Alison Gail A.", "Angala, Jose Francisco A.", "Esguera, Gabrielle Angelica G.", "Estiva, Nina Ysabel M.", "Ong, Mary Joy Beatrice B.", "Tinawin, Eimee Rochelle A."];
+const eamcGroupedPeople = ["De Asis, Vincent Flavianne", "Gamboa, Mariane Nicole P.", "De Jesus, Aliyah Isobel T.", "Ong, Mary Joy Beatrice B.", "Estiva, Nina Ysabel M.", "Chiew, Simon S.", "Malonjao, Carl Angelo D.", "Angala, Jose Francisco A.", "Ignacio, Julian Nicolas E.", "Garganera, Wilbert", "Seares, Clea Anne T.", "Salvador, Alison Gail A.", "Tinawin, Eimee Rochelle A.", "Fajardo, Ma. Salome Patricia A.", "Esguera, Gabrielle Angelica G."];
+const tmcGrid = [["PM - OR", "OFF", "AM - OR", "ANES", "AM - FLOORS", "OFF", "AM - ER", "PM - ER", "OFF", "AM - OR", "AM - OR", "PM - FLOORS", "PM - OR", "PM - FLOORS"], ["AM - ER", "PM - ER", "PM - FLOORS", "OFF", "AM - WOUND", "AM - OR", "PM - FLOORS", "OFF", "AM - OR", "AM - FLOORS", "PM - OR", "PM - OR", "OFF", "AM - OR"], ["AM - WOUND", "AM - OR", "ANES", "AM - OR", "OFF", "AM - ER", "AM - OR", "OFF", "AM - FLOORS", "PM - FLOORS", "PM - OR", "PM - FLOORS", "OFF", "PM - OR"], ["PM - OR", "PM - FLOORS", "OFF", "AM - OR", "AM - OR", "AM - FLOORS", "OFF", "AM - OR", "AM - WOUND", "AM - ER", "ANES", "PM - ER", "PM - FLOORS", "PM - OR"], ["ANES", "AM - WOUND", "AM - OR", "PM - FLOORS", "PM - OR", "PM - ER", "OFF", "AM - ER", "PM - OR", "OFF", "AM - ER", "AM - OR", "AM - OR", "OFF"], ["OFF", "PM - FLOORS", "PM - OR", "PM - ER", "PM - FLOORS", "PM - OR", "OFF", "ANES", "AM - ER", "AM - OR", "AM - OR", "AM - OR", "OFF", "AM - FLOORS"], ["AM - OR", "AM - ER", "PM - ER", "OFF", "AM - OR", "AM - WOUND", "AM - OR", "AM - FLOORS", "ANES", "OFF", "PM - FLOORS", "PM - OR", "PM - FLOORS", "OFF"], ["PM - FLOORS", "PM - OR", "OFF", "AM - FLOORS", "PM - ER", "PM - FLOORS", "PM - OR", "OFF", "AM - OR", "ANES", "AM - OR", "AM - WOUND", "AM - ER", "OFF"], ["PM - FLOORS", "PM - OR", "PM - FLOORS", "PM - OR", "OFF", "AM - OR", "ANES", "AM - WOUND", "AM - OR", "AM - OR", "PM - ER", "OFF", "AM - FLOORS", "AM - ER"], ["AM - OR", "AM - OR", "AM - FLOORS", "AM - ER", "AM - OR", "PM - FLOORS", "PM - OR", "PM - OR", "PM - FLOORS", "OFF", "AM - WOUND", "ANES", "PM - ER", "OFF"], ["AM - OR", "AM - FLOORS", "OFF", "AM - OR", "ANES", "OFF", "PM - FLOORS", "PM - FLOORS", "PM - ER", "PM - OR", "OFF", "AM - ER", "AM - WOUND", "AM - OR"], ["AM - FLOORS", "AM - OR", "AM - WOUND", "PM - FLOORS", "OFF", "AM - OR", "PM - ER", "PM - OR", "OFF", "PM - OR", "PM - FLOORS", "OFF", "ANES", "AM - ER"], ["OFF", "AM - OR", "PM - OR", "OFF", "AM - ER", "ANES", "AM - FLOORS", "PM - FLOORS", "PM - OR", "PM - ER", "OFF", "AM - OR", "AM - OR", "PM - FLOORS"], ["OFF", "ANES", "AM - OR", "PM - OR", "PM - FLOORS", "OFF", "AM - ER", "AM - OR", "AM - OR", "AM - WOUND", "AM - FLOORS", "OFF", "PM - OR", "PM - ER"], ["PM - ER", "OFF", "AM - ER", "AM - WOUND", "PM - OR", "PM - OR", "OFF", "AM - OR", "PM - FLOORS", "PM - FLOORS", "OFF", "AM - FLOORS", "AM - OR", "ANES"]];
+const eamcSchedule = {"De Asis, Vincent Flavianne": ["Ward/OR Pre - GS1", "ER Pre", "ER Duty", "SGD then Off", "ER Pre", "Ward/OR Duty - GS2", "SGD then Off", "Breast Care", "Ward/OR Duty - GS2", "SGD then Off", "Ward/OR Pre - GS3", "ER Duty", "Off", "Ward/OR Pre - GS3"], "Gamboa, Mariane Nicole P.": ["ER Pre", "ER Duty", "SGD then Off", "Ward/OR Pre - GS1", "ER Duty", "SGD then Off", "Breast Care*", "Ward/OR Pre - GS2", "Ward/OR Duty - GS2", "Off", "OPD", "Ward/OR Duty - GS3", "Off", "ER Pre"], "De Jesus, Aliyah Isobel T.": ["SGD then Off", "Ward/OR Pre - GS1", "Breast Care", "ER Duty", "SGD then Off", "ER Pre", "OPD*", "ER Pre", "Ward/OR Pre - GS2", "ER Duty", "Off", "Ward/OR Pre - GS3", "Ward/OR Duty - GS3", "SGD then Off"], "Ong, Mary Joy Beatrice B.": ["Ward/OR Duty - GS1", "SGD then Off", "ER Pre", "Breast Care", "Ward/OR Pre - GS1", "OPD*", "Ward/OR Pre - GS2", "ER Duty", "Off", "ER Pre", "ER Duty", "SGD then Off", "Ward/OR Pre - GS3", "Ward/OR Duty - GS3"], "Estiva, Nina Ysabel M.": ["Ward/OR Duty - GS1", "SGD then Off", "Ward/OR Pre - GS1", "ER Duty", "Off", "Ward/OR Pre - GS2", "Ward/OR Duty - GS2", "SGD then Off", "ER Pre", "Ward/OR Pre - GS2", "ER Pre", "ER Duty", "SGD then Off", "OPD*"], "Chiew, Simon S.": ["Breast Care", "ER Pre", "Ward/OR Duty - GS3", "SGD then Off", "Ward/OR Pre - GS3", "Ward/OR Duty - GS1", "SGD then Off", "Ward/OR Pre - GS1", "ER Duty", "SGD then Off", "Ward/OR Pre - GS2", "OPD", "ER Duty", "Off"], "Malonjao, Carl Angelo D.": ["ER Pre", "OPD", "Ward/OR Duty - GS3", "Off", "Breast Care", "Ward/OR Pre - GS1", "Ward/OR Duty - GS1", "SGD then Off", "Ward/OR Pre - GS1", "ER Duty", "SGD then Off", "Ward/OR Pre - GS2", "ER Pre", "ER Duty - until 1 AM"], "Angala, Jose Francisco A.": ["Off", "Ward/OR Pre - GS3", "OPD", "ER Pre", "Ward/OR Duty - GS3", "SGD then Off", "Ward/OR Pre - GS1", "ER Duty", "SGD then Off", "ER Pre", "Breast Care", "Ward/OR Duty - GS2", "SGD then Off", "Ward/OR Pre - GS2"], "Ignacio, Julian Nicolas E.": ["OPD", "Breast Care", "Ward/OR Pre - GS3", "ER Pre", "ER Duty", "SGD then Off", "ER Pre", "Ward/OR Duty - GS1", "SGD then Off", "Ward/OR Pre - GS1", "ER Duty", "Off", "Ward/OR Pre - GS2", "Ward/OR Duty - GS2"], "Garganera, Wilbert": ["Ward/OR Pre - GS3", "ER Duty", "SGD then Off", "Ward/OR Pre - GS3", "Ward/OR Duty - GS3", "Off", "ER Pre", "Ward/OR Duty - GS1", "SGD then Off", "OPD", "ER Pre", "Breast Care", "ER Duty", "SGD then Off"], "Seares, Clea Anne T.": ["Off", "Ward/OR Pre - GS2", "ER Duty", "SGD then Off", "ER Pre", "Ward/OR Pre - GS3", "ER Duty", "SGD then Off", "OPD", "Ward/OR Duty - GS3", "SGD then Off", "Ward/OR Pre - GS1", "ER Pre", "Breast Care*"], "Salvador, Alison Gail A.": ["SGD then Off", "Ward/OR Duty - GS2", "Off", "OPD", "Ward/OR Pre - GS2", "ER Duty", "SGD then Off", "ER Pre", "Breast Care", "Ward/OR Pre - GS3", "Ward/OR Duty - GS1", "SGD then Off", "Ward/OR Pre - GS1", "ER Pre"], "Tinawin, Eimee Rochelle A.": ["ER Duty", "Off", "ER Pre", "Ward/OR Duty - GS2", "SGD then Off", "Breast Care*", "Ward/OR Pre - GS3", "OPD", "ER Duty", "SGD then Off", "Ward/OR Pre - GS1", "ER Pre", "Ward/OR Duty - GS1", "SGD then Off"], "Fajardo, Ma. Salome Patricia A.": ["Ward/OR Pre - GS2", "Ward/OR Duty - GS2", "SGD then Off", "Ward/OR Pre - GS2", "OPD", "ER Duty", "Off", "Ward/OR Pre - GS3", "ER Pre", "Ward/OR Duty - GS3", "SGD then Off", "ER Pre", "Breast Care*", "ER Duty - until 1 AM"], "Esguera, Gabrielle Angelica G.": ["ER Duty", "SGD then Off", "Ward/OR Pre - GS2", "Ward/OR Duty - GS2", "SGD then Off", "ER Pre", "ER Duty", "Off", "Ward/OR Pre - GS3", "Breast Care", "Ward/OR Duty - GS1", "SGD then Off", "OPD*", "Ward/OR Pre - GS1"]};
 
-const masterPeople = [
-  "Chiew, Simon S.", "De Asis, Vincent Flavianne", "De Jesus, Aliyah Isobel T.", "Gamboa, Mariane Nicole P.",
-  "Seares, Clea Anne T.", "Fajardo, Ma. Salome Patricia", "Garganera, Wilbert", "Malonjao, Carl Angelo D.",
-  "Ignacio, Julian Nicolas E.", "Salvador, Alieah Gail A.", "Angara, Jose Francisco A.", "Esguera, Gabrielle Angelica C.",
-  "Esliva, Nina Ysabel M.", "Ong, Mary Joy Beatrice B.", "Tirawin, Eimee Rochelle A."
-];
+const eamcDates = ["Jul 27","Jul 28","Jul 29","Jul 30","Jul 31","Aug 1","Aug 2","Aug 3","Aug 4","Aug 5","Aug 6","Aug 7","Aug 8","Aug 9"];
+const tmcDates = ["Aug 10","Aug 11","Aug 12","Aug 13","Aug 14","Aug 15","Aug 16","Aug 17","Aug 18","Aug 19","Aug 20","Aug 21","Aug 22","Aug 23"];
+const dows = ["Mon","Tue","Wed","Thu","Fri","Sat","Sun","Mon","Tue","Wed","Thu","Fri","Sat","Sun"];
 
-// TMC Data
-const tmcDates = ["Aug 10", "Aug 11", "Aug 12", "Aug 13", "Aug 14", "Aug 15", "Aug 16", "Aug 17", "Aug 18", "Aug 19", "Aug 20", "Aug 21", "Aug 22", "Aug 23"];
-const tmcDows = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
-const tmcPattern = ["AM - OR", "AM - FLOORS", "AM - OR", "AM - ER", "PM - OR", "PM - ER", "OFF", "AM - WOUND", "AM - OR", "ANES", "PM - OR", "PM - FLOORS", "PM - FLOORS", "OFF"];
-const tmcPerson14 = ["AM - OR", "AM - ER", "AM - OR", "PM - OR", "PM - FLOORS", "PM - ER", "OFF", "AM - FLOORS", "AM - OR", "AM - WOUND", "ANES", "PM - OR", "PM - FLOORS", "OFF"];
+let currentTab = 'eamc';
 
-function getTmcAssignment(p, d) {
-  if (p === 14) return tmcPerson14[d];
-  return tmcPattern[(d + p) % 14];
+function getTmcStyle(shift) {
+  if (shift === "AM - OR") return "background:#d9e1f2; color:#1f4e78; border-color:#1f4e78;";
+  if (shift === "PM - OR") return "background:#2f5597; color:#ffffff; border-color:#1f4e78;";
+  if (shift === "AM - FLOORS") return "background:#e2efda; color:#375623; border-color:#375623;";
+  if (shift === "PM - FLOORS") return "background:#375623; color:#ffffff; border-color:#375623;";
+  if (shift === "AM - ER") return "background:#fce4d6; color:#c00000; border-color:#c00000;";
+  if (shift === "PM - ER") return "background:#c00000; color:#ffffff; border-color:#c00000;";
+  if (shift === "AM - WOUND") return "background:#fce7f3; color:#be185d; border-color:#be185d;";
+  if (shift === "ANES") return "background:#f3e8ff; color:#7e22ce; border-color:#7e22ce;";
+  return "background:#f8fafc; color:#475569; font-weight:800; border-color:#cbd5e1;";
 }
 
-// EAMC Data (Hardcoded from transcription)
-const eamcDates = ["Jul 27", "Jul 28", "Jul 29", "Jul 30", "Jul 31", "Aug 1", "Aug 2", "Aug 3", "Aug 4", "Aug 5", "Aug 6", "Aug 7", "Aug 8", "Aug 9"];
-const eamcDows = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
-const eamcHeaders = ["GS1 Conf", "GS2 Conf", "Dept/GS3 Conf", "", "", "", "", "GS1 Conf", "GS2 Conf", "Dept/GS3 Conf", "", "", "", "End of Rotation Exam*"];
-
-const eamcSchedule = {
-  "De Asis, Vincent Flavianne": ["Ward/OR Pre - GS1", "ER Pre", "ER Duty", "SGD then Off", "ER Pre", "Ward/OR Duty - GS2", "SGD then Off", "Breast Care", "Ward/OR Duty - GS2", "SGD then Off", "Ward/OR Pre - GS3", "ER Duty", "Off", "Ward/OR Pre - GS3"],
-  "Gamboa, Mariane Nicole P.": ["ER Pre", "ER Duty", "SGD then Off", "Ward/OR Pre - GS1", "ER Duty", "SGD then Off", "Breast Care*", "Ward/OR Pre - GS2", "Ward/OR Duty - GS2", "Off", "OPD", "Ward/OR Duty - GS3", "Off", "ER Pre"],
-  "De Jesus, Aliyah Isobel T.": ["SGD then Off", "Ward/OR Pre - GS1", "Breast Care", "ER Duty", "SGD then Off", "ER Pre", "OPD*", "ER Pre", "Ward/OR Pre - GS2", "ER Duty", "Off", "Ward/OR Pre - GS3", "Ward/OR Duty - GS3", "Ward/OR Duty - GS3"],
-  "Tirawin, Eimee Rochelle A.": ["Ward/OR Duty - GS1", "SGD then Off", "ER Pre", "Breast Care", "Ward/OR Pre - GS1", "OPD*", "Ward/OR Pre - GS2", "ER Duty", "Off", "ER Pre", "ER Duty", "SGD then Off", "Ward/OR Pre - GS3", "Ward/OR Duty - GS3"],
-  "Esliva, Nina Ysabel M.": ["Ward/OR Duty - GS1", "SGD then Off", "Ward/OR Pre - GS1", "ER Duty", "Off", "Ward/OR Pre - GS2", "Ward/OR Duty - GS2", "SGD then Off", "ER Pre", "Ward/OR Pre - GS2", "ER Pre", "ER Duty", "SGD then Off", "OPD*"],
-
-  "Chiew, Simon S.": ["Breast Care", "ER Pre", "Ward/OR Duty - GS3", "SGD then Off", "Ward/OR Pre - GS3", "Ward/OR Duty - GS1", "SGD then Off", "Ward/OR Pre - GS1", "ER Duty", "SGD then Off", "Ward/OR Pre - GS2", "OPD", "ER Duty", "Off"],
-  "Garganera, Wilbert": ["ER Pre", "OPD", "Ward/OR Duty - GS3", "Off", "Breast Care", "Ward/OR Pre - GS1", "Ward/OR Duty - GS1", "SGD then Off", "Ward/OR Pre - GS1", "ER Duty", "SGD then Off", "Ward/OR Pre - GS2", "ER Pre", "ER Duty - until 1 AM"],
-  "Angara, Jose Francisco A.": ["Off", "Ward/OR Pre - GS3", "OPD", "ER Pre", "Ward/OR Duty - GS3", "SGD then Off", "Ward/OR Pre - GS1", "ER Duty", "SGD then Off", "ER Pre", "Breast Care", "Ward/OR Duty - GS2", "SGD then Off", "Ward/OR Pre - GS2"],
-  "Ignacio, Julian Nicolas E.": ["OPD", "Breast Care", "Ward/OR Pre - GS3", "ER Pre", "ER Duty", "SGD then Off", "ER Pre", "Ward/OR Duty - GS1", "SGD then Off", "Ward/OR Pre - GS1", "ER Duty", "Off", "Ward/OR Pre - GS2", "Ward/OR Duty - GS2"],
-  "Malonjao, Carl Angelo D.": ["Ward/OR Pre - GS3", "ER Duty", "Ward/OR Pre - GS3", "Ward/OR Duty - GS3", "Off", "Ward/OR Pre - GS1", "ER Pre", "Ward/OR Duty - GS1", "SGD then Off", "OPD", "ER Pre", "Breast Care", "ER Duty", "SGD then Off"],
-
-  "Seares, Clea Anne T.": ["Off", "Ward/OR Pre - GS2", "ER Duty", "SGD then Off", "ER Pre", "Ward/OR Pre - GS3", "ER Duty", "SGD then Off", "OPD", "Ward/OR Duty - GS3", "SGD then Off", "Ward/OR Pre - GS1", "ER Pre", "Breast Care*"],
-  "Salvador, Alieah Gail A.": ["SGD then Off", "Ward/OR Duty - GS2", "Off", "OPD", "Ward/OR Pre - GS2", "ER Duty", "SGD then Off", "ER Pre", "Breast Care", "Ward/OR Pre - GS3", "Ward/OR Duty - GS1", "SGD then Off", "Ward/OR Pre - GS1", "ER Pre"],
-  "Ong, Mary Joy Beatrice B.": ["ER Duty", "Off", "ER Pre", "Ward/OR Duty - GS2", "SGD then Off", "Breast Care*", "Ward/OR Pre - GS3", "OPD", "ER Duty", "SGD then Off", "Ward/OR Pre - GS1", "ER Pre", "Ward/OR Duty - GS1", "SGD then Off"],
-  "Fajardo, Ma. Salome Patricia": ["Ward/OR Pre - GS2", "Ward/OR Duty - GS2", "SGD then Off", "Ward/OR Pre - GS2", "OPD", "ER Duty", "Off", "Ward/OR Pre - GS3", "ER Pre", "Ward/OR Duty - GS3", "SGD then Off", "ER Pre", "Breast Care*", "ER Duty - until 1 AM"],
-  "Esguera, Gabrielle Angelica C.": ["ER Duty", "ER Pre", "Ward/OR Pre - GS2", "Ward/OR Duty - GS2", "SGD then Off", "ER Pre", "ER Duty", "Off", "Ward/OR Pre - GS3", "Breast Care", "Ward/OR Duty - GS1", "SGD then Off", "OPD*", "Ward/OR Pre - GS1"]
-};
-
-// EAMC Group Order
-const eamcGroupedPeople = [
-  "De Asis, Vincent Flavianne", "Gamboa, Mariane Nicole P.", "De Jesus, Aliyah Isobel T.", "Tirawin, Eimee Rochelle A.", "Esliva, Nina Ysabel M.",
-  "Chiew, Simon S.", "Garganera, Wilbert", "Angara, Jose Francisco A.", "Ignacio, Julian Nicolas E.", "Malonjao, Carl Angelo D.",
-  "Seares, Clea Anne T.", "Salvador, Alieah Gail A.", "Ong, Mary Joy Beatrice B.", "Fajardo, Ma. Salome Patricia", "Esguera, Gabrielle Angelica C."
-];
-
-// --- STYLING LOGIC ---
-
-function getTmcStyle(duty) {
-  const map = {
-    "AM - OR": "background:var(--tmc-am-or); color:var(--tmc-am-or-text);",
-    "AM - FLOORS": "background:var(--tmc-am-fl); color:var(--tmc-am-fl-text);",
-    "AM - ER": "background:var(--tmc-am-er); color:var(--tmc-am-er-text);",
-    "AM - WOUND": "background:var(--tmc-am-wc); color:var(--tmc-am-wc-text);",
-    "ANES": "background:var(--tmc-anes); color:var(--tmc-anes-text);",
-    "PM - OR": "background:var(--tmc-pm-or); color:var(--tmc-pm-or-text);",
-    "PM - FLOORS": "background:var(--tmc-pm-fl); color:var(--tmc-pm-fl-text);",
-    "PM - ER": "background:var(--tmc-pm-er); color:var(--tmc-pm-er-text);",
-    "OFF": "background:var(--tmc-off); color:var(--tmc-off-text); font-weight:800;"
-  };
-  return map[duty] || "";
+function getEamcStyle(shift) {
+  if (shift.includes("Ward/OR Pre")) return "background:#d9e1f2; color:#1f4e78; border-color:#1f4e78;";
+  if (shift.includes("Ward/OR Duty")) return "background:#2f5597; color:#ffffff; border-color:#1f4e78;";
+  if (shift.includes("ER Pre")) return "background:#fce4d6; color:#c00000; border-color:#c00000;";
+  if (shift.includes("ER Duty")) return "background:#c00000; color:#ffffff; border-color:#c00000;";
+  if (shift.includes("Breast Care")) return "background:#e2efda; color:#375623; border-color:#375623;";
+  if (shift.includes("OPD")) return "background:#fff2cc; color:#7f6000; border-color:#7f6000;";
+  if (shift === "SGD then Off") return "background:#e4dfec; color:#3f3151; border-color:#3f3151;";
+  return "background:#f8fafc; color:#475569; font-weight:800; border-color:#cbd5e1;";
 }
 
-function getEamcStyle(duty) {
-  if (duty.includes("Ward/OR Pre")) return "background:var(--eamc-pre); color:var(--eamc-pre-text);";
-  if (duty.includes("Ward/OR Duty")) return "background:var(--eamc-duty); color:var(--eamc-duty-text); font-weight:700;";
-  if (duty.includes("ER Pre")) return "background:var(--eamc-er-pre); color:var(--eamc-er-pre-text);";
-  if (duty.includes("ER Duty")) return "background:var(--eamc-er-duty); color:var(--eamc-er-duty-text); font-weight:700;";
-  if (duty.includes("Breast Care") || duty.includes("OPD")) return "background:var(--eamc-green); color:var(--eamc-green-text);";
-  if (duty === "SGD then Off") return "background:var(--eamc-sgd); color:var(--eamc-sgd-text); font-weight:400;";
-  if (duty === "Off") return "background:var(--eamc-off); color:var(--eamc-off-text); font-weight:800;";
-  return "";
+function formatTime(s, e) {
+  let sh = s % 24; let eh = e % 24;
+  let sp = sh>=12 ? (sh===12?12:sh-12)+'pm' : (sh===0?12:sh)+'am';
+  let ep = eh>=12 ? (eh===12?12:eh-12)+'pm' : (eh===0?12:eh)+'am';
+  return sp + " - " + ep;
 }
 
-// --- APP STATE ---
-let currentTab = 'tmc'; // 'tmc' or 'eamc'
-
-function init() {
-  // Populate Dropdown
-  const select = document.getElementById("namePicker");
-  masterPeople.sort().forEach(name => {
-    let opt = document.createElement("option");
-    opt.value = name; opt.text = name;
-    select.appendChild(opt);
-  });
+// Flat array of absolute hour intervals
+function buildPersonal(name) {
+  const tmcIndex = masterPeople.indexOf(name);
+  let html = `<div style="text-align:center;margin-bottom:20px;">
+                <h2>Schedule for: <span style="color:#2980b9">${name}</span></h2>
+                <button class="tab-btn active" style="margin-top:10px; padding: 10px 20px; font-size: 14px; border-radius: 8px; cursor: pointer; border: none; background: #2980b9; color: white;" onclick="downloadICS('${name}')">
+                  📅 Export to Apple / Google Calendar (.ics)
+                </button>
+                <div style="font-size:11px; color:#777; margin-top:8px;">
+                  <strong>Apple Calendar:</strong> Just tap the downloaded file on your iPhone/Mac.<br>
+                  <strong>Google Calendar:</strong> Download the file, go to calendar.google.com -> Settings -> Import & Export
+                </div>
+              </div>`;
   
-  buildLegends();
-  renderApp();
+  let eamcEvents = getAbsoluteEvents(eamcSchedule[name], parseEamcLogic);
+  let tmcEvents = getAbsoluteEvents(tmcGrid[tmcIndex], parseTmcLogic);
+
+  const sgdStyle = "background: #1e293b; color: #ffffff; border-left: 3px solid #0f172a; box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 12px; z-index: 10;";
+  eamcEvents.push({ title: "[SGD] Dr. Doble", s: 0 * 24 + 13, e: 0 * 24 + 15, c: sgdStyle });
+  eamcEvents.push({ title: "[SGD] Dr. Cabrera", s: 3 * 24 + 11, e: 3 * 24 + 13, c: sgdStyle });
+  eamcEvents.push({ title: "[SGD] Dr. Chuasuan", s: 4 * 24 + 9, e: 4 * 24 + 11, c: sgdStyle });
+  eamcEvents.push({ title: "[SGD] Dr. Ordoñez (Intraop) TBA", s: 4 * 24 + 11, e: 4 * 24 + 13, c: sgdStyle });
+  eamcEvents.push({ title: "[SGD] Dr. Chuasuan", s: 8 * 24 + 9, e: 8 * 24 + 11, c: sgdStyle });
+  eamcEvents.push({ title: "[SGD] Dr. Amponin", s: 11 * 24 + 9, e: 11 * 24 + 11, c: sgdStyle });
+
+  html += `
+  <div style="margin: 40px 0 20px; display: flex; align-items: center; gap: 12px; background: #ffffff; padding: 12px 20px; border-radius: 4px; border: 1px solid #e2e8f0; box-shadow: rgba(0, 0, 0, 0.05) 0px 4px 6px; text-align: left;">
+    <img src="eamc_logo.png" style="height: 40px; width: 40px; object-fit: contain; mix-blend-mode: multiply;">
+    <div>
+      <h2 style="margin: 0; color: #0f172a; font-size: 20px; font-weight: 600;">East Avenue Medical Center (EAMC)</h2>
+      <span style="font-size: 14px; font-weight: 500; color: #64748b;">July 27 - Aug 9</span>
+    </div>
+  </div>`;
+  html += renderWeek("Week 1", eamcDates.slice(0,7), dows.slice(0,7), eamcEvents, 0);
+  html += renderWeek("Week 2", eamcDates.slice(7,14), dows.slice(7,14), eamcEvents, 7);
+
+  html += `
+  <div style="margin: 50px 0 20px; display: flex; align-items: center; gap: 12px; background: #ffffff; padding: 12px 20px; border-radius: 4px; border: 1px solid #e2e8f0; box-shadow: rgba(0, 0, 0, 0.05) 0px 4px 6px; text-align: left;">
+    <img src="tmc_logo.png" style="height: 40px; width: 40px; object-fit: contain; border-radius: 50%; mix-blend-mode: multiply;">
+    <div>
+      <h2 style="margin: 0; color: #0f172a; font-size: 20px; font-weight: 600;">The Medical City (TMC)</h2>
+      <span style="font-size: 14px; font-weight: 500; color: #64748b;">Aug 10 - Aug 23</span>
+    </div>
+  </div>`;
+  html += renderWeek("Week 1", tmcDates.slice(0,7), dows.slice(0,7), tmcEvents, 0);
+  html += renderWeek("Week 2", tmcDates.slice(7,14), dows.slice(7,14), tmcEvents, 7);
+  
+  document.getElementById("personalView").innerHTML = html;
 }
 
-function setTab(tab) {
-  currentTab = tab;
-  document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-  event.currentTarget.classList.add('active');
-  renderApp();
+function downloadICS(name) {
+  const tmcIndex = masterPeople.indexOf(name);
+  let eamcEvts = getAbsoluteEvents(eamcSchedule[name], parseEamcLogic);
+  let tmcEvts = getAbsoluteEvents(tmcGrid[tmcIndex], parseTmcLogic);
+  
+  let ics = "BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:-//Surgery Rotation//EN\n";
+  
+  function addEvents(evts, baseDateStr, prefix) {
+    let baseDate = new Date(baseDateStr);
+    for (let e of evts) {
+      if (e.title.includes("OFF") || e.title === "OFF" || e.title.includes("TRUE FROM")) continue; 
+      
+      let start = new Date(baseDate.getTime() + e.s * 3600000);
+      let end = new Date(baseDate.getTime() + e.e * 3600000);
+      
+      let format = (d) => {
+        let y = d.getFullYear();
+        let m = String(d.getMonth()+1).padStart(2,'0');
+        let day = String(d.getDate()).padStart(2,'0');
+        let h = String(d.getHours()).padStart(2,'0');
+        let min = String(d.getMinutes()).padStart(2,'0');
+        let s = String(d.getSeconds()).padStart(2,'0');
+        return `${y}${m}${day}T${h}${min}${s}`;
+      };
+      
+      ics += "BEGIN:VEVENT\n";
+      ics += `UID:${Math.random().toString(36).substring(2)}@surgery\n`;
+      ics += `DTSTAMP:${format(new Date())}\n`;
+      ics += `DTSTART:${format(start)}\n`;
+      ics += `DTEND:${format(end)}\n`;
+      ics += `SUMMARY:${prefix} ${e.title}\n`;
+      ics += "END:VEVENT\n";
+    }
+  }
+  
+  addEvents(eamcEvts, "2026-07-27T00:00:00", "[EAMC]");
+  addEvents(tmcEvts, "2026-08-10T00:00:00", "[TMC]");
+  
+  ics += "END:VCALENDAR";
+  
+  let blob = new Blob([ics], { type: 'text/calendar;charset=utf-8' });
+  let link = document.createElement('a');
+  link.href = URL.createObjectURL(blob);
+  link.download = `${name.replace(/\s+/g, '_')}_Surgery_Schedule.ics`;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+}
+
+function getAbsoluteEvents(schedArr, parseLogic) {
+  let allEvents = [];
+  for(let d=0; d<14; d++) {
+    let dayEvents = parseLogic(schedArr[d], dows[d], d);
+    allEvents.push(...dayEvents);
+  }
+  return allEvents;
+}
+
+function parseEamcLogic(shift, dow, dayIndex) {
+  let evts = [];
+  let baseHour = dayIndex * 24;
+  let s, e;
+  
+  if (shift.includes("Breast Care")) {
+    if (dow === "Sat" || dow === "Sun") {
+      s = baseHour + 7; e = baseHour + 19;
+      if (dow === "Sat") e = baseHour + 13;
+      evts.push({ title: "ER (from Breast Care)", s, e, c: getEamcStyle("ER Pre") });
+    } else {
+      evts.push({ title: shift, s: baseHour + 7, e: baseHour + 17, c: getEamcStyle("Breast Care") });
+    }
+  } else if (shift.includes("OPD")) {
+    if (dow === "Sat") {
+      evts.push({ title: "OPD", s: baseHour + 7, e: baseHour + 12, c: getEamcStyle("OPD") });
+      evts.push({ title: "WARD/OR", s: baseHour + 12, e: baseHour + 13, c: getEamcStyle("Ward/OR Pre") });
+    } else if (dow === "Sun") {
+      evts.push({ title: "WARD/OR", s: baseHour + 7, e: baseHour + 19, c: getEamcStyle("Ward/OR Pre") });
+    } else {
+      evts.push({ title: shift, s: baseHour + 7, e: baseHour + 17, c: getEamcStyle("OPD") });
+    }
+  } else if (shift === "SGD then Off") {
+    evts.push({ title: "SGD/Conference", s: baseHour + 7, e: baseHour + 12, c: getEamcStyle(shift) });
+  } else if (shift === "Off") {
+    s = baseHour + 7; e = baseHour + 17;
+    if (dow === "Sat") e = baseHour + 13;
+    evts.push({ title: "TRUE FROM (OFF)", s, e, c: "background:#fff; color:#555; border-color:#bdc3c7;" });
+  } else if (shift.includes("Duty") || shift.includes("- until 1 AM")) {
+    s = baseHour + 19; e = baseHour + 31;
+    if (dow === "Wed") s = baseHour + 21;
+    evts.push({ title: shift, s, e, c: getEamcStyle(shift) });
+  } else {
+    s = baseHour + 7; e = baseHour + 19;
+    if (dow === "Wed") e = baseHour + 17;
+    if (dow === "Sat") e = baseHour + 13;
+    evts.push({ title: shift, s, e, c: getEamcStyle(shift) });
+  }
+  
+  if (dow === "Wed") {
+    evts.push({ title: "MBA Class", s: baseHour + 18, e: baseHour + 20, c: "background:#8e44ad; color:#fff; border-color:#732d91;" });
+  }
+  if (dow === "Sat") {
+    evts.push({ title: "MBA Class", s: baseHour + 14, e: baseHour + 18, c: "background:#8e44ad; color:#fff; border-color:#732d91;" });
+  }
+  
+  return evts;
+}
+
+function parseTmcLogic(shift, dow, dayIndex) {
+  let evts = [];
+  let baseHour = dayIndex * 24;
+  let s, e;
+  let isNoClassWed = (dow === "Wed" && dayIndex === 9);
+  
+  if (shift.startsWith("AM") || shift === "ANES") {
+    s = baseHour + 6; e = baseHour + 18;
+    evts.push({ title: shift, s, e, c: getTmcStyle(shift) });
+  } else if (shift.startsWith("PM")) {
+    s = baseHour + 18; e = baseHour + 30;
+    if (dow === "Wed" && !isNoClassWed) s = baseHour + 20; // after MBA class
+    evts.push({ title: shift, s, e, c: getTmcStyle(shift) });
+  } else {
+    s = baseHour + 6; e = baseHour + 18;
+    evts.push({ title: "OFF (5:30 am relieved)", s, e, c: "background:#f8fafc; color:#475569; border-color:#cbd5e1;" });
+  }
+  
+  if (dow === "Tue") {
+    let confText = "Conference (via Zoom)";
+    if (shift === "PM - FLOORS") confText = "Conference (Face to Face)";
+    evts.push({ title: confText, s: baseHour + 18, e: baseHour + 20, c: "background:#eab308; color:#fff; border-color:#ca8a04; z-index:15;" });
+  }
+  
+  if (dow === "Wed" && !isNoClassWed) {
+    evts.push({ title: "MBA Class", s: baseHour + 18, e: baseHour + 20, c: "background:#8e44ad; color:#fff; border-color:#732d91; z-index:15;" });
+  }
+  if (dow === "Sat") {
+    evts.push({ title: "MBA Class", s: baseHour + 14, e: baseHour + 18, c: "background:#8e44ad; color:#fff; border-color:#732d91; z-index:15;" });
+  }
+  
+  return evts;
+}
+
+function renderWeek(title, dates, dowArr, allEvents, weekStartIndex) {
+  let html = `<div class="scroll-wrapper">`;
+  html += `<div class="week-grid" style="margin-bottom: 0; box-shadow: none; border: none; border-radius: 0;">`;
+  html += `<div class="week-title">${title}</div><div class="time-axis"><div class="cal-header">Time</div>`;
+  for(let i=0;i<24;i++) {
+    let ampm = i>=12 ? (i===12?12:i-12)+' PM' : (i===0?12:i)+' AM';
+    html += `<div class="time-slot">${ampm}</div>`;
+  }
+  html += `</div>`;
+  
+  for(let d=0;d<7;d++) {
+    let globalDayIndex = weekStartIndex + d;
+    let dayStartHour = globalDayIndex * 24;
+    let dayEndHour = dayStartHour + 24;
+
+    html += `<div class="day-col" data-date="${dates[d]}"><div class="cal-header" style="position: sticky; top: 0; z-index: 10;">${dowArr[d]}<br><span style="font-size:10px;font-weight:400">${dates[d]}</span></div>`;
+    html += `<div class="timeline-container" style="height:720px; position:relative;">`;
+    for(let i=0;i<=24;i++) html += `<div class="hour-line" style="top:${(i/24)*100}%;"></div>`;
+    
+    // Filter events overlapping this specific 12AM-12AM day window
+    for(let e of allEvents) {
+      let overlapStart = Math.max(e.s, dayStartHour);
+      let overlapEnd = Math.min(e.e, dayEndHour);
+      
+      if(overlapStart < overlapEnd) {
+        let top = ((overlapStart - dayStartHour) / 24) * 100;
+        let height = ((overlapEnd - overlapStart) / 24) * 100;
+        html += `<div class="event-block" style="top:${top}%; height:${height}%; ${e.c}">
+                   ${e.title}<div class="event-time">${formatTime(overlapStart, overlapEnd)}</div>
+                 </div>`;
+      }
+    }
+    html += `</div></div>`;
+  }
+  html += `</div></div>`;
+  return html;
 }
 
 function renderApp() {
-  const selectedName = document.getElementById("namePicker").value;
-  
-  if (selectedName === "ALL") {
-    document.getElementById("personalView").classList.remove("active");
-    document.getElementById("masterView").classList.add("active");
-    
-    if (currentTab === 'tmc') {
-      document.getElementById("tmcMasterWrap").style.display = "block";
-      document.getElementById("eamcMasterWrap").style.display = "none";
-      buildTmcMaster();
-    } else {
-      document.getElementById("tmcMasterWrap").style.display = "none";
-      document.getElementById("eamcMasterWrap").style.display = "block";
-      buildEamcMaster();
-    }
+  const sel = document.getElementById("namePicker").value;
+  if (sel === "ALL") {
+  document.getElementById("personalView").classList.remove("active");
+    document.getElementById("masterViewWrap").style.display = "block";
+    document.getElementById("mainTabs").style.display = "flex";
+    buildMasters();
+    setTab(currentTab);
   } else {
-    document.getElementById("masterView").classList.remove("active");
+    document.getElementById("masterViewWrap").style.display = "none";
+    document.getElementById("mainTabs").style.display = "none";
     document.getElementById("personalView").classList.add("active");
-    buildPersonalView(selectedName);
+    buildPersonal(sel);
   }
+  updateCurrentTimeLine();
 }
 
-function buildLegends() {
-  const tmcLegend = [
-    {n: "AM - OR", s: getTmcStyle("AM - OR")}, {n: "AM - FLOORS", s: getTmcStyle("AM - FLOORS")},
-    {n: "AM - ER", s: getTmcStyle("AM - ER")}, {n: "AM - WOUND", s: getTmcStyle("AM - WOUND")},
-    {n: "ANES", s: getTmcStyle("ANES")}, {n: "PM - OR", s: getTmcStyle("PM - OR")},
-    {n: "PM - FLOORS", s: getTmcStyle("PM - FLOORS")}, {n: "PM - ER", s: getTmcStyle("PM - ER")},
-    {n: "OFF", s: getTmcStyle("OFF")}
-  ];
-  document.getElementById("tmcLegend").innerHTML = tmcLegend.map(l => `<div class="legend-item"><div class="legend-swatch" style="${l.s}"></div>${l.n}</div>`).join("");
-
-  const eamcLegend = [
-    {n: "Ward/OR Pre", s: getEamcStyle("Ward/OR Pre")}, {n: "Ward/OR Duty", s: getEamcStyle("Ward/OR Duty")},
-    {n: "ER Pre", s: getEamcStyle("ER Pre")}, {n: "ER Duty", s: getEamcStyle("ER Duty")},
-    {n: "Breast Care / OPD", s: getEamcStyle("OPD")}, {n: "SGD then Off", s: getEamcStyle("SGD then Off")},
-    {n: "OFF", s: getEamcStyle("Off")}
-  ];
-  document.getElementById("eamcLegend").innerHTML = eamcLegend.map(l => `<div class="legend-item"><div class="legend-swatch" style="${l.s}"></div>${l.n}</div>`).join("");
-}
-
-// --- MASTER VIEWS ---
-
-
-function buildTmcMaster() {
-  let html = `<thead>
-    <tr><th class="name-cell">CYCLE 1</th>`;
-  for(let d=0; d<14; d++) html += `<th class="${d%7>=5?'weekend':''}">${tmcDates[d]}</th>`;
-  html += `</tr><tr><th class="name-cell sub-header">TMC Surg</th>`;
-  for(let d=0; d<14; d++) html += `<th class="sub-header ${d%7>=5?'weekend':''}">${tmcDows[d]}</th>`;
-  html += `</tr></thead><tbody>`;
-
-  for (let p = 0; p < 15; p++) {
-    html += `<tr><td class="name-cell">${p+1}. ${masterPeople[p]}</td>`;
-    for (let d = 0; d < 14; d++) {
-      let a = getTmcAssignment(p, d);
-      html += `<td style="${getTmcStyle(a)}">${a}</td>`;
-    }
-    html += `</tr>`;
-  }
-  html += `</tbody>`;
-  document.getElementById("tmcTable").innerHTML = html;
+function updateCurrentTimeLine() {
+  const now = new Date();
+  const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+  const dateStr = monthNames[now.getMonth()] + " " + now.getDate();
+  const hour = now.getHours() + now.getMinutes() / 60;
   
-  buildTmcCounter();
-  buildDailyCounts();
-}
-
-function buildTmcCounter() {
-  const posts = ["AM - OR", "AM - FLOORS", "AM - ER", "AM - WOUND", "ANES", "PM - OR", "PM - FLOORS", "PM - ER", "OFF"];
-  let h = `<thead><tr><th class="name-cell">Name</th>`;
-  for(let post of posts) h += `<th style="${getTmcStyle(post)}">${post}</th>`;
-  h += `<th>Total</th></tr></thead><tbody>`;
+  document.querySelectorAll('.current-time-line').forEach(el => el.remove());
   
-  for(let p=0; p<15; p++) {
-    h += `<tr><td class="name-cell">${p+1}. ${masterPeople[p]}</td>`;
-    let counts = {};
-    for(let post of posts) counts[post] = 0;
+  const cols = document.querySelectorAll(`.day-col[data-date="${dateStr}"] > .timeline-container`);
+  cols.forEach(col => {
+    const topPct = (hour / 24) * 100;
+    const line = document.createElement('div');
+    line.className = 'current-time-line';
+    line.style.cssText = `position: absolute; left: 0; right: 0; top: ${topPct}%; height: 2px; background: #ff3b30; z-index: 10; pointer-events: none;`;
     
-    let total = 0;
-    for(let d=0; d<14; d++) {
-      let shift = getTmcAssignment(p, d);
-      if(counts[shift] !== undefined) counts[shift]++;
-      total++;
-    }
-    for(let post of posts) {
-      h += `<td><strong>${counts[post]}</strong></td>`;
-    }
-    h += `<td>${total}</td></tr>`;
-  }
-  h += `</tbody>`;
-  document.getElementById("tmcCounterTable").innerHTML = h;
-}
-
-function buildDailyCounts() {
-    const shiftTypes = ['AM - OR', 'AM - FLOORS', 'AM - ER', 'AM - WOUND', 'ANES', 'PM - OR', 'PM - FLOORS', 'PM - ER', 'OFF'];
-    let h = `<thead><tr><th class="name-cell">Date</th>`;
-    for(let post of shiftTypes) h += `<th style="${getTmcStyle(post)}">${post}</th>`;
-    h += `</tr></thead><tbody>`;
+    const dot = document.createElement('div');
+    dot.style.cssText = `position: absolute; left: -4px; top: -4px; width: 10px; height: 10px; background: #ff3b30; border-radius: 50%;`;
+    line.appendChild(dot);
     
-    for (let d = 0; d < 14; d++) {
-        let counts = {};
-        shiftTypes.forEach(s => counts[s] = 0);
-        for(let p = 0; p < 15; p++) {
-            let shift = getTmcAssignment(p, d);
-            if(counts[shift] !== undefined) counts[shift]++;
-        }
-        
-        h += `<tr><td class="name-cell">${tmcDates[d]}<br><span style="font-size:10px;color:#7f8c8d">${tmcDows[d]}</span></td>`;
-        shiftTypes.forEach(s => {
-            let bg = "";
-            let color = "";
-            let fw = "";
-            if (counts[s] === 0 && s !== 'AM - WOUND' && s !== 'OFF') {
-                bg = "background-color: #ffebee;";
-                color = "color: #c62828;";
-                fw = "font-weight: bold;";
-            }
-            h += `<td style="${bg}${color}${fw}">${counts[s]}</td>`;
-        });
-        h += `</tr>`;
+    col.appendChild(line);
+  });
+}
+setInterval(updateCurrentTimeLine, 60000);
+
+function setTab(tab) {
+  currentTab = tab;
+  document.querySelectorAll('.tab-btn').forEach(b => {
+    b.classList.remove('active');
+    if (b.getAttribute('onclick').includes(tab)) b.classList.add('active');
+  });
+  document.getElementById("eamcMaster").style.display = tab==='eamc'?'block':'none';
+  document.getElementById("tmcMaster").style.display = tab==='tmc'?'block':'none';
+}
+
+function buildMasterTable(title, dates, dowArr, schedule, peopleList, getStyleFn, weekOffset) {
+  let h = `<thead><tr><th class="name-cell">${title}</th>`;
+  for(let i=0;i<7;i++) h+=`<th>${dates[weekOffset+i]}<br>${dowArr[weekOffset+i]}</th>`;
+  h+='</tr></thead><tbody>';
+  for(let p=0;p<15;p++) {
+    const name = peopleList[p];
+    h+=`<tr class="${p%5===4?'group-end':''}"><td class="name-cell">${p+1}. ${name}</td>`;
+    for(let d=0;d<7;d++) {
+      let shift = schedule[name] ? schedule[name][weekOffset+d] : schedule[p][weekOffset+d];
+      h+=`<td style="${getStyleFn(shift)}">${shift}</td>`;
     }
-    h += `</tbody>`;
-    document.getElementById("dailyCountsTable").innerHTML = h;
-}
-
-
-function buildEamcMaster() {
-  let html = `<thead>
-    <tr><th class="name-cell">EAMC (Team Grouped)</th>`;
-  for(let d=0; d<14; d++) html += `<th class="${d%7>=5?'weekend':''}">${eamcDates[d]}</th>`;
-  html += `</tr><tr><th class="name-cell sub-header"></th>`;
-  for(let d=0; d<14; d++) html += `<th class="sub-header ${d%7>=5?'weekend':''}">${eamcDows[d]}<br><span style="font-size:9px;color:#bdc3c7">${eamcHeaders[d]}</span></th>`;
-  html += `</tr></thead><tbody>`;
-
-  for (let p = 0; p < 15; p++) {
-    const name = eamcGroupedPeople[p];
-    const isGroupEnd = (p % 5 === 4); // Line after 5th, 10th, 15th
-    html += `<tr class="${isGroupEnd ? 'group-end' : ''}"><td class="name-cell">${p+1}. ${name}</td>`;
-    for (let d = 0; d < 14; d++) {
-      let a = eamcSchedule[name][d];
-      html += `<td style="${getEamcStyle(a)}">${a}</td>`;
-    }
-    html += `</tr>`;
+    h+='</tr>';
   }
-  html += `</tbody>`;
-  document.getElementById("eamcTable").innerHTML = html;
+  h+='</tbody>';
+  return h;
 }
 
-// --- PERSONAL VIEW ---
-
-function buildPersonalView(name) {
-  const tmcIndex = masterPeople.indexOf(name);
-  
-  let html = `<h2 class="cal-header">🏥 EAMC Rotation (Jul 27 - Aug 9)</h2>
-  <div class="calendar-grid">`;
-  const dowNames = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
-  for(let d=0; d<7; d++) html += `<div class="cal-day-name">${dowNames[d]}</div>`;
-  
-  for(let d=0; d<14; d++) {
-    let a = eamcSchedule[name][d];
-    html += `<div class="cal-cell">
-      <div class="cal-date">${eamcDows[d]} ${eamcDates[d]}</div>
-      <div class="cal-duty" style="${getEamcStyle(a)}">${a}</div>
-    </div>`;
-  }
-  html += `</div>`;
-
-  html += `<h2 class="cal-header" style="margin-top:32px;">🏥 TMC Surgery (Aug 10 - Aug 23)</h2>
-  <div class="calendar-grid">`;
-  for(let d=0; d<7; d++) html += `<div class="cal-day-name">${dowNames[d]}</div>`;
-  for(let d=0; d<14; d++) {
-    let a = getTmcAssignment(tmcIndex, d);
-    html += `<div class="cal-cell">
-      <div class="cal-date">${tmcDows[d]} ${tmcDates[d]}</div>
-      <div class="cal-duty" style="${getTmcStyle(a)}">${a}</div>
-    </div>`;
-  }
-  html += `</div>`;
-
-  document.getElementById("personalContent").innerHTML = html;
+function buildMasters() {
+  document.getElementById("eamcTable1").innerHTML = buildMasterTable("EAMC", eamcDates, dows, eamcSchedule, eamcGroupedPeople, getEamcStyle, 0);
+  document.getElementById("eamcTable2").innerHTML = buildMasterTable("EAMC", eamcDates, dows, eamcSchedule, eamcGroupedPeople, getEamcStyle, 7);
+  document.getElementById("tmcTable1").innerHTML = buildMasterTable("TMC", tmcDates, dows, tmcGrid, masterPeople, getTmcStyle, 0);
+  document.getElementById("tmcTable2").innerHTML = buildMasterTable("TMC", tmcDates, dows, tmcGrid, masterPeople, getTmcStyle, 7);
 }
 
-function copyTable() {
-  let tableId = currentTab === 'tmc' ? 'tmcTable' : 'eamcTable';
-  let el = document.getElementById(tableId);
-  let range = document.createRange();
-  range.selectNode(el);
-  window.getSelection().removeAllRanges();
-  window.getSelection().addRange(range);
-  document.execCommand('copy');
-  window.getSelection().removeAllRanges();
-  alert("Table copied! You can paste it into Google Sheets or Excel.");
-}
-
-init();
+renderApp();
 </script>
-
-    </body>
+</body>
 </html>
 """
 
-with open("TMC_Surg_Schedule.html", "w", encoding="utf-8") as f:
+with open("index.html", "w", encoding="utf-8") as f:
     f.write(html_content)
