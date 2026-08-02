@@ -556,12 +556,13 @@ function buildMasterTable(title, dates, dowArr, schedule, peopleList, getStyleFn
 
 function buildTmcCounterTable() {
   const posts = ["AM - OR", "AM - FLOORS", "AM - ER", "AM - WOUND", "ANES", "PM - OR", "PM - FLOORS", "PM - ER", "OFF"];
-  let h = `<h3 style="padding:16px;text-align:center;background:#ecf0f1;margin-top:30px;">TMC Shift Distribution (Count per Person)</h3>`;
-  h += `<table><thead><tr><th class="name-cell">Name</th>`;
+  let h = `<div style="margin-top: 40px; border: 1px solid #e2e8f0; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.02); background: #fff;">`;
+  h += `<h3 style="padding: 16px 20px; text-align: left; background: #f8fafc; margin: 0; color: #0f172a; font-weight: 600; font-size: 16px; border-bottom: 1px solid #e2e8f0;">👤 TMC Shift Distribution (Count per Person) <span style="font-size: 12px; font-weight: 400; color: #64748b; margin-left: 8px;">Highlighted cells show counts that deviate from the standard baseline.</span></h3>`;
+  h += `<div style="overflow-x: auto;"><table style="margin: 0; min-width: 1000px; border: none;"><thead><tr><th class="name-cell" style="border-top: none;">Name</th>`;
   for(let post of posts) {
-    h += `<th style="${getTmcStyle(post)}">${post}</th>`;
+    h += `<th style="${getTmcStyle(post)} border-top: none;">${post}</th>`;
   }
-  h += `<th>Total Shifts</th></tr></thead><tbody>`;
+  h += `<th style="border-top: none; background: #f1f5f9; color: #334155;">Total Shifts</th></tr></thead><tbody>`;
   
   for(let p=0; p<15; p++) {
     const name = masterPeople[p];
@@ -578,23 +579,43 @@ function buildTmcCounterTable() {
     }
     
     for(let post of posts) {
-      h += `<td><strong>${counts[post]}</strong></td>`;
+      let val = counts[post];
+      let style = "text-align: center;";
+      let isOutlier = false;
+      
+      if (post === "AM - WOUND" && val !== 1) isOutlier = true;
+      else if (post === "ANES" && val !== 1) isOutlier = true;
+      else if (post === "AM - FLOORS" && val !== 1) isOutlier = true;
+      else if (post === "PM - ER" && val !== 1) isOutlier = true;
+      else if (post === "OFF" && val !== 2) isOutlier = true;
+      else if (post === "AM - ER" && val !== 1) isOutlier = true;
+      else if (post === "AM - OR" && val !== 3) isOutlier = true;
+      else if (post === "PM - OR" && val !== 2) isOutlier = true;
+      else if (post === "PM - FLOORS" && val !== 2) isOutlier = true;
+
+      if (isOutlier) {
+        style += " background: #fef2f2; color: #b91c1c; font-weight: 700; box-shadow: inset 0 0 0 2px #fca5a5;";
+      } else {
+        style += " color: #64748b; font-weight: 500;";
+      }
+      h += `<td style="${style}">${val}</td>`;
     }
-    h += `<td>${total}</td></tr>`;
+    h += `<td style="background: #f8fafc; font-weight: 600; color: #475569;">${total}</td></tr>`;
   }
-  h += `</tbody></table>`;
+  h += `</tbody></table></div></div>`;
   return h;
 }
 
 
 function buildTmcDailyCountsTable() {
   const posts = ["AM - OR", "AM - FLOORS", "AM - ER", "AM - WOUND", "ANES", "PM - OR", "PM - FLOORS", "PM - ER", "OFF"];
-  let h = `<h3 style="padding:16px;text-align:center;background:#ecf0f1;margin-top:30px;">TMC Shift Distribution (Count per Day)</h3>`;
-  h += `<table><thead><tr><th class="name-cell">Date</th>`;
+  let h = `<div style="margin-top: 30px; border: 1px solid #e2e8f0; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.02); background: #fff;">`;
+  h += `<h3 style="padding: 16px 20px; text-align: left; background: #f8fafc; margin: 0; color: #0f172a; font-weight: 600; font-size: 16px; border-bottom: 1px solid #e2e8f0;">📅 TMC Shift Distribution (Count per Day) <span style="font-size: 12px; font-weight: 400; color: #64748b; margin-left: 8px;">Highlighted cells show days with extra or fewer posts.</span></h3>`;
+  h += `<div style="overflow-x: auto;"><table style="margin: 0; min-width: 1000px; border: none;"><thead><tr><th class="name-cell" style="border-top: none;">Date</th>`;
   for(let post of posts) {
-    h += `<th style="${getTmcStyle(post)}">${post}</th>`;
+    h += `<th style="${getTmcStyle(post)} border-top: none;">${post}</th>`;
   }
-  h += `<th>Total</th></tr></thead><tbody>`;
+  h += `<th style="border-top: none; background: #f1f5f9; color: #334155;">Total</th></tr></thead><tbody>`;
   
   const dayNames = ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"];
   for(let d=0; d<14; d++) {
@@ -612,16 +633,29 @@ function buildTmcDailyCountsTable() {
     
     for(let post of posts) {
       let val = counts[post];
-      let style = "";
-      // Highlight if below typical minimum
-      if(post === "AM - OR" && val < 3) style = "color:red;font-weight:bold;";
-      else if((post === "AM - FLOORS" || post === "AM - ER" || post === "ANES" || post === "PM - ER") && val < 1) style = "color:red;font-weight:bold;";
-      else if((post === "PM - OR" || post === "PM - FLOORS") && val < 2) style = "color:red;font-weight:bold;";
-      h += `<td style="${style}"><strong>${val}</strong></td>`;
+      let style = "text-align: center;";
+      let isOutlier = false;
+      
+      if (post === "AM - WOUND" && val !== 1) isOutlier = true;
+      else if (post === "ANES" && val !== 1) isOutlier = true;
+      else if (post === "AM - FLOORS" && val !== 1) isOutlier = true;
+      else if (post === "AM - ER" && val !== 1) isOutlier = true;
+      else if (post === "PM - ER" && val !== 1) isOutlier = true;
+      else if (post === "PM - OR" && val !== 2) isOutlier = true;
+      else if (post === "PM - FLOORS" && val !== 2) isOutlier = true;
+      else if (post === "OFF" && val !== 2) isOutlier = true;
+      else if (post === "AM - OR" && val !== 3 && val !== 4) isOutlier = true; // 3 and 4 are standard
+      
+      if (isOutlier) {
+        style += " background: #fffbeb; color: #b45309; font-weight: 700; box-shadow: inset 0 0 0 2px #fcd34d;";
+      } else {
+        style += " color: #64748b; font-weight: 500;";
+      }
+      h += `<td style="${style}">${val}</td>`;
     }
-    h += `<td>${total}</td></tr>`;
+    h += `<td style="background: #f8fafc; font-weight: 600; color: #475569;">${total}</td></tr>`;
   }
-  h += `</tbody></table>`;
+  h += `</tbody></table></div></div>`;
   return h;
 }
 
