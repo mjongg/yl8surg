@@ -803,17 +803,15 @@ function renderDailyDecking() {
   
   for(const post of displayOrder) {
     if (posts[post].length > 0) {
-      const style = getTmcStyle(post);
-      let headerBg = style.bg;
-      let headerColor = style.color;
+      let fullStyle = getTmcStyle(post);
+      if (post === "OFF") fullStyle = "background:#f1f5f9; color:#64748b; border-color:#cbd5e1;";
       
-      if (post === "OFF") {
-        headerBg = "#f1f5f9";
-        headerColor = "#64748b";
-      }
+      // Extract color for the bullet point
+      let colorMatch = fullStyle.match(/color:(.*?);/);
+      let headerColor = colorMatch ? colorMatch[1] : "#334155";
       
       let card = `<div style="background: white; border: 1px solid #e2e8f0; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.04);">
-        <div style="background: ${headerBg}; color: ${headerColor}; padding: 6px 10px; font-weight: 600; font-size: 13px; text-align: center; border-bottom: 1px solid #e2e8f0;">${post}</div>
+        <div style="${fullStyle} padding: 6px 10px; font-weight: 600; font-size: 13px; text-align: center; border-bottom: 1px solid #e2e8f0;">${post}</div>
         <div style="padding: 10px 12px;">`;
         
       const doctorsList = posts[post].map(name => {
