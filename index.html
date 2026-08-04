@@ -171,6 +171,20 @@
     .event-block { font-size: 8px; padding: 2px; line-height: 1.1; border-left: 2px solid rgba(0,0,0,0.15); border-radius: 2px; }
     .event-time { font-size: 7px; margin-top: 1px; }
   }
+
+  /* Add hover effect to rows */
+  tbody tr:hover td {
+    filter: brightness(0.95);
+    border-top: 2px solid #1f4e78;
+    border-bottom: 2px solid #1f4e78;
+  }
+  tbody tr:hover td:first-child {
+    border-left: 2px solid #1f4e78;
+  }
+  tbody tr:hover td:last-child {
+    border-right: 2px solid #1f4e78;
+  }
+
 </style>
 </head>
 <body>
@@ -207,6 +221,35 @@
 </div>
 
 <div id="personalView" class="personal-view"></div>
+
+
+<!-- NEW: Daily Decking Section -->
+<div class="card" id="dailyDecking" style="margin-top: 30px;">
+  <div class="card-header">
+    <h2 class="card-title">Daily Decking Generator</h2>
+  </div>
+  <div style="padding: 20px;">
+    <label for="deckingDate" style="font-weight: 600; margin-right: 10px;">Select Date:</label>
+    <select id="deckingDate" onchange="renderDailyDecking()" style="padding: 8px; border-radius: 6px; border: 1px solid #cbd5e1; font-family: inherit; font-size: 16px;">
+      <!-- Options populated by JS -->
+    </select>
+    
+    <div style="display: flex; gap: 20px; margin-top: 20px; flex-wrap: wrap;">
+      <div style="flex: 1; min-width: 300px;">
+        <h3 style="margin-bottom: 10px; color: #1f4e78;">Who's on Duty?</h3>
+        <div id="deckingTableContainer"></div>
+      </div>
+      <div style="flex: 1; min-width: 300px;">
+        <h3 style="margin-bottom: 10px; color: #1f4e78;">Telegram Message</h3>
+        <textarea id="deckingMessage" style="width: 100%; height: 400px; padding: 15px; border-radius: 8px; border: 1px solid #cbd5e1; font-family: monospace; resize: vertical; background: #f8fafc;" readonly></textarea>
+        <div style="margin-top: 10px;">
+          <button onclick="copyDeckingMessage()" style="padding: 10px 20px; background: #2f5597; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: 600; transition: background 0.2s;">Copy Message</button>
+          <span id="copyFeedback" style="margin-left: 10px; color: #375623; font-weight: 600; display: none;">Copied!</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
 <script>
 const masterPeople = ["Chiew, Simon S.", "De Asis, Vincent Flavianne", "De Jesus, Aliyah Isobel T.", "Gamboa, Mariane Nicole P.", "Seares, Clea Anne T.", "Fajardo, Ma. Salome Patricia A.", "Garganera, Wilbert", "Malonjao, Carl Angelo D.", "Ignacio, Julian Nicolas E.", "Salvador, Alison Gail A.", "Angala, Jose Francisco A.", "Esguerra, Gabrielle Angelica G.", "Estiva, Nina Ysabel M.", "Ong, Mary Joy Beatrice B.", "Tinawin, Eimee Rochelle A."];
@@ -675,6 +718,173 @@ function buildTmcDailyCountsTable() {
   return h;
 }
 
+
+const telegramHandles = {
+  "Ong, Mary Joy Beatrice B.": "@mj_ongg",
+  "Salvador, Alison Gail A.": "@AliiiSalvador",
+  "Chiew, Simon S.": "@simonchieww",
+  "Garganera, Wilbert": "@ullabritta123",
+  "Ignacio, Julian Nicolas E.": "@jneignacio",
+  "Angala, Jose Francisco A.": "@lotsofmallows",
+  "Tinawin, Eimee Rochelle A.": "@eimeee",
+  "De Jesus, Aliyah Isobel T.": "@aliyahdj",
+  "Malonjao, Carl Angelo D.": "@JelloM95",
+  "Seares, Clea Anne T.": "@heyitscley",
+  "Esguerra, Gabrielle Angelica G.": "@gabbyesguerra",
+  "Estiva, Nina Ysabel M.": "@ninaestiva",
+  "Fajardo, Ma. Salome Patricia A.": "@fajardoodle",
+  "Gamboa, Mariane Nicole P.": "@mngamboa",
+  "De Asis, Vincent Flavianne": "@flavvee"
+};
+
+const displayNames = {
+  "Ong, Mary Joy Beatrice B.": "MJ Ong",
+  "Salvador, Alison Gail A.": "Alison Salvador",
+  "Chiew, Simon S.": "Simon Chiew",
+  "Garganera, Wilbert": "Wil Garganera",
+  "Ignacio, Julian Nicolas E.": "Nico Ignacio",
+  "Angala, Jose Francisco A.": "Fran Angala",
+  "Tinawin, Eimee Rochelle A.": "Eimee Tinawin",
+  "De Jesus, Aliyah Isobel T.": "Aliyah De Jesus",
+  "Malonjao, Carl Angelo D.": "Jello Malonjao",
+  "Seares, Clea Anne T.": "Clea Seares",
+  "Esguerra, Gabrielle Angelica G.": "Gabby Esguerra",
+  "Estiva, Nina Ysabel M.": "Nina Estiva",
+  "Fajardo, Ma. Salome Patricia A.": "Sally Fajardo",
+  "Gamboa, Mariane Nicole P.": "Mariane Gamboa",
+  "De Asis, Vincent Flavianne": "Vee De Asis"
+};
+
+function initDeckingDropdown() {
+  const select = document.getElementById('deckingDate');
+  select.innerHTML = '';
+  for(let i=0; i<14; i++) {
+    let opt = document.createElement('option');
+    opt.value = i;
+    opt.textContent = `${tmcDates[i]}, ${dows[i]}`;
+    select.appendChild(opt);
+  }
+  renderDailyDecking();
+}
+
+function renderDailyDecking() {
+  const dayIndex = parseInt(document.getElementById('deckingDate').value);
+  const dateParts = tmcDates[dayIndex].split(" ");
+  let formattedDate = tmcDates[dayIndex];
+  if(dateParts.length === 2) {
+    let month = dateParts[0];
+    let day = parseInt(dateParts[1]);
+    let monthFull = month === "Aug" ? "August" : month;
+    formattedDate = `${monthFull} ${day}`;
+  }
+  const dowStr = dows[dayIndex];
+  
+  const posts = {
+    "AM - OR": [], "AM - FLOORS": [], "AM - ER": [], "ANES": [], "AM - WOUND": [],
+    "PM - OR": [], "PM - FLOORS": [], "PM - ER": [], "OFF": []
+  };
+  
+  for(let p=0; p<masterPeople.length; p++) {
+    const post = tmcGrid[p][dayIndex];
+    if (posts[post]) {
+      posts[post].push(masterPeople[p]);
+    }
+  }
+  
+  let html = `<table class="styled-table" style="width: 100%; margin-top: 0;">
+    <thead><tr><th style="width: 30%">Post</th><th>Doctors</th></tr></thead>
+    <tbody>`;
+  
+  const displayOrder = ["AM - OR", "AM - FLOORS", "AM - ER", "ANES", "AM - WOUND", "PM - OR", "PM - FLOORS", "PM - ER", "OFF"];
+  
+  for(const post of displayOrder) {
+    if (posts[post].length > 0) {
+      const style = getTmcStyle(post);
+      let cellStyle = `background: ${style.bg}; color: ${style.color}; font-weight: 600;`;
+      if (post === "OFF") cellStyle = `background: #f1f5f9; color: #64748b; font-weight: normal; font-style: italic;`;
+      
+      const doctorsList = posts[post].map(name => {
+         return `<div>${displayNames[name]}</div>`;
+      }).join('');
+      
+      html += `<tr><td style="${cellStyle}">${post}</td><td style="font-size: 14px;">${doctorsList}</td></tr>`;
+    }
+  }
+  html += `</tbody></table>`;
+  document.getElementById('deckingTableContainer').innerHTML = html;
+  
+  let msg = `Good morning, doctors!\nRespectfully sending the clerks decking for today, ${formattedDate}, ${dowStr}:\n\n`;
+  msg += `☀ AM Clerks\n`;
+  
+  if (posts["AM - OR"].length > 0) {
+    posts["AM - OR"].forEach(name => {
+      msg += `OR: ${displayNames[name]} ${telegramHandles[name] || ''}\n`;
+    });
+    msg += `\n`;
+  }
+  if (posts["AM - FLOORS"].length > 0) {
+    posts["AM - FLOORS"].forEach(name => {
+      msg += `Floors: ${displayNames[name]} ${telegramHandles[name] || ''}\n`;
+    });
+    msg += `\n`;
+  }
+  if (posts["AM - ER"].length > 0) {
+    posts["AM - ER"].forEach(name => {
+      msg += `ER: ${displayNames[name]} ${telegramHandles[name] || ''}\n`;
+    });
+    msg += `\n`;
+  }
+  if (posts["ANES"].length > 0) {
+    posts["ANES"].forEach(name => {
+      msg += `Anes: ${displayNames[name]} ${telegramHandles[name] || ''}\n`;
+    });
+    msg += `\n`;
+  }
+  if (posts["AM - WOUND"].length > 0) {
+    posts["AM - WOUND"].forEach(name => {
+      msg += `Wound Care: ${displayNames[name]} ${telegramHandles[name] || ''}\n`;
+    });
+    msg += `\n`;
+  }
+  
+  msg += `🌙 PM Clerks\n`;
+  if (posts["PM - OR"].length > 0) {
+    posts["PM - OR"].forEach(name => {
+      msg += `OR: ${displayNames[name]} ${telegramHandles[name] || ''}\n`;
+    });
+    msg += `\n`;
+  }
+  if (posts["PM - FLOORS"].length > 0) {
+    posts["PM - FLOORS"].forEach(name => {
+      msg += `Floors: ${displayNames[name]} ${telegramHandles[name] || ''}\n`;
+    });
+    msg += `\n`;
+  }
+  if (posts["PM - ER"].length > 0) {
+    posts["PM - ER"].forEach(name => {
+      msg += `ER: ${displayNames[name]} ${telegramHandles[name] || ''}\n`;
+    });
+    msg += `\n`;
+  }
+  
+  msg += `🗓 Scheduled Activities:\n`;
+  msg += `(Pls include the MBA classes here in scheduled activities, then update this everytime when I state there's a new SGD and etc)\n\n`;
+  msg += `Thank you po, doctors!`;
+  
+  document.getElementById('deckingMessage').value = msg;
+}
+
+function copyDeckingMessage() {
+  const textarea = document.getElementById('deckingMessage');
+  textarea.select();
+  textarea.setSelectionRange(0, 99999);
+  navigator.clipboard.writeText(textarea.value).then(() => {
+    const feedback = document.getElementById('copyFeedback');
+    feedback.style.display = 'inline';
+    setTimeout(() => { feedback.style.display = 'none'; }, 2000);
+  });
+}
+
 function buildMasters() {
   document.getElementById("eamcTable1").innerHTML = buildMasterTable("EAMC", eamcDates, dows, eamcSchedule, eamcGroupedPeople, getEamcStyle, 0);
   document.getElementById("eamcTable2").innerHTML = buildMasterTable("EAMC", eamcDates, dows, eamcSchedule, eamcGroupedPeople, getEamcStyle, 7);
@@ -690,6 +900,7 @@ function buildMasters() {
   document.getElementById("tmcCounterTableWrapper").innerHTML = buildTmcCounterTable() + buildTmcDailyCountsTable();
 }
 
+initDeckingDropdown();
 renderApp();
 </script>
 </body>
