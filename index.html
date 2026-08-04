@@ -806,8 +806,8 @@ function renderDailyDecking() {
       let fullStyle = getTmcStyle(post);
       if (post === "OFF") fullStyle = "background:#f1f5f9; color:#64748b; border-color:#cbd5e1;";
       
-      // Extract color for the bullet point
-      let colorMatch = fullStyle.match(/color:(.*?);/);
+      // Extract border-color for the bullet point so it's always visible on white
+      let colorMatch = fullStyle.match(/border-color:(.*?);/);
       let headerColor = colorMatch ? colorMatch[1] : "#334155";
       
       let card = `<div style="background: white; border: 1px solid #e2e8f0; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.04);">
@@ -827,7 +827,7 @@ function renderDailyDecking() {
   html += `</div>`;
   document.getElementById('deckingTableContainer').innerHTML = html;
   
-  let msg = `Good morning, doctors!\nRespectfully sending the clerks decking for today, ${formattedDate}, ${dowStr}:\n\n`;
+  let msg = `Good morning, Doctors!\nRespectfully sending the clerks decking for today, ${formattedDate}, ${dowStr}:\n\n`;
   msg += `☀ AM Clerks\n`;
   
   if (posts["AM - OR"].length > 0) {
