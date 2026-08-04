@@ -594,7 +594,12 @@ function setTab(tab) {
 
 function buildMasterTable(title, dates, dowArr, schedule, peopleList, getStyleFn, weekOffset) {
   let h = `<thead><tr><th class="name-cell">${title}</th>`;
-  for(let i=0;i<7;i++) h+=`<th>${dates[weekOffset+i]}<br>${dowArr[weekOffset+i]}</th>`;
+  for(let i=0;i<7;i++) {
+    let extra = "";
+    if (dates[weekOffset+i] === "Aug 12") extra = "<div style='font-size: 11px; margin-top: 4px; padding: 2px; background: #fff2cc; color: #7f6000; border-radius: 4px; font-weight: 600;'>MBA 6-8PM</div>";
+    if (dates[weekOffset+i] === "Aug 15" || dates[weekOffset+i] === "Aug 22") extra = "<div style='font-size: 11px; margin-top: 4px; padding: 2px; background: #fff2cc; color: #7f6000; border-radius: 4px; font-weight: 600;'>MBA 2-6PM</div>";
+    h+=`<th>${dates[weekOffset+i]}<br>${dowArr[weekOffset+i]}${extra}</th>`;
+  }
   h+='</tr></thead><tbody>';
   for(let p=0;p<15;p++) {
     const name = peopleList[p];
@@ -868,7 +873,17 @@ function renderDailyDecking() {
   }
   
   msg += `🗓 Scheduled Activities:\n`;
-  msg += `[None Scheduled]\n\n`;
+  const act = {
+    "Aug 12": "MBA Class 6-8PM",
+    "Aug 15": "MBA Class 2-6 PM",
+    "Aug 22": "MBA Class 2-6 PM"
+  }[tmcDates[dayIndex]];
+  
+  if (act) {
+    msg += `${act}\n\n`;
+  } else {
+    msg += `[None Scheduled]\n\n`;
+  }
   msg += `Thank you po, doctors!`;
   
   document.getElementById('deckingMessage').value = msg;
