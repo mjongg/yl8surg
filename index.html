@@ -796,26 +796,36 @@ function renderDailyDecking() {
     }
   }
   
-  let html = `<table class="styled-table" style="width: 100%; margin-top: 0;">
-    <thead><tr><th style="width: 30%">Post</th><th>Doctors</th></tr></thead>
-    <tbody>`;
+  let html = `<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px; margin-top: 10px;">`;
   
   const displayOrder = ["AM - OR", "AM - FLOORS", "AM - ER", "ANES", "AM - WOUND", "PM - OR", "PM - FLOORS", "PM - ER", "OFF"];
   
   for(const post of displayOrder) {
     if (posts[post].length > 0) {
       const style = getTmcStyle(post);
-      let cellStyle = `background: ${style.bg}; color: ${style.color}; font-weight: 600;`;
-      if (post === "OFF") cellStyle = `background: #f1f5f9; color: #64748b; font-weight: normal; font-style: italic;`;
+      let headerBg = style.bg;
+      let headerColor = style.color;
       
+      if (post === "OFF") {
+        headerBg = "#f1f5f9";
+        headerColor = "#64748b";
+      }
+      
+      let card = `<div style="background: white; border: 1px solid #e2e8f0; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.04);">
+        <div style="background: ${headerBg}; color: ${headerColor}; padding: 6px 10px; font-weight: 600; font-size: 13px; text-align: center; border-bottom: 1px solid #e2e8f0;">${post}</div>
+        <div style="padding: 10px 12px;">`;
+        
       const doctorsList = posts[post].map(name => {
-         return `<div>${displayNames[name]}</div>`;
+         return `<div style="font-size: 13px; color: #334155; margin-bottom: 6px; display: flex; align-items: center; gap: 6px;">
+           <span style="display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: ${headerColor}; opacity: 0.7;"></span> ${displayNames[name]}
+         </div>`;
       }).join('');
       
-      html += `<tr><td style="${cellStyle}">${post}</td><td style="font-size: 14px;">${doctorsList}</td></tr>`;
+      card += doctorsList + `</div></div>`;
+      html += card;
     }
   }
-  html += `</tbody></table>`;
+  html += `</div>`;
   document.getElementById('deckingTableContainer').innerHTML = html;
   
   let msg = `Good morning, doctors!\nRespectfully sending the clerks decking for today, ${formattedDate}, ${dowStr}:\n\n`;
