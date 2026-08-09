@@ -317,7 +317,16 @@ function buildPersonal(name) {
 
   const sgdStyle = "background: #1e293b; color: #ffffff; border-left: 3px solid #0f172a; box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 12px; z-index: 10;";
   
+  const lec17 = ["Chiew", "De Asis", "De Jesus", "Esguerra", "Gamboa", "Seares", "Tinawin"];
   const lec18 = ["Angala", "Estiva", "Fajardo", "Garganera", "Ignacio", "Malonjao", "Ong", "Salvador"];
+  
+  if (lec17.some(n => name.includes(n))) {
+    // Aug 11 (Tue, Day 1), 1:00 PM to 3:00 PM
+    tmcEvents.push({ title: "[SGD] Dr. Emmanuel San Pedro @ TBA", s: 1 * 24 + 13, e: 1 * 24 + 15, c: sgdStyle });
+    // Aug 11 (Tue, Day 1), 4:30 PM to 6:30 PM
+    tmcEvents.push({ title: "[SGD] Dr. Vincent Ocampo @ 15th Flr Conf", s: 1 * 24 + 16.5, e: 1 * 24 + 18.5, c: sgdStyle });
+  }
+
   if (lec18.some(n => name.includes(n))) {
     // Aug 12 (Wed, Day 2), 2:00 PM (14:00) to 4:00 PM (16:00)
     tmcEvents.push({ title: "[SGD] Dr. Stanley Kho @ SSA", s: 2 * 24 + 14, e: 2 * 24 + 16, c: sgdStyle });
@@ -343,7 +352,14 @@ function downloadICS(name) {
   const tmcIndex = masterPeople.indexOf(name);
   let tmcEvts = getAbsoluteEvents(tmcGrid[tmcIndex], parseTmcLogic);
   
+  const lec17 = ["Chiew", "De Asis", "De Jesus", "Esguerra", "Gamboa", "Seares", "Tinawin"];
   const lec18 = ["Angala", "Estiva", "Fajardo", "Garganera", "Ignacio", "Malonjao", "Ong", "Salvador"];
+  
+  if (lec17.some(n => name.includes(n))) {
+    tmcEvts.push({ title: "[SGD] Dr. Emmanuel San Pedro @ TBA", s: 1 * 24 + 13, e: 1 * 24 + 15, c: "" });
+    tmcEvts.push({ title: "[SGD] Dr. Vincent Ocampo @ 15th Flr Conf", s: 1 * 24 + 16.5, e: 1 * 24 + 18.5, c: "" });
+  }
+
   if (lec18.some(n => name.includes(n))) {
     tmcEvts.push({ title: "[SGD] Dr. Stanley Kho @ SSA", s: 2 * 24 + 14, e: 2 * 24 + 16, c: "" });
     tmcEvts.push({ title: "[SGD] Dr. Deogracias Reyes @ CASSTI", s: 4 * 24 + 11, e: 4 * 24 + 13, c: "" });
