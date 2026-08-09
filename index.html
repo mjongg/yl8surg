@@ -316,23 +316,14 @@ function buildPersonal(name) {
   let tmcEvents = getAbsoluteEvents(tmcGrid[tmcIndex], parseTmcLogic);
 
   const sgdStyle = "background: #1e293b; color: #ffffff; border-left: 3px solid #0f172a; box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 12px; z-index: 10;";
-  eamcEvents.push({ title: "[SGD] Dr. Doble", s: 0 * 24 + 13, e: 0 * 24 + 15, c: sgdStyle });
-  eamcEvents.push({ title: "[SGD] Dr. Cabrera", s: 3 * 24 + 11, e: 3 * 24 + 13, c: sgdStyle });
-  eamcEvents.push({ title: "[SGD] Dr. Chuasuan", s: 4 * 24 + 9, e: 4 * 24 + 11, c: sgdStyle });
-  eamcEvents.push({ title: "[SGD] Dr. Ordoñez (Intraop) TBA", s: 4 * 24 + 11, e: 4 * 24 + 13, c: sgdStyle });
-  eamcEvents.push({ title: "[SGD] Dr. Chuasuan", s: 8 * 24 + 9, e: 8 * 24 + 11, c: sgdStyle });
-  eamcEvents.push({ title: "[SGD] Dr. Amponin", s: 11 * 24 + 9, e: 11 * 24 + 11, c: sgdStyle });
-
-  html += `
-  <div style="margin: 40px 0 20px; display: flex; align-items: center; gap: 12px; background: #ffffff; padding: 12px 20px; border-radius: 4px; border: 1px solid #e2e8f0; box-shadow: rgba(0, 0, 0, 0.05) 0px 4px 6px; text-align: left;">
-    <img src="eamc_logo.png" style="height: 40px; width: 40px; object-fit: contain; mix-blend-mode: multiply;">
-    <div>
-      <h2 style="margin: 0; color: #0f172a; font-size: 20px; font-weight: 600;">East Avenue Medical Center (EAMC)</h2>
-      <span style="font-size: 14px; font-weight: 500; color: #64748b;">July 27 - Aug 9</span>
-    </div>
-  </div>`;
-  html += renderWeek("Week 1", eamcDates.slice(0,7), dows.slice(0,7), eamcEvents, 0);
-  html += renderWeek("Week 2", eamcDates.slice(7,14), dows.slice(7,14), eamcEvents, 7);
+  
+  const lec18 = ["Angala", "Estiva", "Fajardo", "Garganera", "Ignacio", "Malonjao", "Ong", "Salvador"];
+  if (lec18.some(n => name.includes(n))) {
+    // Aug 12 (Wed, Day 2), 2:00 PM (14:00) to 4:00 PM (16:00)
+    tmcEvents.push({ title: "[SGD] Dr. Stanley Kho @ SSA", s: 2 * 24 + 14, e: 2 * 24 + 16, c: sgdStyle });
+    // Aug 14 (Fri, Day 4), 11:00 AM (11:00) to 1:00 PM (13:00)
+    tmcEvents.push({ title: "[SGD] Dr. Deogracias Reyes @ CASSTI", s: 4 * 24 + 11, e: 4 * 24 + 13, c: sgdStyle });
+  }
 
   html += `
   <div style="margin: 50px 0 20px; display: flex; align-items: center; gap: 12px; background: #ffffff; padding: 12px 20px; border-radius: 4px; border: 1px solid #e2e8f0; box-shadow: rgba(0, 0, 0, 0.05) 0px 4px 6px; text-align: left;">
@@ -350,19 +341,12 @@ function buildPersonal(name) {
 
 function downloadICS(name) {
   const tmcIndex = masterPeople.indexOf(name);
-  let eamcEvts = getAbsoluteEvents(eamcSchedule[name], parseEamcLogic);
   let tmcEvts = getAbsoluteEvents(tmcGrid[tmcIndex], parseTmcLogic);
   
-  // Extend EAMC overnight duties into TMC day 0
-  for (let ev of eamcEvts) {
-    if (ev.e > 14 * 24) {
-      tmcEvts.push({
-        title: ev.title + " (EAMC)",
-        s: ev.s - (14 * 24),
-        e: ev.e - (14 * 24),
-        c: ev.c + " border-style: dashed; opacity: 0.8; z-index: 5;"
-      });
-    }
+  const lec18 = ["Angala", "Estiva", "Fajardo", "Garganera", "Ignacio", "Malonjao", "Ong", "Salvador"];
+  if (lec18.some(n => name.includes(n))) {
+    tmcEvts.push({ title: "[SGD] Dr. Stanley Kho @ SSA", s: 2 * 24 + 14, e: 2 * 24 + 16, c: "" });
+    tmcEvts.push({ title: "[SGD] Dr. Deogracias Reyes @ CASSTI", s: 4 * 24 + 11, e: 4 * 24 + 13, c: "" });
   }
   
   let ics = "BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:-//Surgery Rotation//EN\n";
@@ -395,7 +379,6 @@ function downloadICS(name) {
     }
   }
   
-  addEvents(eamcEvts, "2026-07-27T00:00:00", "[EAMC]");
   addEvents(tmcEvts, "2026-08-10T00:00:00", "[TMC]");
   
   ics += "END:VCALENDAR";
