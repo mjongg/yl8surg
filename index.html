@@ -483,10 +483,8 @@ function parseTmcLogic(shift, dow, dayIndex) {
     if (dow === "Sat") s = baseHour + 19; // starts at 7pm (1hr after 6pm MBA)
     evts.push({ title: shift, s, e, c: getTmcStyle(shift) });
   } else {
-    s = baseHour + 5.5; e = baseHour + 17.5;
-    if (dow === "Wed" && !isNoClassWed) e = baseHour + 17;
-    if (dow === "Sat") e = baseHour + 13;
-    evts.push({ title: "OFF (5:30 am relieved)", s, e, c: "background:#f8fafc; color:#475569; border-color:#cbd5e1;" });
+    // If they are OFF, we do not push any shift block to their personal schedule viewer.
+    // They are completely free that day, except for any classes/conferences appended below.
   }
   
   if (dow === "Tue") {
