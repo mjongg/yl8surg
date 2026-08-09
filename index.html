@@ -589,8 +589,11 @@ function buildMasterTable(title, dates, dowArr, schedule, peopleList, getStyleFn
   let h = `<thead><tr><th class="name-cell">${title}</th>`;
   for(let i=0;i<7;i++) {
     let extra = "";
-    if (dates[weekOffset+i] === "Aug 12") extra = "<div style='font-size: 11px; margin-top: 4px; padding: 2px; background: #fff2cc; color: #7f6000; border-radius: 4px; font-weight: 600;'>MBA 6-8PM</div>";
-    if (dates[weekOffset+i] === "Aug 15" || dates[weekOffset+i] === "Aug 22") extra = "<div style='font-size: 11px; margin-top: 4px; padding: 2px; background: #fff2cc; color: #7f6000; border-radius: 4px; font-weight: 600;'>MBA 2-6PM</div>";
+    if (dates[weekOffset+i] === "Aug 12") extra += "<div style='font-size: 11px; margin-top: 4px; padding: 2px; background: #fff2cc; color: #7f6000; border-radius: 4px; font-weight: 600;'>MBA 6-8PM</div>";
+    if (dates[weekOffset+i] === "Aug 15" || dates[weekOffset+i] === "Aug 22") extra += "<div style='font-size: 11px; margin-top: 4px; padding: 2px; background: #fff2cc; color: #7f6000; border-radius: 4px; font-weight: 600;'>MBA 2-6PM</div>";
+    if (dates[weekOffset+i] === "Aug 11") extra += "<div style='font-size: 11px; margin-top: 4px; padding: 3px; background: #e0f2fe; color: #0284c7; border: 1px solid #bae6fd; border-radius: 4px; font-weight: 600; line-height: 1.2;'>[LEC 17] SGD 1-3PM<br>[LEC 17] SGD 4:30-6:30PM</div>";
+    if (dates[weekOffset+i] === "Aug 12") extra += "<div style='font-size: 11px; margin-top: 4px; padding: 3px; background: #e0f2fe; color: #0284c7; border: 1px solid #bae6fd; border-radius: 4px; font-weight: 600; line-height: 1.2;'>[LEC 18] SGD 2-4PM</div>";
+    if (dates[weekOffset+i] === "Aug 14") extra += "<div style='font-size: 11px; margin-top: 4px; padding: 3px; background: #e0f2fe; color: #0284c7; border: 1px solid #bae6fd; border-radius: 4px; font-weight: 600; line-height: 1.2;'>[LEC 18] SGD 11-1PM</div>";
     h+=`<th>${dates[weekOffset+i]}<br>${dowArr[weekOffset+i]}${extra}</th>`;
   }
   h+='</tr></thead><tbody>';
@@ -599,24 +602,7 @@ function buildMasterTable(title, dates, dowArr, schedule, peopleList, getStyleFn
     h+=`<tr class="${p%5===4?'group-end':''}"><td class="name-cell">${p+1}. ${name}</td>`;
     for(let d=0;d<7;d++) {
       let shift = schedule[name] ? schedule[name][weekOffset+d] : schedule[p][weekOffset+d];
-      let displayShift = shift;
-      const absDay = weekOffset + d;
-      
-      const lec17 = ["Chiew", "De Asis", "De Jesus", "Esguerra", "Gamboa", "Seares", "Tinawin"];
-      const lec18 = ["Angala", "Estiva", "Fajardo", "Garganera", "Ignacio", "Malonjao", "Ong", "Salvador"];
-      
-      let extraHtml = "";
-      if (lec17.some(n => name.includes(n)) && absDay === 1) { // Aug 11
-        extraHtml = `<div style="font-size: 10px; margin-top: 4px; padding: 3px; background: #e0f2fe; color: #0284c7; border: 1px solid #bae6fd; border-radius: 4px; font-weight: 600; line-height: 1.2;">[SGD] Dr. San Pedro (1-3PM)<br>[SGD] Dr. Ocampo (4:30-6:30PM)</div>`;
-      }
-      if (lec18.some(n => name.includes(n)) && absDay === 2) { // Aug 12
-        extraHtml = `<div style="font-size: 10px; margin-top: 4px; padding: 3px; background: #e0f2fe; color: #0284c7; border: 1px solid #bae6fd; border-radius: 4px; font-weight: 600; line-height: 1.2;">[SGD] Dr. Kho (2-4PM)</div>`;
-      }
-      if (lec18.some(n => name.includes(n)) && absDay === 4) { // Aug 14
-        extraHtml = `<div style="font-size: 10px; margin-top: 4px; padding: 3px; background: #e0f2fe; color: #0284c7; border: 1px solid #bae6fd; border-radius: 4px; font-weight: 600; line-height: 1.2;">[SGD] Dr. Reyes (11-1PM)</div>`;
-      }
-
-      h+=`<td style="${getStyleFn(shift)}">${displayShift}${extraHtml}</td>`;
+      h+=`<td style="${getStyleFn(shift)}">${shift}</td>`;
     }
     h+='</tr>';
   }
