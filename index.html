@@ -321,10 +321,10 @@ function buildPersonal(name) {
   const lec18 = ["Angala", "Estiva", "Fajardo", "Garganera", "Ignacio", "Malonjao", "Ong", "Salvador"];
   
   if (lec17.some(n => name.includes(n))) {
-    // Aug 11 (Tue, Day 1), 1:00 PM to 3:00 PM
-    tmcEvents.push({ title: "[SGD] Dr. Emmanuel San Pedro @ TBA", s: 1 * 24 + 13, e: 1 * 24 + 15, c: sgdStyle });
     // Aug 11 (Tue, Day 1), 4:30 PM to 6:30 PM
     tmcEvents.push({ title: "[SGD] Dr. Vincent Ocampo @ 15th Flr Conf", s: 1 * 24 + 16.5, e: 1 * 24 + 18.5, c: sgdStyle });
+    // Aug 16 (Sun, Day 6), Time TBA
+    tmcEvents.push({ title: "[SGD] Dr. Emmanuel San Pedro @ TBA", s: 6 * 24 + 13, e: 6 * 24 + 15, c: sgdStyle });
   }
 
   if (lec18.some(n => name.includes(n))) {
@@ -356,8 +356,8 @@ function downloadICS(name) {
   const lec18 = ["Angala", "Estiva", "Fajardo", "Garganera", "Ignacio", "Malonjao", "Ong", "Salvador"];
   
   if (lec17.some(n => name.includes(n))) {
-    tmcEvts.push({ title: "[SGD] Dr. Emmanuel San Pedro @ TBA", s: 1 * 24 + 13, e: 1 * 24 + 15, c: "" });
     tmcEvts.push({ title: "[SGD] Dr. Vincent Ocampo @ 15th Flr Conf", s: 1 * 24 + 16.5, e: 1 * 24 + 18.5, c: "" });
+    tmcEvts.push({ title: "[SGD] Dr. Emmanuel San Pedro @ TBA", s: 6 * 24 + 13, e: 6 * 24 + 15, c: "" });
   }
 
   if (lec18.some(n => name.includes(n))) {
@@ -586,11 +586,14 @@ function buildMasterTable(title, dates, dowArr, schedule, peopleList, getStyleFn
   let h = `<thead><tr><th class="name-cell">${title}</th>`;
   for(let i=0;i<7;i++) {
     let extra = "";
-    if (dates[weekOffset+i] === "Aug 12") extra += "<div style='font-size: 11px; margin-top: 4px; padding: 2px; background: #fff2cc; color: #7f6000; border-radius: 4px; font-weight: 600;'>MBA 6-8PM</div>";
-    if (dates[weekOffset+i] === "Aug 15" || dates[weekOffset+i] === "Aug 22") extra += "<div style='font-size: 11px; margin-top: 4px; padding: 2px; background: #fff2cc; color: #7f6000; border-radius: 4px; font-weight: 600;'>MBA 2-6PM</div>";
-    if (dates[weekOffset+i] === "Aug 11") extra += "<div style='font-size: 11px; margin-top: 4px; padding: 3px; background: #e0f2fe; color: #0284c7; border: 1px solid #bae6fd; border-radius: 4px; font-weight: 600; line-height: 1.2;'>[LEC 17] SGD 1-3PM<br>[LEC 17] SGD 4:30-6:30PM</div>";
-    if (dates[weekOffset+i] === "Aug 12") extra += "<div style='font-size: 11px; margin-top: 4px; padding: 3px; background: #e0f2fe; color: #0284c7; border: 1px solid #bae6fd; border-radius: 4px; font-weight: 600; line-height: 1.2;'>[LEC 18] SGD 2-4PM</div>";
+    if (dates[weekOffset+i] === "Aug 11") extra += "<div style='font-size: 11px; margin-top: 4px; padding: 3px; background: #e0f2fe; color: #0284c7; border: 1px solid #bae6fd; border-radius: 4px; font-weight: 600; line-height: 1.2;'>[LEC 17] SGD 4:30-6:30PM</div>";
+    if (dates[weekOffset+i] === "Aug 12") {
+      extra += "<div style='font-size: 11px; margin-top: 4px; padding: 3px; background: #e0f2fe; color: #0284c7; border: 1px solid #bae6fd; border-radius: 4px; font-weight: 600; line-height: 1.2;'>[LEC 18] SGD 2-4PM</div>";
+      extra += "<div style='font-size: 11px; margin-top: 4px; padding: 2px; background: #fff2cc; color: #7f6000; border-radius: 4px; font-weight: 600;'>MBA 6-8PM</div>";
+    }
     if (dates[weekOffset+i] === "Aug 14") extra += "<div style='font-size: 11px; margin-top: 4px; padding: 3px; background: #e0f2fe; color: #0284c7; border: 1px solid #bae6fd; border-radius: 4px; font-weight: 600; line-height: 1.2;'>[LEC 18] SGD 11-1PM</div>";
+    if (dates[weekOffset+i] === "Aug 15" || dates[weekOffset+i] === "Aug 22") extra += "<div style='font-size: 11px; margin-top: 4px; padding: 2px; background: #fff2cc; color: #7f6000; border-radius: 4px; font-weight: 600;'>MBA 2-6PM</div>";
+    if (dates[weekOffset+i] === "Aug 16") extra += "<div style='font-size: 11px; margin-top: 4px; padding: 3px; background: #e0f2fe; color: #0284c7; border: 1px solid #bae6fd; border-radius: 4px; font-weight: 600; line-height: 1.2;'>[LEC 17] SGD (TBA)</div>";
     h+=`<th>${dates[weekOffset+i]}<br>${dowArr[weekOffset+i]}${extra}</th>`;
   }
   h+='</tr></thead><tbody>';
@@ -876,19 +879,21 @@ function renderDailyDecking() {
   msg += `🗓️ Scheduled Activities\n`;
   let activities = [];
   
-  if (tmcDates[dayIndex] === "Aug 12") activities.push("MBA Class (FinMan): 6:00-8:00pm");
-  if (tmcDates[dayIndex] === "Aug 15") activities.push("MBA Class (FinMan): 2:00-6:00pm");
-  if (tmcDates[dayIndex] === "Aug 22") activities.push("MBA Class (FinMan): 2:00-6:00pm");
-
   if (tmcDates[dayIndex] === "Aug 11") {
-    activities.push("SGD with Dr. Emmanuel San Pedro (1:00 PM - 3:00 PM) [Chiew, De Asis, De Jesus, Esguerra, Gamboa, Seares, Tinawin]");
     activities.push("SGD with Dr. Vincent Ocampo (4:30 PM - 6:30 PM) [Chiew, De Asis, De Jesus, Esguerra, Gamboa, Seares, Tinawin]");
   }
   if (tmcDates[dayIndex] === "Aug 12") {
     activities.push("SGD with Dr. Stanley Kho (2:00 PM - 4:00 PM) [Angala, Estiva, Fajardo, Garganera, Ignacio, Malonjao, Ong, Salvador]");
+    activities.push("MBA Class (FinMan): 6:00-8:00pm");
   }
   if (tmcDates[dayIndex] === "Aug 14") {
     activities.push("SGD with Dr. Deogracias Reyes (11:00 AM - 1:00 PM) [Angala, Estiva, Fajardo, Garganera, Ignacio, Malonjao, Ong, Salvador]");
+  }
+  if (tmcDates[dayIndex] === "Aug 15" || tmcDates[dayIndex] === "Aug 22") {
+    activities.push("MBA Class (FinMan): 2:00-6:00pm");
+  }
+  if (tmcDates[dayIndex] === "Aug 16") {
+    activities.push("SGD with Dr. Emmanuel San Pedro (Time TBA) [Chiew, De Asis, De Jesus, Esguerra, Gamboa, Seares, Tinawin]");
   }
   
   if (activities.length > 0) {
