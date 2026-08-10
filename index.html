@@ -873,15 +873,26 @@ function renderDailyDecking() {
     msg += `\n`;
   }
   
-  msg += `🗓 Scheduled Activities:\n`;
-  const act = {
-    "Aug 12": "MBA Class 6-8PM",
-    "Aug 15": "MBA Class 2-6 PM",
-    "Aug 22": "MBA Class 2-6 PM"
-  }[tmcDates[dayIndex]];
+  msg += `🗓️ Scheduled Activities\n`;
+  let activities = [];
   
-  if (act) {
-    msg += `${act}\n\n`;
+  if (tmcDates[dayIndex] === "Aug 12") activities.push("MBA Class (FinMan): 6:00-8:00pm");
+  if (tmcDates[dayIndex] === "Aug 15") activities.push("MBA Class (FinMan): 2:00-6:00pm");
+  if (tmcDates[dayIndex] === "Aug 22") activities.push("MBA Class (FinMan): 2:00-6:00pm");
+
+  if (tmcDates[dayIndex] === "Aug 11") {
+    activities.push("SGD with Dr. Emmanuel San Pedro (1:00 PM - 3:00 PM) [Chiew, De Asis, De Jesus, Esguerra, Gamboa, Seares, Tinawin]");
+    activities.push("SGD with Dr. Vincent Ocampo (4:30 PM - 6:30 PM) [Chiew, De Asis, De Jesus, Esguerra, Gamboa, Seares, Tinawin]");
+  }
+  if (tmcDates[dayIndex] === "Aug 12") {
+    activities.push("SGD with Dr. Stanley Kho (2:00 PM - 4:00 PM) [Angala, Estiva, Fajardo, Garganera, Ignacio, Malonjao, Ong, Salvador]");
+  }
+  if (tmcDates[dayIndex] === "Aug 14") {
+    activities.push("SGD with Dr. Deogracias Reyes (11:00 AM - 1:00 PM) [Angala, Estiva, Fajardo, Garganera, Ignacio, Malonjao, Ong, Salvador]");
+  }
+  
+  if (activities.length > 0) {
+    msg += activities.join("\n") + "\n\n";
   } else {
     msg += `[None Scheduled]\n\n`;
   }
