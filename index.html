@@ -93,9 +93,10 @@
   .master-view { display: none; margin-bottom: 30px; width: 100%; overflow-x: auto; }
   .master-view.active { display: block; }
   
-  table { border-collapse: collapse; font-size: 13px; width: 100%; min-width: 1200px; background: #ffffff; border-radius: 0; }
+  table { border-collapse: collapse; font-size: 13px; width: 100%; min-width: 1200px; background: #ffffff; border-radius: 0; table-layout: fixed; }
   @media (min-width: 801px) { table { zoom: 0.7; } }
   th, td { border: 1px solid #e2e8f0; padding: 10px 8px; text-align: center; word-wrap: break-word; color: #334155; }
+  th:not(.name-cell), td:not(.name-cell) { width: 14.28%; }
   thead th { 
     background: #f8fafc;
     color: #334155; font-weight: 600; position: sticky; top: 0; z-index: 2; 
@@ -208,11 +209,23 @@
 
 <div id="masterViewWrap">
     <div class="master-view glass-panel active" id="tmcMaster">
-    <h2 style="padding:16px;text-align:center;">🏥 TMC Surg (Aug 10-23)</h2>
-    <h3 style="padding:8px;text-align:center;background:#ecf0f1;">Week 1</h3>
-    <table id="tmcTable1"></table>
-    <h3 style="padding:8px;text-align:center;background:#ecf0f1;margin-top:20px;">Week 2</h3>
-    <table id="tmcTable2"></table>
+    <h2 style="padding:16px;text-align:center;margin:0;">🏥 TMC Surg (Aug 10-23)</h2>
+    
+    <details style="margin: 15px 0; background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px; padding: 12px 16px;">
+      <summary style="font-weight: 600; font-size: 15px; cursor: pointer; color: #475569;">
+        📁 Week 1 (Aug 10 - Aug 16) — Completed (Click to Expand)
+      </summary>
+      <div style="margin-top: 15px; overflow-x: auto;">
+        <table id="tmcTable1"></table>
+      </div>
+    </details>
+
+    <div style="margin-top: 20px;">
+      <h3 style="padding: 10px 16px; background: #e2e8f0; color: #0f172a; font-weight: 700; font-size: 16px; border-radius: 6px; margin-bottom: 12px; text-align: center;">
+        📅 Week 2 (Aug 17 - Aug 23) — Current Week
+      </h3>
+      <table id="tmcTable2"></table>
+    </div>
   </div>
 </div>
 
@@ -593,8 +606,13 @@ setInterval(updateCurrentTimeLine, 60000);
 
 
 function buildMasterTable(title, dates, dowArr, schedule, peopleList, getStyleFn, weekOffset) {
+  const now = new Date();
+  const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+  const todayStr = monthNames[now.getMonth()] + " " + now.getDate();
+
   let h = `<thead><tr><th class="name-cell">${title}</th>`;
   for(let i=0;i<7;i++) {
+    const isToday = (dates[weekOffset+i] === todayStr);
     let extra = "";
     if (dates[weekOffset+i] === "Aug 11") extra += "<div style='font-size: 11px; margin-top: 4px; padding: 3px; background: #e0f2fe; color: #0284c7; border: 1px solid #bae6fd; border-radius: 4px; font-weight: 600; line-height: 1.2;'>[LEC 17] SGD 4:30-6:30PM</div>";
     if (dates[weekOffset+i] === "Aug 12") {
@@ -605,15 +623,24 @@ function buildMasterTable(title, dates, dowArr, schedule, peopleList, getStyleFn
     if (dates[weekOffset+i] === "Aug 15" || dates[weekOffset+i] === "Aug 22") extra += "<div style='font-size: 11px; margin-top: 4px; padding: 2px; background: #fff2cc; color: #7f6000; border-radius: 4px; font-weight: 600;'>MBA 2-6PM</div>";
     if (dates[weekOffset+i] === "Aug 16") extra += "<div style='font-size: 11px; margin-top: 4px; padding: 3px; background: #e0f2fe; color: #0284c7; border: 1px solid #bae6fd; border-radius: 4px; font-weight: 600; line-height: 1.2;'>[LEC 17] SGD (TBA)</div>";
     if (dates[weekOffset+i] === "Aug 23") extra += "<div style='font-size: 10px; margin-top: 4px; padding: 3px; background: #e0f2fe; color: #0284c7; border: 1px solid #bae6fd; border-radius: 4px; font-weight: 600; line-height: 1.2; white-space: normal;'>Surgery ERE 8-10AM<br>@ ASMPH (Chung-Te)</div>";
-    h+=`<th>${dates[weekOffset+i]}<br>${dowArr[weekOffset+i]}${extra}</th>`;
+    
+    let thStyle = isToday ? "style='background: #e2e8f0 !important; color: #0f172a; border-left: 2px solid #64748b; border-right: 2px solid #64748b;'" : "";
+    let todayBadge = isToday ? "<div style='font-size:10px; background:#475569; color:#fff; padding:2px 6px; border-radius:4px; font-weight:700; margin-bottom:4px; display:inline-block;'>TODAY</div><br>" : "";
+
+    h+=`<th ${thStyle}>${todayBadge}${dates[weekOffset+i]}<br>${dowArr[weekOffset+i]}${extra}</th>`;
   }
   h+='</tr></thead><tbody>';
   for(let p=0;p<15;p++) {
     const name = peopleList[p];
     h+=`<tr class="${p%5===4?'group-end':''}"><td class="name-cell">${p+1}. ${name}</td>`;
     for(let d=0;d<7;d++) {
+      const isToday = (dates[weekOffset+d] === todayStr);
       let shift = schedule[name] ? schedule[name][weekOffset+d] : schedule[p][weekOffset+d];
-      h+=`<td style="${getStyleFn(shift)}">${shift}</td>`;
+      let style = getStyleFn(shift);
+      if (isToday) {
+        style += " outline: 2px solid #64748b; outline-offset: -2px; font-weight: 700; background-color: rgba(226, 232, 240, 0.4);";
+      }
+      h+=`<td style="${style}">${shift}</td>`;
     }
     h+='</tr>';
   }
@@ -770,12 +797,21 @@ const displayNames = {
 function initDeckingDropdown() {
   const select = document.getElementById('deckingDate');
   select.innerHTML = '';
+  const now = new Date();
+  const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+  const todayStr = monthNames[now.getMonth()] + " " + now.getDate();
+  
+  let defaultIndex = 0;
   for(let i=0; i<14; i++) {
     let opt = document.createElement('option');
     opt.value = i;
     opt.textContent = `${tmcDates[i]}, ${dows[i]}`;
     select.appendChild(opt);
+    if (tmcDates[i] === todayStr) {
+      defaultIndex = i;
+    }
   }
+  select.value = defaultIndex;
   renderDailyDecking();
 }
 
