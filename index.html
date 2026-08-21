@@ -494,7 +494,7 @@ function parseTmcLogic(shift, dow, dayIndex) {
 
   if (dayIndex === 13) {
     const sgdStyle = "background: #1e293b; color: #ffffff; border-left: 3px solid #0f172a; box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 12px; z-index: 15;";
-    evts.push({ title: "SGD @ ASMPH (Chung-Te)", s: baseHour + 8, e: baseHour + 10, c: sgdStyle });
+    evts.push({ title: "Surgery ERE @ ASMPH (Chung-Te)", s: baseHour + 8, e: baseHour + 10, c: sgdStyle });
   }
   
   if (dow === "Tue") {
@@ -604,7 +604,7 @@ function buildMasterTable(title, dates, dowArr, schedule, peopleList, getStyleFn
     if (dates[weekOffset+i] === "Aug 14") extra += "<div style='font-size: 11px; margin-top: 4px; padding: 3px; background: #e0f2fe; color: #0284c7; border: 1px solid #bae6fd; border-radius: 4px; font-weight: 600; line-height: 1.2;'>[LEC 18] SGD 11-1PM</div>";
     if (dates[weekOffset+i] === "Aug 15" || dates[weekOffset+i] === "Aug 22") extra += "<div style='font-size: 11px; margin-top: 4px; padding: 2px; background: #fff2cc; color: #7f6000; border-radius: 4px; font-weight: 600;'>MBA 2-6PM</div>";
     if (dates[weekOffset+i] === "Aug 16") extra += "<div style='font-size: 11px; margin-top: 4px; padding: 3px; background: #e0f2fe; color: #0284c7; border: 1px solid #bae6fd; border-radius: 4px; font-weight: 600; line-height: 1.2;'>[LEC 17] SGD (TBA)</div>";
-    if (dates[weekOffset+i] === "Aug 23") extra += "<div style='font-size: 11px; margin-top: 4px; padding: 3px; background: #e0f2fe; color: #0284c7; border: 1px solid #bae6fd; border-radius: 4px; font-weight: 600; line-height: 1.2;'>SGD 8-10AM @ ASMPH (Chung-Te)</div>";
+    if (dates[weekOffset+i] === "Aug 23") extra += "<div style='font-size: 11px; margin-top: 4px; padding: 3px; background: #e0f2fe; color: #0284c7; border: 1px solid #bae6fd; border-radius: 4px; font-weight: 600; line-height: 1.2;'>Surgery ERE 8-10AM @ ASMPH (Chung-Te)</div>";
     h+=`<th>${dates[weekOffset+i]}<br>${dowArr[weekOffset+i]}${extra}</th>`;
   }
   h+='</tr></thead><tbody>';
@@ -907,7 +907,7 @@ function renderDailyDecking() {
     activities.push("SGD with Dr. Emmanuel San Pedro (Time TBA) [Chiew, De Asis, De Jesus, Esguerra, Gamboa, Seares, Tinawin]");
   }
   if (tmcDates[dayIndex] === "Aug 23") {
-    activities.push("SGD / Activity (8:00 AM - 10:00 AM) @ ASMPH (Chung-Te) [All Clerks]");
+    activities.push("Surgery ERE (8:00 AM - 10:00 AM) @ ASMPH (Chung-Te) [All Clerks]");
   }
   
   if (activities.length > 0) {
