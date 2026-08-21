@@ -604,7 +604,7 @@ function buildMasterTable(title, dates, dowArr, schedule, peopleList, getStyleFn
     if (dates[weekOffset+i] === "Aug 14") extra += "<div style='font-size: 11px; margin-top: 4px; padding: 3px; background: #e0f2fe; color: #0284c7; border: 1px solid #bae6fd; border-radius: 4px; font-weight: 600; line-height: 1.2;'>[LEC 18] SGD 11-1PM</div>";
     if (dates[weekOffset+i] === "Aug 15" || dates[weekOffset+i] === "Aug 22") extra += "<div style='font-size: 11px; margin-top: 4px; padding: 2px; background: #fff2cc; color: #7f6000; border-radius: 4px; font-weight: 600;'>MBA 2-6PM</div>";
     if (dates[weekOffset+i] === "Aug 16") extra += "<div style='font-size: 11px; margin-top: 4px; padding: 3px; background: #e0f2fe; color: #0284c7; border: 1px solid #bae6fd; border-radius: 4px; font-weight: 600; line-height: 1.2;'>[LEC 17] SGD (TBA)</div>";
-    if (dates[weekOffset+i] === "Aug 23") extra += "<div style='font-size: 11px; margin-top: 4px; padding: 3px; background: #e0f2fe; color: #0284c7; border: 1px solid #bae6fd; border-radius: 4px; font-weight: 600; line-height: 1.2;'>Surgery ERE 8-10AM @ ASMPH (Chung-Te)</div>";
+    if (dates[weekOffset+i] === "Aug 23") extra += "<div style='font-size: 10px; margin-top: 4px; padding: 3px; background: #e0f2fe; color: #0284c7; border: 1px solid #bae6fd; border-radius: 4px; font-weight: 600; line-height: 1.2; white-space: normal;'>Surgery ERE 8-10AM<br>@ ASMPH (Chung-Te)</div>";
     h+=`<th>${dates[weekOffset+i]}<br>${dowArr[weekOffset+i]}${extra}</th>`;
   }
   h+='</tr></thead><tbody>';
