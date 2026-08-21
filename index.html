@@ -624,8 +624,8 @@ function buildMasterTable(title, dates, dowArr, schedule, peopleList, getStyleFn
     if (dates[weekOffset+i] === "Aug 16") extra += "<div style='font-size: 11px; margin-top: 4px; padding: 3px; background: #e0f2fe; color: #0284c7; border: 1px solid #bae6fd; border-radius: 4px; font-weight: 600; line-height: 1.2;'>[LEC 17] SGD (TBA)</div>";
     if (dates[weekOffset+i] === "Aug 23") extra += "<div style='font-size: 10px; margin-top: 4px; padding: 3px; background: #e0f2fe; color: #0284c7; border: 1px solid #bae6fd; border-radius: 4px; font-weight: 600; line-height: 1.2; white-space: normal;'>Surgery ERE 8-10AM<br>@ ASMPH (Chung-Te)</div>";
     
-    let thStyle = isToday ? "style='background: #cbd5e1 !important; color: #0f172a; border-bottom: 3px solid #1e293b;'" : "";
-    let todayBadge = isToday ? "<div style='font-size:10px; background:#1e293b; color:#fff; padding:2px 6px; border-radius:4px; font-weight:700; margin-bottom:4px; display:inline-block;'>TODAY</div><br>" : "";
+    let thStyle = isToday ? "style='border-left: 2px solid #2563eb; border-right: 2px solid #2563eb; border-top: 3px solid #2563eb; background: #eff6ff !important;'" : "";
+    let todayBadge = isToday ? "<div style='font-size:10px; background:#2563eb; color:#fff; padding:2px 6px; border-radius:4px; font-weight:700; margin-bottom:4px; display:inline-block;'>TODAY</div><br>" : "";
 
     h+=`<th ${thStyle}>${todayBadge}${dates[weekOffset+i]}<br>${dowArr[weekOffset+i]}${extra}</th>`;
   }
@@ -634,8 +634,15 @@ function buildMasterTable(title, dates, dowArr, schedule, peopleList, getStyleFn
     const name = peopleList[p];
     h+=`<tr class="${p%5===4?'group-end':''}"><td class="name-cell">${p+1}. ${name}</td>`;
     for(let d=0;d<7;d++) {
+      const isToday = (dates[weekOffset+d] === todayStr);
       let shift = schedule[name] ? schedule[name][weekOffset+d] : schedule[p][weekOffset+d];
       let style = getStyleFn(shift);
+      if (isToday) {
+        style += " border-left: 2px solid #2563eb; border-right: 2px solid #2563eb;";
+        if (p === 14) {
+          style += " border-bottom: 2px solid #2563eb;";
+        }
+      }
       h+=`<td style="${style}">${shift}</td>`;
     }
     h+='</tr>';
@@ -646,9 +653,9 @@ function buildMasterTable(title, dates, dowArr, schedule, peopleList, getStyleFn
 
 function buildTmcCounterTable() {
   const posts = ["AM - OR", "AM - FLOORS", "AM - ER", "AM - WOUND", "ANES", "PM - OR", "PM - FLOORS", "PM - ER", "OFF"];
-  let h = `<div style="margin-top: 40px; border: 1px solid #e2e8f0; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.02); background: #fff;">`;
-  h += `<h3 style="padding: 16px 20px; text-align: left; background: #f8fafc; margin: 0; color: #0f172a; font-weight: 600; font-size: 16px; border-bottom: 1px solid #e2e8f0;">👤 TMC Shift Distribution (Count per Person) <span style="font-size: 12px; font-weight: 400; color: #64748b; margin-left: 8px;">Highlighted cells show counts that deviate from the standard baseline.</span></h3>`;
-  h += `<div style="overflow-x: auto;"><table style="margin: 0; min-width: 1000px; border: none;"><thead><tr><th class="name-cell" style="border-top: none;">Name</th>`;
+  let h = `<details style="margin-top: 30px; border: 1px solid #e2e8f0; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.02); background: #fff;">`;
+  h += `<summary style="padding: 16px 20px; text-align: left; background: #f8fafc; margin: 0; color: #0f172a; font-weight: 600; font-size: 16px; cursor: pointer;">👤 TMC Shift Distribution (Count per Person) — Click to Expand / Collapse</summary>`;
+  h += `<div style="overflow-x: auto; padding: 10px 0;"><table style="margin: 0; min-width: 1000px; border: none;"><thead><tr><th class="name-cell" style="border-top: none;">Name</th>`;
   for(let post of posts) {
     h += `<th style="${getTmcStyle(post)} border-top: none;">${post}</th>`;
   }
@@ -696,16 +703,16 @@ function buildTmcCounterTable() {
     }
     h += `<td style="background: #f8fafc; font-weight: 600; color: #475569;">${total}</td></tr>`;
   }
-  h += `</tbody></table></div></div>`;
+  h += `</tbody></table></div></details>`;
   return h;
 }
 
 
 function buildTmcDailyCountsTable() {
   const posts = ["AM - OR", "AM - FLOORS", "AM - ER", "AM - WOUND", "ANES", "PM - OR", "PM - FLOORS", "PM - ER", "OFF"];
-  let h = `<div style="margin-top: 30px; border: 1px solid #e2e8f0; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.02); background: #fff;">`;
-  h += `<h3 style="padding: 16px 20px; text-align: left; background: #f8fafc; margin: 0; color: #0f172a; font-weight: 600; font-size: 16px; border-bottom: 1px solid #e2e8f0;">📅 TMC Shift Distribution (Count per Day) <span style="font-size: 12px; font-weight: 400; color: #64748b; margin-left: 8px;">Highlighted cells show days with extra or fewer posts.</span></h3>`;
-  h += `<div style="overflow-x: auto;"><table style="margin: 0; min-width: 1000px; border: none;"><thead><tr><th class="name-cell" style="border-top: none;">Date</th>`;
+  let h = `<details style="margin-top: 20px; border: 1px solid #e2e8f0; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.02); background: #fff;">`;
+  h += `<summary style="padding: 16px 20px; text-align: left; background: #f8fafc; margin: 0; color: #0f172a; font-weight: 600; font-size: 16px; cursor: pointer;">📅 TMC Shift Distribution (Count per Day) — Click to Expand / Collapse</summary>`;
+  h += `<div style="overflow-x: auto; padding: 10px 0;"><table style="margin: 0; min-width: 1000px; border: none;"><thead><tr><th class="name-cell" style="border-top: none;">Date</th>`;
   for(let post of posts) {
     h += `<th style="${getTmcStyle(post)} border-top: none;">${post}</th>`;
   }
@@ -749,7 +756,7 @@ function buildTmcDailyCountsTable() {
     }
     h += `<td style="background: #f8fafc; font-weight: 600; color: #475569;">${total}</td></tr>`;
   }
-  h += `</tbody></table></div></div>`;
+  h += `</tbody></table></div></details>`;
   return h;
 }
 
